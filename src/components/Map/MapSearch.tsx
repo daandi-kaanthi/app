@@ -105,7 +105,7 @@ const MapAutocomplete: React.FC<MapAutocompleteProps> = ({ onPlaceSelect }) => {
   };
 
   return (
-    <div className="absolute top-16 left-1/2 transform -translate-x-1/2 z-20 w-full max-w-md px-4">
+    <div className="absolute top-16 left-1/2 transform -translate-x-1/2 z-20 w-full max-w-2xl px-4">
       <Searchbar
         ref={inputRef}
         value={query}

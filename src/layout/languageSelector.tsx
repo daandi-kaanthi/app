@@ -10,7 +10,7 @@ const LanguageDropdown: React.FC = () => {
       onChange={(e) => i18n.changeLanguage(e.target.value)}
       className="
         border-2 border-gray-300 dark:border-gray-600
-        bg-white dark:bg-black/90
+        bg-white dark:bg-black/40
         text-black dark:text-white
         rounded-lg p-2
         focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-600

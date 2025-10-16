@@ -427,7 +427,14 @@ export const mockTravelPackages = [
         ],
       },
     },
-    image: '/images/valley-of-flowers.jpg',
+    image: "https://skaya-bucket.s3.us-east-1.amazonaws.com/Valley+Of+Flowers/valley+of.png",
+    images:[
+      "https://skaya-bucket.s3.us-east-1.amazonaws.com/Valley+Of+Flowers/Valley+Of+Flowers+National+Park.jpeg",
+      "https://skaya-bucket.s3.us-east-1.amazonaws.com/Valley+Of+Flowers/Valley+of+Flowers%2C+India.jpeg",
+      "https://skaya-bucket.s3.us-east-1.amazonaws.com/Valley+Of+Flowers/valley+of.png",
+      "https://skaya-bucket.s3.us-east-1.amazonaws.com/Valley+Of+Flowers/valley0fflower.avif"
+      
+    ],
     geoLocation: [30.7056, 79.6040],
     travelType: 'group',
   },
@@ -557,7 +564,16 @@ export const mockTravelPackages = [
         ],
       },
     },
-    image: '/images/roopkund.jpg',
+    image: 'https://skaya-bucket.s3.us-east-1.amazonaws.com/roopkund/roopkund.jpg',
+    images:[
+"https://skaya-bucket.s3.us-east-1.amazonaws.com/roopkund/roopkund1.jpg",
+"https://skaya-bucket.s3.us-east-1.amazonaws.com/roopkund/roopkund3.jpg",
+"https://skaya-bucket.s3.us-east-1.amazonaws.com/roopkund/roopkund4.jpg",
+"https://skaya-bucket.s3.us-east-1.amazonaws.com/roopkund/roopkund5.jpg",
+"https://skaya-bucket.s3.us-east-1.amazonaws.com/roopkund/roopkund.jpg",
+"https://skaya-bucket.s3.us-east-1.amazonaws.com/roopkund/roopkund6.jpg",
+"https://skaya-bucket.s3.us-east-1.amazonaws.com/roopkund/roopkund7.jpg",
+    ],
     geoLocation: [30.2621, 79.7314],
     travelType: 'custom',
   },

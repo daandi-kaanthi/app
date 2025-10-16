@@ -32,7 +32,7 @@ export const LayoutTextFlip = ({
   return (
     <motion.span
       layout
-      className="relative w-fit overflow-hidden px-4 py-2 font-sans text-xl font-bold tracking-tight text-black md:text-2xl  dark:text-white"
+      className="relative w-fit overflow-hidden px-0 py-2 font-sans text-xl font-bold tracking-tight text-black md:text-2xl  dark:text-white"
     >
       <AnimatePresence mode="popLayout">
         <motion.span

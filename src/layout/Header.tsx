@@ -16,7 +16,12 @@ const Header: React.FC<HeaderProps> = () => {
                     backdrop-blur-md shadow-md rounded-b-lg h-12"
     >
       <motion.div className="relative flex flex-col items-center justify-center gap-4 text-center sm:mx-0 sm:mb-0 sm:flex-row">
-        <LayoutTextFlip
+<img
+  src="logonobg.png"
+  className="h-10 w-10 dark:filter dark:brightness-0 dark:invert"
+/>
+
+  <LayoutTextFlip
           text={t("title")}
           words={[ "Daandi Kaanthi", "डांडी कांठि"]}
         />

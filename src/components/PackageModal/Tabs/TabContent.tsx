@@ -2,7 +2,7 @@ import { motion } from "motion/react";
 import { useRef } from "react";
 import Overview from "./OverviewTab";
 import { MediaTabs } from "./MediaTab";
-import { AiTab } from "./AiTab";
+// import { AiTab } from "./AiTab";
 import { DatesTab } from "./DatesTab";
 
 interface TabContentProps {
@@ -34,9 +34,9 @@ const TabContent: React.FC<TabContentProps> = ({
         return <Overview id={id} />;
       case 1:
         return <MediaTabs id={id} />;
+      // case 2:
+      //   return <AiTab id={id} />;
       case 2:
-        return <AiTab id={id} />;
-      case 3:
         return <DatesTab id={id} />;
       default:
         return <Overview id={id} />;

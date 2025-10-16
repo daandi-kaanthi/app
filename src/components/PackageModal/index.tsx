@@ -26,7 +26,7 @@ export const PackageModal = forwardRef<HTMLDivElement, PackageModalProps>(
     const travelPackage = useSelectedTravelPackage(id);
 
     const tabs = useMemo(
-      () => [t("tabOverview"), t("tabGallery"), t("tabAskAi"), t("tabDates")],
+      () => [t("tabOverview"), t("tabGallery"), /*t("tabAskAi"),*/ t("tabDates")],
       [t]
     );
     const modalContent = useMemo(

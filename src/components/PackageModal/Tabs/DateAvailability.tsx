@@ -7,18 +7,13 @@ import { WhatsAppMessageButton } from "../../ui/Button/WhatsAppMessageButton";
 // Utility Functions
 // ---------------------------
 
-export const formatDate = (timestamp: number): string => {
+const formatDate = (timestamp: number): string => {
   const date = new Date(timestamp * 1000);
   return date.toLocaleDateString(undefined, {
     month: "short",
     day: "numeric",
     year: "numeric",
   });
-};
-
-export const calculateDiscount = (price: number, originalPrice?: number): number => {
-  if (!originalPrice || originalPrice <= price) return 0;
-  return Math.round(((originalPrice - price) / originalPrice) * 100);
 };
 
 // ---------------------------
