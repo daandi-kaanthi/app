@@ -594,7 +594,7 @@ const travelSlice = createSlice({
         };
       }>
     ) => {
-      const { itemData, loading } = action.payload;
+      const { loading } = action.payload;
 
       state.loading = loading;
 

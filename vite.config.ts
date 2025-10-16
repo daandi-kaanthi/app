@@ -18,8 +18,8 @@ export default defineConfig({
       },
 
       manifest: {
-        name: "kaanthi-pwa",
-        short_name: "kaanthi-pwa",
+        name: "Daandi-kaanthi",
+        short_name: "Daandi-kaanthi",
         description: "kaanthi-pwa",
         theme_color: "#ffffff",
       },
@@ -38,5 +38,5 @@ export default defineConfig({
       },
     }),
   ],
-  base: "./",
+  base: "/app/",
 });

@@ -17,6 +17,7 @@ const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const drawerRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
+  const isClosingRef = useRef(false);
 
   const handleMarkerClick = useCallback(
     (packageId: string) => {
@@ -25,19 +26,72 @@ const Home: React.FC = () => {
       const pkg = travelPackages.travelPackages.find(
         (p: { id: string }) => p.id === packageId
       );
-      if (pkg) setActive(pkg);
+      if (pkg) {
+        setActive(pkg);
+        // Push state to history when modal opens
+        window.history.pushState({ modal: true, packageId }, "");
+      }
     },
     [travelPackages]
   );
 
   const closeDrawer = useCallback(() => {
+    if (isClosingRef.current) return;
+    isClosingRef.current = true;
+    
     setDrawerOpen(false);
     setActive(null);
+    
+    // Remove history state if it exists
+    if (window.history.state?.modal) {
+      window.history.back();
+    }
+    
+    // Reset the closing flag after a short delay
+    setTimeout(() => {
+      isClosingRef.current = false;
+    }, 100);
+  }, []);
+
+  const closeModal = useCallback(() => {
+    if (isClosingRef.current) return;
+    isClosingRef.current = true;
+    
+    setActive(null);
+    
+    // Remove history state if it exists
+    if (window.history.state?.modal) {
+      window.history.back();
+    }
+    
+    // Reset the closing flag after a short delay
+    setTimeout(() => {
+      isClosingRef.current = false;
+    }, 100);
   }, []);
 
   // Use the outside click hook for both drawer and modal
   useOutsideClick(drawerRef, closeDrawer);
-  useOutsideClick(modalRef, () => setActive(null));
+  useOutsideClick(modalRef, closeModal);
+
+  // Handle browser back button
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      if (window.history.state?.modal || active) {
+        // Prevent the closing ref check in this case
+        isClosingRef.current = false;
+        setActive(null);
+        setDrawerOpen(false);
+        event.preventDefault();
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [active]);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -54,7 +108,7 @@ const Home: React.FC = () => {
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [drawerOpen, active]);
+  }, [drawerOpen, active, closeDrawer]);
 
   useEffect(() => {
     dispatch(
@@ -75,7 +129,7 @@ const Home: React.FC = () => {
       <PackageModal
         ref={modalRef}
         id={(active && active.id) || ""}
-        onClose={() => setActive(null)}
+        onClose={closeModal}
       />
     </div>
   );

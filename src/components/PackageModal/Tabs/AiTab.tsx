@@ -1,7 +1,7 @@
 import { Description } from "../../ui/Text/Description";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useSelectedTravelPackage } from "../../../redux/slices/Travel/TravelSlice";
+// import { useSelectedTravelPackage } from "../../../redux/slices/Travel/TravelSlice";
 import type { AppDispatch } from "../../../redux/store";
 import { useTranslation } from "react-i18next";
 
@@ -12,7 +12,7 @@ interface AiTabProps {
 export const AiTab = ({ id }: AiTabProps) => {
   const { t } = useTranslation();
   const dispatch = useDispatch<AppDispatch>();
-  const selectedTravelPackage = useSelectedTravelPackage(id);
+  // const selectedTravelPackage = useSelectedTravelPackage(id);
 
   useEffect(() => {
     // dispatch(

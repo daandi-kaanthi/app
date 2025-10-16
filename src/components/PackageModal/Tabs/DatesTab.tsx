@@ -1,5 +1,5 @@
 import { DateAvailabilityDisplay } from "./DateAvailability";
-import { type ITravelPackage, selectPackageDates } from "../../../redux/slices/Travel/TravelSlice";
+import { selectPackageDates } from "../../../redux/slices/Travel/TravelSlice";
 import { type AppDispatch } from "../../../redux/store";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";

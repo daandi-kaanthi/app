@@ -18,8 +18,6 @@ export const fetchTravelPackagesApi = createAsyncThunk(
     },
     { rejectWithValue, dispatch }: { rejectWithValue: (value: unknown) => unknown; dispatch: any }
   ) => {
-    // Determine which fields are being loaded
-    const loadingFields = params.select ? params.select.split(',') : ['all'];
 
     // Set loading state for each field
     dispatch(setLoadedItems({

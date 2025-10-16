@@ -14,6 +14,7 @@ import {
 import type { ITravelPackage } from "../../redux/slices/Travel/TravelSlice";
 import MapAutocomplete from "./MapSearch";
 import MapCard from "../Card/MapCard";
+import { LoaderOne } from "../ui/Text/Loader";
 
 // Dark map style fallback
 const DARK_MAP_STYLE = [
@@ -65,6 +66,7 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
     null
   );
   const animationTimeoutRef = useRef<any | null>(null);
+  const [isStreetViewActive, setIsStreetViewActive] = useState(false);
 
   // Load Google Maps API
   const { isLoaded } = useJsApiLoader({
@@ -289,10 +291,7 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
       const lng = e.latLng.lng();
 
       // Find nearest package
-      const { package: nearest, distance: minDistance } = findNearestPackage(
-        lat,
-        lng
-      );
+      const { package: nearest } = findNearestPackage(lat, lng);
 
       // Clear search location when clicking on map
       setSearchedLocation(null);
@@ -381,14 +380,76 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
     };
   }, []);
 
-  if (!isLoaded) return <div>Loading map...</div>;
+  useEffect(() => {
+    if (!mapRef.current) return;
 
+    const streetView = mapRef.current.getStreetView();
+    const listener = streetView.addListener("visible_changed", () => {
+      const isVisible = streetView.getVisible();
+      setIsStreetViewActive(isVisible); // Track visibility
+      if (isVisible) {
+        closeInfoWindow(); // Optional: close InfoWindow
+      }
+    });
+
+    return () => listener.remove();
+  }, [mapRef.current, closeInfoWindow]);
+
+  // Handle Street View visibility and browser history
+  useEffect(() => {
+    if (!mapRef.current) return;
+    const streetView = mapRef.current.getStreetView();
+    
+    const visibilityListener = streetView.addListener("visible_changed", () => {
+      const isVisible = streetView.getVisible();
+      setIsStreetViewActive(isVisible);
+      
+      if (isVisible) {
+        closeInfoWindow();
+        // Push a state to history when Street View opens
+        window.history.pushState({ streetView: true }, "");
+      } else {
+        // Remove the history state when Street View closes
+        if (window.history.state?.streetView) {
+          window.history.back();
+        }
+      }
+    });
+    
+    // Handle browser back button
+    const handlePopState = (event: PopStateEvent) => {
+      if (streetView.getVisible()) {
+        // Close Street View when back button is pressed
+        streetView.setVisible(false);
+        event.preventDefault();
+      }
+    };
+    
+    window.addEventListener("popstate", handlePopState);
+    
+    return () => {
+      visibilityListener.remove();
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [mapRef.current, closeInfoWindow]);
+  
+  if (!isLoaded)
+    return (
+      <div>
+        <LoaderOne />
+      </div>
+    );
+
+    
   return (
     <div className="relative w-full h-[100vh] pt-12 z-1">
       {clickedPosition && (
         <div className="absolute inset-0 z-10 bg-transparent pointer-events-none" />
       )}
-      <MapAutocomplete onPlaceSelect={handlePlaceSelect} />
+      {!isStreetViewActive && (
+        <MapAutocomplete onPlaceSelect={handlePlaceSelect} />
+      )}
+
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={mapCenter}
@@ -434,7 +495,7 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
             }}
           />
         )}
-        {clickedPosition &&  (
+        {clickedPosition && (
           <InfoWindow position={clickedPosition} onCloseClick={closeInfoWindow}>
             <MapCard
               comingSoon={showComingSoon}
