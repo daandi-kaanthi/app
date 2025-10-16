@@ -63,9 +63,13 @@ export default function Overview({ id }: OverviewProps) {
         title: "",
         content: (
           <div>
-            <h2 className="text-lg md:text-2xl font-bold mb-4">
-              {travelPackage.subtitle}
-            </h2>
+            <div className="flex justify-center mb-6">
+              <img
+                src={travelPackage.image}
+                alt={`${t("photos")} ${travelPackage.title}`}
+                className="pointer-events-none h-80 w-80 object-cover rounded-2xl shadow-lg"
+              />
+            </div>
             <p className="mb-6 text-sm md:text-lg leading-relaxed">
               {travelPackage.overview?.description}
             </p>
@@ -74,32 +78,48 @@ export default function Overview({ id }: OverviewProps) {
               <div className="flex items-start gap-3">
                 <CalendarCheck className="mt-1 text-blue-600" />
                 <div>
-                  <h3 className="font-semibold text-sm md:text-base">{t("tabDates")}</h3>
-                  <p className="text-xs md:text-sm">{travelPackage.overview?.duration}</p>
+                  <h3 className="font-semibold text-sm md:text-base">
+                    {t("tabDates")}
+                  </h3>
+                  <p className="text-xs md:text-sm">
+                    {travelPackage.overview?.duration}
+                  </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-3">
                 <MapPinned className="mt-1 text-blue-600" />
                 <div>
-                  <h3 className="font-semibold text-sm md:text-base">{t("tabOverview")}</h3>
-                  <p className="text-xs md:text-sm">{travelPackage.overview?.destinations}</p>
+                  <h3 className="font-semibold text-sm md:text-base">
+                    {t("tabOverview")}
+                  </h3>
+                  <p className="text-xs md:text-sm">
+                    {travelPackage.overview?.destinations}
+                  </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-3">
                 <Clock9 className="mt-1 text-blue-600" />
                 <div>
-                  <h3 className="font-semibold text-sm md:text-base">{t("bestTime")}</h3>
-                  <p className="text-xs md:text-sm">{travelPackage.overview?.bestTime}</p>
+                  <h3 className="font-semibold text-sm md:text-base">
+                    {t("bestTime")}
+                  </h3>
+                  <p className="text-xs md:text-sm">
+                    {travelPackage.overview?.bestTime}
+                  </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-3">
                 <MountainSnow className="mt-1 text-blue-600" />
                 <div>
-                  <h3 className="font-semibold text-sm md:text-base">{t("tourType")}</h3>
-                  <p className="text-xs md:text-sm">{travelPackage.overview?.type}</p>
+                  <h3 className="font-semibold text-sm md:text-base">
+                    {t("tourType")}
+                  </h3>
+                  <p className="text-xs md:text-sm">
+                    {travelPackage.overview?.type}
+                  </p>
                 </div>
               </div>
             </div>
@@ -111,7 +131,10 @@ export default function Overview({ id }: OverviewProps) {
         content: (
           <div>
             {travelPackage.days?.map((day, index) => (
-              <div key={index} className="mb-8 pb-8 border-b border-gray-200 last:border-0">
+              <div
+                key={index}
+                className="mb-8 pb-8 border-b border-gray-200 last:border-0"
+              >
                 <div className="flex items-center gap-4 mb-4">
                   <Flag className="text-red-500 h-10 w-10 md:h-12 md:w-12" />
                   <h3 className="text-base md:text-xl font-bold mb-2">
@@ -120,7 +143,10 @@ export default function Overview({ id }: OverviewProps) {
                 </div>
                 <ul className="list-disc pl-5 mb-4 space-y-2">
                   {day.activities.map((activity, i) => (
-                    <li key={i} className="text-sm md:text-base leading-relaxed">
+                    <li
+                      key={i}
+                      className="text-sm md:text-base leading-relaxed"
+                    >
                       {activity}
                     </li>
                   ))}
@@ -130,7 +156,8 @@ export default function Overview({ id }: OverviewProps) {
                     <span className="font-medium">{t("stay")}:</span> {day.stay}
                   </div>
                   <div className="px-3 py-1 rounded-full text-xs md:text-sm bg-gray-100 dark:bg-gray-800">
-                    <span className="font-medium">{t("meals")}:</span> {day.meals}
+                    <span className="font-medium">{t("meals")}:</span>{" "}
+                    {day.meals}
                   </div>
                 </div>
               </div>
@@ -187,16 +214,21 @@ export default function Overview({ id }: OverviewProps) {
         title: t("bookAdventure"),
         content: (
           <div className="rounded-lg">
-            <h3 className="text-base md:text-xl font-bold mb-4">{t("contactUs")}</h3>
+            <h3 className="text-base md:text-xl font-bold mb-4">
+              {t("contactUs")}
+            </h3>
             <div className="space-y-3">
               <p className="text-xs md:text-sm">
-                <span className="font-medium">📞 {t("phone")}:</span> {defaultContact.phone}
+                <span className="font-medium">📞 {t("phone")}:</span>{" "}
+                {defaultContact.phone}
               </p>
               <p className="text-xs md:text-sm">
-                <span className="font-medium">📧 {t("email")}:</span> {defaultContact.email}
+                <span className="font-medium">📧 {t("email")}:</span>{" "}
+                {defaultContact.email}
               </p>
               <p className="text-xs md:text-sm">
-                <span className="font-medium">🌐 {t("website")}:</span> {defaultContact.website}
+                <span className="font-medium">🌐 {t("website")}:</span>{" "}
+                {defaultContact.website}
               </p>
             </div>
             <p className="mt-4 italic text-sm md:text-base leading-relaxed">

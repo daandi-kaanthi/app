@@ -1,8 +1,8 @@
 import { DateAvailabilityDisplay } from "./DateAvailability";
-import { selectPackageDates } from "../../../redux/slices/Travel/TravelSlice";
+import {  useSelectedTravelPackage } from "../../../redux/slices/Travel/TravelSlice";
 import { type AppDispatch } from "../../../redux/store";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { InfoIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -19,7 +19,7 @@ export const DatesTab = ({ id }: DatesTabProps) => {
     // fetchSingleTravelPackageApi commented for now
   }, [dispatch, id]);
 
-  const dateAvailabilities = useSelector(selectPackageDates(id)) ?? [];
+  const travelPackage = useSelectedTravelPackage(id)
 
   return (
     <div
@@ -67,7 +67,7 @@ export const DatesTab = ({ id }: DatesTabProps) => {
         </div>
       </div>
 
-      <DateAvailabilityDisplay dateAvailabilities={dateAvailabilities || []} />
+      <DateAvailabilityDisplay dateAvailabilities={travelPackage?.dateAvailabilities || []} title={travelPackage?.title} />
     </div>
   );
 };

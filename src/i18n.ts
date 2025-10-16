@@ -21,47 +21,14 @@ const resources = {
       viewDetails: "View details",
 
       tabOverview: "Overview",
-      tabPhotos: "Photos",
+      tabGallery: "Gallery",
       tabAskAi: "Ask AI",
       tabDates: "Dates",
-
-      travelPackages: {
-        "Tungnath - Chandrashila": {
-          title: "Tungnath - Chandrashila",
-          subtitle:
-            "Trek to Tungnath, the highest Shiva temple, and enjoy panoramic Himalayan views from Chandrashila peak.",
-        },
-        "Harsil Valley - Gangotri Expedition": {
-          title: "Harsil Valley - Gangotri Expedition",
-          subtitle:
-            "Explore the pristine Harsil Valley and trek to the sacred Gangotri glacier, source of the holy Ganga river.",
-        },
-        Kedarnath: {
-          title: "Kedarnath",
-          subtitle:
-            "A spiritual journey to Kedarnath, one of the holiest Shiva temples, amidst breathtaking Himalayan scenery.",
-        },
-        Kalpeshwar: {
-          title: "Kalpeshwar",
-          subtitle:
-            "Visit the serene Kalpeshwar temple, a hidden gem in the Garhwal Himalayas, surrounded by lush forests.",
-        },
-        Rudranath: {
-          title: "Rudranath",
-          subtitle:
-            "A spiritual trekking experience to Rudranath temple, nestled in the remote Garhwal Himalayas.",
-        },
-        "Valley Of Flowers": {
-          title: "Valley Of Flowers",
-          subtitle:
-            "Witness the breathtaking beauty of the Valley of Flowers, a UNESCO World Heritage site, blooming with alpine flora.",
-        },
-        Madhyamaheshwar: {
-          title: "Madhyamaheshwar",
-          subtitle:
-            "Trek to the ancient Madhyamaheshwar temple, surrounded by dense forests and majestic peaks.",
-        },
-      },
+      photos: "Photos",
+      videos: "Videos",
+      noPhotos: "No photos available",
+      noVideos: "No videos available",
+      noPackage: "No travel package selected.",
 
       duration: "Duration",
       destinations: "Destinations",
@@ -130,12 +97,15 @@ const resources = {
         days: "days",
         priceComingSoon: "Price coming soon",
       },
+      contactViaWhatsApp: "Contact via WhatsApp",
+      whatsappMessage:
+        'Hello, I am interested in "{{title}}" for the date {{date}}.',
     },
   },
   hi: {
     translation: {
       selectLanguage: "भाषा चुनें",
-      title: "दांडी कांठि",
+      title: "डांडी कांठि",
       startGame: "खेल शुरू करें",
       restart: "पुनः आरंभ",
       gameOver: "खेल समाप्त",
@@ -150,48 +120,14 @@ const resources = {
       viewDetails: "विवरण देखें",
 
       tabOverview: "सारांश",
-      tabPhotos: "फ़ोटो",
+      tabGallery: "गैलरी",
       tabAskAi: "AI से पूछें",
       tabDates: "तिथियाँ",
-
-      travelPackages: {
-        "Tungnath - Chandrashila": {
-          title: "तुंगनाथ - चंद्रशिला",
-          subtitle:
-            "तुंगनाथ, सबसे ऊँचा शिव मंदिर, की यात्रा करें और चंद्रशिला शिखर से हिमालय के शानदार दृश्य देखें।",
-        },
-        "Harsil Valley - Gangotri Expedition": {
-          title: "हर्षिल घाटी - गंगोत्री अभियान",
-          subtitle:
-            "पवित्र गंगोत्री ग्लेशियर तक ट्रेक करें और हर्षिल घाटी की शांति का अनुभव करें, जहाँ गंगा नदी की उत्पत्ति होती है।",
-        },
-        Kedarnath: {
-          title: "केदारनाथ",
-          subtitle:
-            "केदारनाथ, सबसे पवित्र शिव मंदिरों में से एक, की आध्यात्मिक यात्रा करें और हिमालय की अद्भुत सुंदरता का अनुभव करें।",
-        },
-        Kalpeshwar: {
-          title: "कल्पेश्वर",
-          subtitle:
-            "कल्पेश्वर मंदिर की यात्रा करें, जो घने जंगलों से घिरा हुआ एक शांत स्थान है।",
-        },
-        Rudranath: {
-          title: "रुद्रनाथ",
-          subtitle:
-            "हिमालय की गोद में स्थित रुद्रनाथ मंदिर तक एक आध्यात्मिक ट्रेकिंग अनुभव।",
-        },
-        "Valley Of Flowers": {
-          title: "फूलों की घाटी",
-          subtitle:
-            "फूलों की घाटी की अद्भुत सुंदरता देखें, जो अल्पाइन फूलों से खिला एक यूनेस्को विश्व धरोहर स्थल है।",
-        },
-        Madhyamaheshwar: {
-          title: "मध्य महेश्वर",
-          subtitle:
-            "घने जंगलों और ऊँचे पहाड़ों से घिरे प्राचीन मध्य महेश्वर मंदिर की यात्रा करें।",
-        },
-      },
-
+      photos: "फ़ोटो",
+      videos: "वीडियो",
+      noPhotos: "कोई फ़ोटो उपलब्ध नहीं है",
+      noVideos: "कोई वीडियो उपलब्ध नहीं है",
+      noPackage: "कोई यात्रा पैकेज चयनित नहीं है।",
       duration: "अवधि",
       destinations: "गंतव्य",
       bestTime: "सर्वश्रेष्ठ समय",
@@ -259,6 +195,9 @@ const resources = {
         days: "दिन",
         priceComingSoon: "कीमत जल्द ही उपलब्ध",
       },
+      contactViaWhatsApp: "व्हाट्सएप के जरिए संपर्क करें",
+      whatsappMessage:
+        'नमस्ते, मैं "{{title}}" के लिए {{date}} को रुचि रखता हूँ।',
     },
   },
   es: {
@@ -280,48 +219,14 @@ const resources = {
       viewDetails: "Ver detalles",
 
       tabOverview: "Resumen",
-      tabPhotos: "Fotos",
+      tabGallery: "Galería",
       tabAskAi: "Preguntar a la IA",
       tabDates: "Fechas",
-
-      travelPackages: {
-        "Tungnath - Chandrashila": {
-          title: "Tungnath - Chandrashila",
-          subtitle:
-            "Camina hasta Tungnath, el templo de Shiva más alto, y disfruta de las vistas panorámicas del Himalaya desde Chandrashila.",
-        },
-        "Harsil Valley - Gangotri Expedition": {
-          title: "Valle de Harsil - Expedición a Gangotri",
-          subtitle:
-            "Explora el prístino Valle de Harsil y camina hasta el glaciar sagrado de Gangotri, fuente del río Ganges.",
-        },
-        Kedarnath: {
-          title: "Kedarnath",
-          subtitle:
-            "Un viaje espiritual a Kedarnath, uno de los templos de Shiva más sagrados, rodeado de paisajes himalayos impresionantes.",
-        },
-        Kalpeshwar: {
-          title: "Kalpeshwar",
-          subtitle:
-            "Visita el tranquilo templo de Kalpeshwar, una joya escondida en los Himalayas de Garhwal, rodeado de bosques.",
-        },
-        Rudranath: {
-          title: "Rudranath",
-          subtitle:
-            "Una experiencia espiritual de senderismo hasta el templo de Rudranath, enclavado en los remotos Himalayas de Garhwal.",
-        },
-        "Valley Of Flowers": {
-          title: "Valle de las Flores",
-          subtitle:
-            "Admira la impresionante belleza del Valle de las Flores, un sitio Patrimonio Mundial de la UNESCO lleno de flora alpina.",
-        },
-        Madhyamaheshwar: {
-          title: "Madhyamaheshwar",
-          subtitle:
-            "Camina hasta el antiguo templo de Madhyamaheshwar, rodeado de densos bosques y majestuosas montañas.",
-        },
-      },
-
+      photos: "Fotos",
+      videos: "Videos",
+      noPhotos: "No hay fotos disponibles",
+      noVideos: "No hay videos disponibles",
+      noPackage: "No se ha seleccionado ningún paquete de viaje.",
       duration: "Duración",
       destinations: "Destinos",
       bestTime: "Mejor época",
@@ -391,6 +296,9 @@ const resources = {
         days: "días",
         priceComingSoon: "Precio disponible pronto",
       },
+      contactViaWhatsApp: "Contactar por WhatsApp",
+      whatsappMessage:
+        'Hola, estoy interesado en "{{title}}" para la fecha {{date}}.',
     },
   },
 };

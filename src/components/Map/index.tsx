@@ -312,7 +312,7 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
         lat,
         lng
       );
-      const threshold = 0.045;
+      const threshold = 1;
       const isComingSoon = minDistance >= threshold;
 
       // Set zoom if provided
@@ -442,7 +442,7 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
 
     
   return (
-    <div className="relative w-full h-[100vh] pt-12 z-1">
+    <div className={`relative w-full h-[100vh] z-1 ${isStreetViewActive ? 'pt-12' : ''}`}>
       {clickedPosition && (
         <div className="absolute inset-0 z-10 bg-transparent pointer-events-none" />
       )}

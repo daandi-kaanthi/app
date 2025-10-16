@@ -19,9 +19,9 @@ const MapCard: React.FC<MapCardProps> = ({
   minWidth = 160,
   maxWidth = 220,
 }) => {
-    const { t } = useTranslation();
-      const selectedTravelPackage = useSelectedTravelPackage(nearestId);
-    
+  const { t } = useTranslation();
+  const selectedTravelPackage = useSelectedTravelPackage(nearestId);
+
   return (
     <div
       className="p-2 text-center rounded-lg  transition-colors duration-200
@@ -30,9 +30,7 @@ const MapCard: React.FC<MapCardProps> = ({
       style={{ minWidth, maxWidth }}
     >
       {comingSoon && (
-        <p className="text-sm py-2">
-          <Description description={t("expandingSoon")}  />
-        </p>
+          <Description description={t("expandingSoon")} />
       )}
 
       {selectedTravelPackage && onViewDetails && comingSoon && (

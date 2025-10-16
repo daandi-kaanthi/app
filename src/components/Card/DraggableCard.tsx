@@ -1,32 +1,32 @@
+"use client";
 import React, { useRef, useState, useEffect } from "react";
 import {
   motion,
   useMotionValue,
   useSpring,
   useTransform,
-  animate,
-  useVelocity,
   useAnimationControls,
-} from "framer-motion"; // Changed from "motion/react" to "framer-motion"
+} from "motion/react";
 import { cn } from "../../lib/utils";
 
 interface DraggableCardBodyProps {
   className?: string;
-  style?: React.CSSProperties;
   children?: React.ReactNode;
+  isActive?: boolean;
   onClick?: () => void;
 }
 
 export const DraggableCardBody = ({
   className,
-  style,
   children,
+  isActive = false,
   onClick,
 }: DraggableCardBodyProps) => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const cardRef = useRef<HTMLDivElement>(null);
   const controls = useAnimationControls();
+
   const [constraints, setConstraints] = useState({
     top: 0,
     left: 0,
@@ -34,15 +34,7 @@ export const DraggableCardBody = ({
     bottom: 0,
   });
 
-  // physics biatch
-  const velocityX = useVelocity(mouseX);
-  const velocityY = useVelocity(mouseY);
-
-  const springConfig = {
-    stiffness: 100,
-    damping: 20,
-    mass: 0.5,
-  };
+  const springConfig = { stiffness: 100, damping: 20, mass: 0.5 };
 
   const rotateX = useSpring(
     useTransform(mouseY, [-300, 300], [25, -25]),
@@ -74,13 +66,9 @@ export const DraggableCardBody = ({
         });
       }
     };
-
     updateConstraints();
     window.addEventListener("resize", updateConstraints);
-
-    return () => {
-      window.removeEventListener("resize", updateConstraints);
-    };
+    return () => window.removeEventListener("resize", updateConstraints);
   }, []);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -94,10 +82,8 @@ export const DraggableCardBody = ({
       };
     const centerX = left + width / 2;
     const centerY = top + height / 2;
-    const deltaX = clientX - centerX;
-    const deltaY = clientY - centerY;
-    mouseX.set(deltaX);
-    mouseY.set(deltaY);
+    mouseX.set(clientX - centerX);
+    mouseY.set(clientY - centerY);
   };
 
   const handleMouseLeave = () => {
@@ -105,81 +91,35 @@ export const DraggableCardBody = ({
     mouseY.set(0);
   };
 
-  const handleClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    onClick?.();
-  };
-
   return (
     <motion.div
       ref={cardRef}
+      onClick={onClick}
       drag
       dragConstraints={constraints}
-      onDragStart={() => {
-        document.body.style.cursor = "grabbing";
-      }}
-      onDragEnd={(_event, info) => {
-        document.body.style.cursor = "default";
-
-        controls.start({
-          rotateX: 0,
-          rotateY: 0,
-          transition: {
-            type: "spring",
-            ...springConfig,
-          },
-        });
-        const currentVelocityX = velocityX.get();
-        const currentVelocityY = velocityY.get();
-
-        const velocityMagnitude = Math.sqrt(
-          currentVelocityX * currentVelocityX +
-            currentVelocityY * currentVelocityY,
-        );
-        const bounce = Math.min(0.8, velocityMagnitude / 1000);
-
-        animate(info.point.x, info.point.x + currentVelocityX * 0.3, {
-          duration: 0.8,
-          ease: [0.2, 0, 0, 1],
-          bounce,
-          type: "spring",
-          stiffness: 50,
-          damping: 15,
-          mass: 0.8,
-        });
-
-        animate(info.point.y, info.point.y + currentVelocityY * 0.3, {
-          duration: 0.8,
-          ease: [0.2, 0, 0, 1],
-          bounce,
-          type: "spring",
-          stiffness: 50,
-          damping: 15,
-          mass: 0.8,
-        });
-      }}
+      onDragStart={() => (document.body.style.cursor = "grabbing")}
+      onDragEnd={() => (document.body.style.cursor = "default")}
       style={{
         rotateX,
         rotateY,
         opacity,
+        zIndex: isActive ? 50 : 10,
+        scale: isActive ? 1.1 : 1,
+        transition: "all 0.3s ease",
         willChange: "transform",
-        ...style,
       }}
       animate={controls}
-      whileHover={{ scale: 1.02 }}
+      whileHover={{ scale: 1.05 }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      onClick={handleClick}
       className={cn(
-        "relative min-h-96 w-80 overflow-hidden rounded-md bg-neutral-100 p-6 shadow-2xl transform-3d dark:bg-neutral-900",
+        "relative min-h-96 w-80 overflow-hidden rounded-md bg-neutral-100 p-6 shadow-2xl transform-3d dark:bg-neutral-900 cursor-pointer",
         className,
       )}
     >
       {children}
       <motion.div
-        style={{
-          opacity: glareOpacity,
-        }}
+        style={{ opacity: glareOpacity }}
         className="pointer-events-none absolute inset-0 bg-white select-none"
       />
     </motion.div>
@@ -193,7 +133,5 @@ export const DraggableCardContainer = ({
   className?: string;
   children?: React.ReactNode;
 }) => {
-  return (
-    <div className={cn("[perspective:3000px]", className)}>{children}</div>
-  );
+  return <div className={cn("[perspective:3000px]", className)}>{children}</div>;
 };

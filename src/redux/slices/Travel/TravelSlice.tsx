@@ -1,6 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
+import { generateFutureDatesDynamic } from './dateGenerator';
 
 
 export interface ITravelPackage {
@@ -65,8 +66,6 @@ interface Overview {
   bestTime: string;
   type: string;
 }
-
-
 
 export interface TravelState {
   travelPackages: ITravelPackage[];
@@ -568,6 +567,11 @@ export const mockTravelPackages = [
 ];
 
 
+
+// Apply it
+mockTravelPackages.forEach((pkg:ITravelPackage) => {
+  pkg.dateAvailabilities = generateFutureDatesDynamic(pkg);
+});
 
 const initialState: TravelState = {
   travelPackages: mockTravelPackages,
