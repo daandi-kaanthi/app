@@ -82,7 +82,7 @@ export const MediaTabs = ({ id }: MediaTabsProps) => {
                 <img
                   src={src}
                   alt={`${t("photos")} -${index + 1}`}
-                  className="pointer-events-none relative z-10 h-80 w-80 object-cover rounded-2xl shadow-lg"
+                  className="pointer-events-none relative z-10 h-60 w-60 object-cover rounded-2xl shadow-lg"
                 />
               ) : (
                 <video

@@ -24,7 +24,7 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
         w-full max-w-[1000px] mx-auto
         h-[100%] md:h-[100%] lg:h-[100%] lg:top-10 lg:bottom-auto
         z-30 rounded-t-3xl lg:rounded-3xl
-        bg-white dark:bg-black/90 backdrop-blur-2xl
+        bg-white dark:bg-black/20 backdrop-blur-2xl
         overflow-hidden flex flex-col"
     >
       {children}

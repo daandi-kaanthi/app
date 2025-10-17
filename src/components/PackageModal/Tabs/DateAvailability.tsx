@@ -60,7 +60,7 @@ export const DateAvailabilityDisplay: React.FC<DateAvailabilityDisplayProps> = (
             return (
               <div
                 key={index}
-                className="p-4 sm:p-3 rounded-xl cursor-pointer border transition-all duration-300 ease-in-out hover:bg-gray-100/70 dark:hover:bg-neutral-700"
+                className="p-4 sm:p-3 rounded-xl cursor-pointer border border-gray-300 dark:border-gray-700 transition-all duration-300 ease-in-out hover:bg-gray-100/70 dark:hover:bg-neutral-700"
                 role="option"
               >
                 <div className="flex flex-row justify-between items-center gap-2">

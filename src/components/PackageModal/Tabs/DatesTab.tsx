@@ -24,7 +24,6 @@ export const DatesTab = ({ id }: DatesTabProps) => {
   return (
     <div
       className="
-        bg-white/60 dark:bg-neutral-900/80
         text-gray-900 dark:text-gray-100
         rounded-2xl p-4 md:p-8 pb-28
         border border-gray-200 dark:border-gray-700

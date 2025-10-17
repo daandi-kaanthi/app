@@ -241,7 +241,7 @@ export default function Overview({ id }: OverviewProps) {
   };
 
   return (
-    <div className="mx-auto px-3 md:px-8">
+    <div className="mx-auto px-3 md:px-8 mb-64">
       <Timeline data={formatTravelPackageData()} stickyTop="top-60" />
     </div>
   );
