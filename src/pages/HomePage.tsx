@@ -10,7 +10,7 @@ import {
 } from "../redux/slices/Travel/TravelSlice";
 import { PackageModal } from "../components/PackageModal/index.tsx";
 
-const Home: React.FC = () => {
+const HomePage: React.FC = () => {
   const [active, setActive] = useState<ITravelPackage | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const travelPackages = useSelector(selectedTravelPackages);
@@ -135,4 +135,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default HomePage;

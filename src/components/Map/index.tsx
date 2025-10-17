@@ -442,7 +442,7 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
 
     
   return (
-    <div className={`relative w-full h-[100vh] z-1 ${isStreetViewActive ? 'pt-12' : ''}`}>
+    <div className={`relative w-full h-screen z-1`}>
       {clickedPosition && (
         <div className="absolute inset-0 z-10 bg-transparent pointer-events-none" />
       )}

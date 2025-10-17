@@ -8,13 +8,13 @@ const ThemeToggle: React.FC = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="p-2 bg-gray-200 dark:bg-black/40 rounded-full shadow-md hover:scale-105 transition-transform"
+      className="bg-gray-200 dark:bg-black/40 rounded-full shadow-md hover:scale-105 transition-transform"
       title="Toggle theme"
     >
       {theme === "light" ? (
-        <Moon className="text-black w-5 h-5" />
+        <Moon className="text-black " />
       ) : (
-        <Sun className="text-white w-5 h-5" />
+        <Sun className="text-white " />
       )}
     </button>
   );

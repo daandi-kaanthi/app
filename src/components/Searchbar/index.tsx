@@ -10,7 +10,7 @@ interface SearchbarProps extends React.InputHTMLAttributes<HTMLInputElement> {
 export const Searchbar = forwardRef<HTMLInputElement, SearchbarProps>(
   ({ value, onClear, placeholder = "", ...props }, ref) => {
     return (
-      <div className="relative flex items-center rounded-lg shadow-lg bg-black/40 dark:bg-black/40 z-20">
+      <div className="relative flex items-center rounded-lg shadow-lg bg-black/60 dark:bg-black/40 z-20">
         <Search
           className="absolute left-3 pointer-events-none text-black dark:text-white z-20"
           size={20}
@@ -21,7 +21,7 @@ export const Searchbar = forwardRef<HTMLInputElement, SearchbarProps>(
           name="search"
           value={value}
           placeholder={placeholder}
-          className="w-full pl-10 pr-10 py-2 rounded-lg focus:outline-none bg-white text-black dark:bg-black/20 dark:text-white"
+          className="w-full pl-10 pr-10 py-2 rounded-lg focus:outline-none bg-white text-black dark:bg-black/60 dark:text-white"
           {...props}
         />
 

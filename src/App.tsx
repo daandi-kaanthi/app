@@ -1,11 +1,9 @@
-import Header from "./layout/Header";
-import HomePage from "./pages/HomePage";
+import { SidebarDemo } from "./layout/Sidebar";
 
 function App() {
   return (
-    <div className=" dark:bg-gray-800 w-full">
-      <Header />
-      <HomePage />
+    <div className=" bg-white dark:bg-black/20 w-full">
+     <SidebarDemo/>
     </div>
   )
 }
