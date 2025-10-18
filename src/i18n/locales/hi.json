@@ -172,5 +172,15 @@
     "dashboard": "डैशबोर्ड",
     "blogs": "ब्लॉग्स",
     "about": "हमारे बारे में"
-  }
+  },
+  "privatePackageInterestTitle": "प्राइवेट ट्रेक पैकेज उपलब्ध",
+  "privatePackageInterest": "क्या आप प्राइवेट पैकेज में रुचि रखते हैं? नीचे दिया फॉर्म भरें।",
+  "fullName": "पूरा नाम",
+  "enterName": "अपना पूरा नाम दर्ज करें",
+  "enterEmail": "अपना ईमेल पता दर्ज करें",
+  "message": "संदेश",
+  "writeMessage": "अपना संदेश यहाँ लिखें",
+  "submit": "सबमिट करें",
+  "whatsappMessageCustom": "नमस्ते! मैं इस स्थान पर पैकेज में रुचि रखता हूँ: {{location}}",
+  "defaultLocation": "कस्टम स्थान"
 }

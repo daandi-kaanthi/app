@@ -15,6 +15,7 @@ import type { ITravelPackage } from "../../redux/slices/Travel/TravelSlice";
 import MapAutocomplete from "./MapSearch";
 import MapCard from "../Card/MapCard";
 import { LoaderOne } from "../ui/Text/Loader";
+import ContactDialog from "../ui/Dialog/ContactDialog";
 
 // Dark map style fallback
 const DARK_MAP_STYLE = [
@@ -60,6 +61,8 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
     name: string;
   } | null>(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [openContactDialog, setOpenContactDialog] = useState(false);
+
   const [mapInstance, setMapInstance] = useState<google.maps.Map | null>(null);
   const mapRef = useRef<google.maps.Map | null>(null);
   const pendingInfoWindowRef = useRef<{ lat: number; lng: number } | null>(
@@ -307,7 +310,7 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
   const handlePlaceSelect = useCallback(
     (lat: number, lng: number, name: string, zoom?: number) => {
       if (!packagesWithGeo.length || !mapInstance) return;
-console.log(lat,lng);
+      console.log(lat, lng);
 
       const { package: nearest, distance: minDistance } = findNearestPackage(
         lat,
@@ -439,27 +442,26 @@ console.log(lat,lng);
     if (!mapRef.current) return;
 
     const streetView = mapRef.current.getStreetView();
-    
+
     // Configure Street View options
     streetView.setOptions({
-
       addressControl: true,
       addressControlOptions: {
         position: 10,
       },
       fullscreenControl: true,
       fullscreenControlOptions: {
-        position:4
+        position: 4,
       },
-      zoomControl:true,
-      zoomControlOptions:{
-        position:8
+      zoomControl: true,
+      zoomControlOptions: {
+        position: 8,
       },
-      panControlOptions:{
-        position:4
-      }
+      panControlOptions: {
+        position: 4,
+      },
     });
-    
+
     const listener = streetView.addListener("visible_changed", () => {
       const isVisible = streetView.getVisible();
       if (isVisible) {
@@ -468,7 +470,78 @@ console.log(lat,lng);
     });
 
     return () => listener.remove();
-  }, [mapRef.current, closeInfoWindow,isStreetViewActive]);
+  }, [mapRef.current, closeInfoWindow, isStreetViewActive]);
+
+  // Update InfoWindow background based on dark/light mode
+  useEffect(() => {
+    const updateInfoWindowStyle = () => {
+      // Fix inner scroll container (.gm-style-iw-d)
+      const scrollContainers = document.querySelectorAll(".gm-style-iw-d");
+      scrollContainers.forEach((el) => {
+        const div = el as HTMLElement;
+        div.style.overflow = "hidden"; // remove scroll
+        div.style.maxHeight = "none"; // remove height restriction
+      });
+
+      // Style main container (.gm-style-iw-c)
+      const containers = document.querySelectorAll(".gm-style-iw-c");
+      containers.forEach((el) => {
+        const div = el as HTMLElement;
+        div.style.backgroundColor = isDarkMode ? "#121417" : "#ffffff";
+        div.style.color = isDarkMode ? "#ffffff" : "#000000";
+        div.style.borderRadius = "12px";
+        div.style.padding = "10px";
+        div.style.overflow = "hidden"; // prevent spill
+        div.style.boxShadow = "0 4px 16px rgba(0,0,0,0.25)";
+      });
+    };
+
+    updateInfoWindowStyle();
+
+    const observer = new MutationObserver(updateInfoWindowStyle);
+    const mapDiv = mapRef.current?.getDiv();
+    if (mapDiv) {
+      observer.observe(mapDiv, { childList: true, subtree: true });
+    }
+
+    return () => observer.disconnect();
+  }, [isDarkMode, clickedPosition]);
+
+  //close button css
+  useEffect(() => {
+    const applyStyles = () => {
+      const closeButtons = document.querySelectorAll(
+        ".gm-ui-hover-effect span"
+      );
+      closeButtons.forEach((span) => {
+        const el = span as HTMLElement;
+        el.style.backgroundColor = isDarkMode ? "#000" : "#fff";
+        el.style.borderRadius = "50%";
+        el.style.width = "24px";
+        el.style.height = "24px";
+        el.style.display = "flex";
+        el.style.alignItems = "center";
+        el.style.justifyContent = "center";
+        el.style.boxShadow = isDarkMode
+          ? "0 2px 6px rgba(0,0,0,0.6)"
+          : "0 2px 6px rgba(0,0,0,0.2)";
+        // Fix for icon color visibility
+        el.style.filter = isDarkMode
+          ? "invert(1) brightness(1.8)"
+          : "invert(0) brightness(0.2)";
+        el.style.transition = "all 0.3s ease";
+      });
+    };
+
+    applyStyles();
+
+    const observer = new MutationObserver(applyStyles);
+    const mapDiv = mapRef.current?.getDiv();
+    if (mapDiv) observer.observe(mapDiv, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
+  }, [isDarkMode, clickedPosition]);
+
   if (!isLoaded)
     return (
       <div className="flex items-center justify-center w-full h-screen">
@@ -538,9 +611,17 @@ console.log(lat,lng);
               onViewDetails={() =>
                 nearestPackage && handleMarkerClick(nearestPackage)
               }
+              // onOpenContact={() => setOpenContactDialog(true)}
             />
           </InfoWindow>
         )}
+        <ContactDialog
+          open={openContactDialog}
+          onClose={() => setOpenContactDialog(false)}
+          onSubmit={(data) => {
+            console.log("Contact form submitted:", data);
+          }}
+        />
       </GoogleMap>
     </div>
   );

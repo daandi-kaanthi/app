@@ -191,7 +191,7 @@ export default function AboutPage() {
 
   return (
     <div>
-      <div className="relative w-full z-100">
+      <div className="relative w-full z-1">
         <div className="overflow-auto max-h-screen">
           <Timeline data={data} />
         </div>

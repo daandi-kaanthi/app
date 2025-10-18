@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import PackagesMap from "../components/Map";
-import { useDispatch, useSelector } from "react-redux";
-import { type AppDispatch } from "../redux/store";
-import { fetchTravelPackagesApi } from "../redux/slices/Travel/TravelApiSlice.tsx";
+import {  useSelector } from "react-redux";
+// import { type AppDispatch } from "../redux/store";
+// import { fetchTravelPackagesApi } from "../redux/slices/Travel/TravelApiSlice.tsx";
 import { useOutsideClick } from "../hooks/use-outside-click";
 import {
   selectedTravelPackages,
@@ -14,7 +14,7 @@ const HomePage: React.FC = () => {
   const [active, setActive] = useState<ITravelPackage | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const travelPackages = useSelector(selectedTravelPackages);
-  const dispatch = useDispatch<AppDispatch>();
+  // const dispatch = useDispatch<AppDispatch>();
   const drawerRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const isClosingRef = useRef(false);
@@ -110,14 +110,14 @@ const HomePage: React.FC = () => {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [drawerOpen, active, closeDrawer]);
 
-  useEffect(() => {
-    dispatch(
-      fetchTravelPackagesApi({
-        status: "active",
-        select: "title,dateAvailabilities,geoLocationLat,geoLocationLng",
-      })
-    );
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(
+  //     fetchTravelPackagesApi({
+  //       status: "active",
+  //       select: "title,dateAvailabilities,geoLocationLat,geoLocationLng",
+  //     })
+  //   );
+  // }, [dispatch]);
 
   return (
     <div className="fixed inset-0 flex flex-1 flex-col md:relative">

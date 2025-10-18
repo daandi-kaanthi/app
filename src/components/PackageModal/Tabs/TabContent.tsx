@@ -31,13 +31,13 @@ const TabContent: React.FC<TabContentProps> = ({
   const renderTabContent = () => {
     switch (activeTab) {
       case 0:
-        return <Overview id={id} />;
+        return <DatesTab id={id} />;
       case 1:
+        return <Overview id={id} />;
+      case 2:
         return <MediaTabs id={id} />;
       // case 2:
       //   return <AiTab id={id} />;
-      case 2:
-        return <DatesTab id={id} />;
       default:
         return <Overview id={id} />;
     }

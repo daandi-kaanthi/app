@@ -174,5 +174,15 @@
     "dashboard": "Dashboard",
     "blogs": "Blogs",
     "about": "About Us"
-  }
+  },
+  "privatePackageInterestTitle": "Private Trek Packages Available",
+  "privatePackageInterest": "Interested in a private package? Fill out the form below.",
+  "fullName": "Full Name",
+  "enterName": "Enter your full name",
+  "enterEmail": "Enter your email address",
+  "message": "Message",
+  "writeMessage": "Write your message here",
+  "submit": "Submit",
+  "whatsappMessageCustom": "Hello! I am interested in the package at this location: {{location}}",
+  "defaultLocation": "Custom Location"
 }

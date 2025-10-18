@@ -174,5 +174,15 @@
     "dashboard": "Tablero",
     "blogs": "Blogs",
     "about": "Sobre Nosotros"
-  }
+  },
+  "privatePackageInterestTitle": "Paquetes de trekking privados disponibles",
+  "privatePackageInterest": "¿Interesado en un paquete privado? Complete el formulario a continuación.",
+  "fullName": "Nombre completo",
+  "enterName": "Ingrese su nombre completo",
+  "enterEmail": "Ingrese su dirección de correo electrónico",
+  "message": "Mensaje",
+  "writeMessage": "Escriba su mensaje aquí",
+  "submit": "Enviar",
+  "whatsappMessageCustom": "¡Hola! Estoy interesado en el paquete en esta ubicación: {{location}}",
+  "defaultLocation": "Ubicación personalizada"
 }
