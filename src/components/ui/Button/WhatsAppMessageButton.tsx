@@ -14,7 +14,7 @@ export const WhatsAppMessageButton: React.FC<WhatsAppMessageButtonProps> = ({
   date,
 }) => {
   const { t } = useTranslation();
-  const whatsappNumber = import.meta.env.VITE_WHATSAPP; // e.g., "+911234567890"
+  const whatsappNumber = import.meta.env.VITE_CONTACT_PHONE; // e.g., "+911234567890"
 
   const handleSendMessage = () => {
     const formattedDate = new Date(date * 1000).toLocaleDateString(undefined, {

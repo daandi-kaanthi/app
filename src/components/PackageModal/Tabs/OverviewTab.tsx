@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import { Timeline } from "./Information/Timeline";
 import {
   CalendarCheck,
   MapPinned,
@@ -9,6 +8,7 @@ import {
 } from "lucide-react";
 import { useSelectedTravelPackage } from "../../../redux/slices/Travel/TravelSlice";
 import { useTranslation } from "react-i18next";
+import { Timeline } from "../../Timeline/AboutTimeline";
 
 // 🔹 Default shared sections for all itineraries
 const defaultInclusions = [
@@ -34,7 +34,7 @@ const defaultWhyChooseUs = [
 ];
 
 const defaultContact = {
-  phone: "+91-9548883930",
+  phone: import.meta.env.VITE_CONTACT_PHONE || "+91-7310747066",
   email: "team@daandikaanthi.com",
   website: "www.daandikaanthi.com",
 };
@@ -220,15 +220,32 @@ export default function Overview({ id }: OverviewProps) {
             <div className="space-y-3">
               <p className="text-xs md:text-sm">
                 <span className="font-medium">📞 {t("phone")}:</span>{" "}
-                {defaultContact.phone}
+                <a
+                  href={`tel:${defaultContact.phone}`}
+                  className="text-blue-600 hover:underline"
+                >
+                  {defaultContact.phone}
+                </a>
               </p>
               <p className="text-xs md:text-sm">
                 <span className="font-medium">📧 {t("email")}:</span>{" "}
-                {defaultContact.email}
+                <a
+                  href={`mailto:${defaultContact.email}`}
+                  className="text-blue-600 hover:underline"
+                >
+                  {defaultContact.email}
+                </a>
               </p>
               <p className="text-xs md:text-sm">
                 <span className="font-medium">🌐 {t("website")}:</span>{" "}
-                {defaultContact.website}
+                <a
+                  href={`https://${defaultContact.website}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline"
+                >
+                  {defaultContact.website}
+                </a>
               </p>
             </div>
             <p className="mt-4 italic text-sm md:text-base leading-relaxed">
@@ -241,8 +258,8 @@ export default function Overview({ id }: OverviewProps) {
   };
 
   return (
-    <div className="mx-auto px-3 md:px-8 mb-64">
-      <Timeline data={formatTravelPackageData()} stickyTop="top-60" />
+    <div className="mx-auto px-3 md:px-8 ">
+      <Timeline data={formatTravelPackageData()} />
     </div>
   );
 }

@@ -189,6 +189,34 @@ export const Card = ({
     setOpen(false);
     onCardClose(index);
   };
+useEffect(() => {
+  function onKeyDown(event: KeyboardEvent) {
+    if (event.key === "Escape") {
+      handleClose();
+    }
+  }
+
+  function onPopState() {
+    if (open) {
+      handleClose();
+    }
+  }
+
+  if (open) {
+    document.body.style.overflow = "hidden";
+    window.history.pushState({ cardOpen: true }, ""); // push state when card opens
+  } else {
+    document.body.style.overflow = "auto";
+  }
+
+  window.addEventListener("keydown", onKeyDown);
+  window.addEventListener("popstate", onPopState);
+
+  return () => {
+    window.removeEventListener("keydown", onKeyDown);
+    window.removeEventListener("popstate", onPopState);
+  };
+}, [open]);
 
   return (
     <>

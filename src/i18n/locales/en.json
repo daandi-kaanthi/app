@@ -119,5 +119,60 @@
     "para1": "Situated at an altitude of 2,500 to 3,050 meters in the Chamoli district, Auli is India's premier skiing destination and one of the best in Asia. The name 'Auli' means meadow, and this high-altitude destination lives up to its name with expansive snow-covered slopes during winter and lush green meadows in summer. What sets Auli apart is its perfectly positioned slopes that offer ideal conditions for skiing, ranging from gentle slopes for beginners to challenging runs for advanced skiers. The panoramic views of some of the highest peaks in the Indian Himalayas – Nanda Devi (7,816m), Kamet (7,756m), Mana Parvat (7,272m), and Dunagiri (7,066m) – create a stunning backdrop for your skiing adventure. During winter (December to February), when the slopes are covered with thick pristine snow, Auli transforms into a winter sports paradise. The Indian Army's High Altitude Warfare School also conducts training here, testament to the excellent skiing conditions.",
     "heading2": "Beyond Skiing: Year-Round Mountain Paradise",
     "para2": "While winter brings skiing enthusiasts, Auli is a year-round destination with different charms in each season. One of the longest cable cars in Asia (4 kilometers) connects Auli to Joshimath, offering spectacular aerial views of the valleys, apple orchards, and snow-clad peaks. The ropeway journey itself is an unforgettable experience. During summer and monsoon, Auli transforms into a trekker's paradise with trails leading to Gurso Bugyal, a picturesque meadow offering 360-degree mountain views, and Chattrakund, a pristine lake shrouded in mystery and mythology. The Auli Artificial Lake, one of the world's highest man-made lakes, was created to provide artificial snow on the slopes and adds to the area's beauty. Adventure seekers can try the chairlift ride, go camping under the stars, or simply enjoy the serene mountain atmosphere. The nearby Chenab Lake (just before Auli) offers a tranquil spot for contemplation. Auli also serves as a base for the trek to Valley of Flowers and Hemkund Sahib. The area is dotted with oak and coniferous forests, adding to its natural beauty and offering opportunities for nature walks and bird watching."
+  },
+
+  "team": {
+    "himanshu": { "title": "Himanshu Jayara", "designation": "CEO & Founder" },
+    "divya": { "title": "Divya Dhanai", "designation": "CMO & Co-Founder" },
+    "shubham": { "title": "Shubham Kunwar", "designation": "CTO & Co-Founder" },
+    "jayant": { "title": "Jayant Bhatt", "designation": "Legal Advisor" },
+    "kajal": { "title": "Kajal Negi", "designation": "Tour guide (F)" },
+    "yogesh": { "title": "Yogesh Mehar", "designation": "Tour guide (M)" }
+  },
+  "timeline": {
+    "heading": "Journey of Daandi Kaanthi",
+    "intro": "Discover the story of Daandi Kaanthi Adventures, from humble beginnings to mountain journeys that transform.",
+    "birth": {
+      "title": "The Birth of Daandi Kaanthi",
+      "content1": "In the quiet villages of Garhwal, our founder grew up listening to elders speak of 'Daandi Kaanthi', the glow that comes from walking mountain paths.",
+      "content2": "Mountains are not just climbed with legs, but with hearts. The steeper the daandi (trail), the brighter the kaanthi (glow) within.",
+      "imageAlt1": "Daandi Kaanthi concept",
+      "imageAlt2": "Explore image"
+    },
+    "philosophy": {
+      "title": "Our Mountain Philosophy",
+      "content1": "We believe mountains are the greatest teachers. Their lessons stay with you long after you descend.",
+      "content2": "What began as childhood treks with grandparents evolved into a vision: to create journeys that transform, not just transport."
+    },
+    "difference": {
+      "title": "Daandi Kaanthi Difference",
+      "content1": "While others focus on destinations, we craft journeys:",
+      "points": [
+        "Local Wisdom: Our guides grew up in these mountains",
+        "Slow Travel: We move at the rhythm of the land",
+        "Sacred Routes: Trails with cultural significance",
+        "Transformational: You return different than you came"
+      ]
+    },
+    "join": {
+      "title": "Join Our Story",
+      "content1": "Every traveler who walks with us becomes part of our ongoing story.",
+      "content2": "\"You don't conquer mountains—they let you discover yourself.\""
+    },
+    "team": { "title": "Our Team" },
+    "office": {
+      "title": "Our Office",
+      "address": "Address:",
+      "location": "Daandikaanthi Adventures Ward No 38, Ufalda, Srinagar Pauri Garhwal,",
+      "state": "Uttarakhand 246174, India",
+      "hours": "Operating Hours: Monday to Saturday: 9:00 AM - 6:00 PM, Sunday: 10:00 AM - 4:00 PM",
+      "phone": "+91-9548883930",
+      "email": "team@daandikaanthi.com"
+    }
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "blogs": "Blogs",
+    "about": "About Us"
   }
 }

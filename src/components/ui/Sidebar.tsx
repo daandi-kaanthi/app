@@ -90,7 +90,7 @@ export const DesktopSidebar = ({
     <>
       <motion.div
         className={cn(
-          "h-full px-4 py-4 hidden md:flex md:flex-col bg-neutral-100 dark:bg-black/80 w-[300px] shrink-0",
+          "h-100 px-4  py-4 hidden md:flex md:flex-col bg-white dark:bg-black w-[300px] shrink-0",
           className
         )}
         animate={{
@@ -116,7 +116,7 @@ export const MobileSidebar = ({
     <>
       <div
         className={cn(
-          "h-10 px-4 py-4 flex flex-row md:hidden z-10 items-center justify-between bg-white dark:bg-black/80 w-full"
+          "h-10 px-4 py-4 flex flex-row md:hidden z-10 items-center justify-between bg-white dark:bg-black w-full"
         )}
         {...props}
       >
@@ -138,7 +138,7 @@ export const MobileSidebar = ({
                 ease: "easeInOut",
               }}
               className={cn(
-                "fixed h-full w-full inset-0 bg-white dark:bg-black/100 p-10 z-[100] flex flex-col justify-between",
+                "fixed h-full w-full inset-0 bg-white dark:bg-black p-10 z-[100] flex flex-col justify-between",
                 className
               )}
             >
@@ -159,10 +159,12 @@ export const MobileSidebar = ({
 
 export const SidebarLink = ({
   link,
+  shouldNavigate=true,
   className,
   ...props
 }: {
   link: Links;
+  shouldNavigate:boolean
   className?: string;
 }) => {
   const { open, animate,setOpen } = useSidebar();
@@ -170,8 +172,9 @@ export const SidebarLink = ({
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault(); // prevent default anchor behavior
-    navigate(link.href); // navigate programmatically
-    setOpen(false)
+
+    shouldNavigate && navigate(link.href); // navigate programmatically
+    shouldNavigate && setOpen(false)
   };
 
   return (

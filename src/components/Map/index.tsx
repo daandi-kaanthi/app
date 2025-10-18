@@ -467,7 +467,7 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
     });
 
     return () => listener.remove();
-  }, [mapRef.current, closeInfoWindow]);
+  }, [mapRef.current, closeInfoWindow,isStreetViewActive]);
   if (!isLoaded)
     return (
       <div className="flex items-center justify-center w-full h-screen">
