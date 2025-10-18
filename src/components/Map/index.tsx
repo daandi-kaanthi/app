@@ -307,6 +307,7 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
   const handlePlaceSelect = useCallback(
     (lat: number, lng: number, name: string, zoom?: number) => {
       if (!packagesWithGeo.length || !mapInstance) return;
+console.log(lat,lng);
 
       const { package: nearest, distance: minDistance } = findNearestPackage(
         lat,
