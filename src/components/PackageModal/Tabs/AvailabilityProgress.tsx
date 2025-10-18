@@ -26,7 +26,7 @@ const AvailabilityProgress: React.FC<AvailabilityProgressProps> = ({
 
   return (
     <div className="mt-2">
-      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 sm:h-2">
+      <div className="w-full bg-gray-200 dark:bg-gray-800 rounded-full h-1.5 sm:h-2">
         <div
           className="bg-blue-500 dark:bg-blue-400 h-1.5 sm:h-2 rounded-full"
           style={{ width: `${progressPercent}%` }}

@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { MenuIcon, X } from "lucide-react";
 import { cn } from "../../lib/utils";
 import HomeLogo from "../../layout/Logo";
+import { useNavigate } from "react-router-dom";
 
 interface Links {
   label: string;
@@ -164,18 +165,25 @@ export const SidebarLink = ({
   link: Links;
   className?: string;
 }) => {
-  const { open, animate } = useSidebar();
+  const { open, animate,setOpen } = useSidebar();
+  const navigate = useNavigate();
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault(); // prevent default anchor behavior
+    navigate(link.href); // navigate programmatically
+    setOpen(false)
+  };
+
   return (
-    <a
-      href={link.href}
+    <div
+      onClick={handleClick}
       className={cn(
-        "flex items-center justify-start gap-2  group/sidebar py-2",
+        "flex items-center justify-start gap-2 group/sidebar py-2 cursor-pointer",
         className
       )}
       {...props}
     >
       {link.icon}
-
       <motion.span
         animate={{
           display: animate ? (open ? "inline-block" : "none") : "inline-block",
@@ -185,6 +193,6 @@ export const SidebarLink = ({
       >
         {link.label}
       </motion.span>
-    </a>
+    </div>
   );
 };

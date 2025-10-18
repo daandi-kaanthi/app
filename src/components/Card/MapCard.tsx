@@ -26,7 +26,7 @@ const MapCard: React.FC<MapCardProps> = ({
     <div
       className="p-2 text-center rounded-lg  transition-colors duration-200
                  bg-white text-black border border-gray-200
-                 dark:bg-gray-800 dark:text-white dark:border-gray-700"
+                 dark:bg-gray-900 dark:text-white dark:border-gray-700"
       style={{ minWidth, maxWidth }}
     >
       {comingSoon && (

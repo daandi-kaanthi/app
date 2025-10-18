@@ -120,7 +120,7 @@ const HomePage: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <div>
+    <div className="fixed inset-0 flex flex-1 flex-col md:relative">
       <PackagesMap
         packages={travelPackages.travelPackages}
         onMarkerClick={handleMarkerClick}

@@ -27,7 +27,6 @@ export interface TravelPackageTranslation {
   days?: Day[];
 }
 
-
 export interface IVideoItem {
   id: string;
   awsUrl: string;

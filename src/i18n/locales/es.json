@@ -1,0 +1,122 @@
+{
+  "selectLanguage": "Seleccionar idioma",
+  "title": "DaandiKaanthi",
+  "startGame": "Iniciar Juego",
+  "restart": "Reiniciar",
+  "gameOver": "Juego Terminado",
+  "yourScore": "Tu Puntuación",
+  "gameBoardPlaceholder": "Área de inicialización del tablero de juego...",
+  "gridInfo": "(La cuadrícula y la lógica de las fichas se implementarán aquí.)",
+  "playInstructions": "¡Usa las flechas para jugar!",
+
+  "searchPlaceholder": "Buscar una ubicación...",
+  "expandingSoon": "¡Nos estamos expandiendo a esta área pronto!",
+  "nearest": "Más cercano:",
+  "viewDetails": "Ver detalles",
+
+  "tabOverview": "Resumen",
+  "tabGallery": "Galería",
+  "tabAskAi": "Preguntar a la IA",
+  "tabDates": "Fechas",
+  "photos": "Fotos",
+  "videos": "Videos",
+  "noPhotos": "No hay fotos disponibles",
+  "noVideos": "No hay videos disponibles",
+  "noPackage": "No se ha seleccionado ningún paquete de viaje.",
+  "duration": "Duración",
+  "destinations": "Destinos",
+  "bestTime": "Mejor época",
+  "tourType": "Tipo de viaje",
+  "day": "Día",
+  "stay": "Estancia",
+  "meals": "Comidas",
+  "tourInclusions": "Incluido en el viaje",
+  "tourExclusions": "No incluido en el viaje",
+  "whyChooseUs": "¿Por qué elegirnos?",
+  "bookAdventure": "Reserva tu aventura",
+  "dayWiseItinerary": "Itinerario por día",
+  "contactUs": "Contáctenos",
+  "phone": "Teléfono",
+  "email": "Correo electrónico",
+  "website": "Sitio web",
+  "limitedSeats": "¡Plazas limitadas – Prepárate para un viaje espiritual y panorámico por los Himalayas de Garhwal!",
+
+  "Comfortable Transport From Delhi To Delhi": "Transporte cómodo de Delhi a Delhi",
+  "Nights accommodation in scenic camps or guesthouses": "Alojamiento nocturno en campamentos o casas de huéspedes pintorescas",
+  "Daily meals": "Comidas diarias",
+  "Guided trek": "Excursión guiada",
+  "First aid support during trekking": "Soporte de primeros auxilios durante la caminata",
+  "Required permits and entry fees": "Permisos y tarifas de entrada necesarios",
+
+  "Personal expenses (snacks, shopping, tips)": "Gastos personales (aperitivos, compras, propinas)",
+  "Lunch Not Included": "Almuerzo no incluido",
+  "Travel insurance": "Seguro de viaje",
+  "Anything not mentioned under “Inclusions”": "Cualquier cosa no mencionada en “Incluido”",
+
+  "Offbeat Himalayan adventure with local Guides": "Aventura himalaya alternativa con guías locales",
+  "Clean stays & hygienic meals": "Alojamientos limpios y comidas higiénicas",
+  "Experienced drivers & trek support": "Conductores experimentados y soporte de trekking",
+  "gallery": "Galería",
+  "noMediaAvailable": "No hay medios disponibles",
+  "aiTab": {
+    "needHelpPlanning": "क्या आप अपनी यात्रा की योजना बनाने में मदद चाहते हैं?",
+    "description": "हमारा AI यात्रा सहायक आपकी यात्रा को कस्टमाइज़ करने, गंतव्यों के बारे में प्रश्नों का उत्तर देने और व्यक्तिगत सुझाव देने में मदद कर सकता है।",
+    "instantAnswers": "तुरंत उत्तर प्राप्त करें",
+    "personalizedSuggestions": "व्यक्तिगत सुझाव",
+    "virtualAssistance": "24/7 वर्चुअल सहायता"
+  },
+  "datesTab": {
+    "availableDates": "Fechas disponibles",
+    "availabilityInfo": "Información sobre la disponibilidad",
+    "spotLegend": "🟢 Verde = muchos lugares\n🟡 Amarillo = lugares limitados\n🔴 Rojo = completo",
+    "spotsAvailable": "{{count}} lugares disponibles",
+    "limitedSpots": "¡Solo quedan {{count}} lugares!",
+    "fullyBooked": "Completamente reservado",
+    "optionsAvailable": "{{count}} opciones disponibles",
+    "noUpcomingDates": "No hay fechas próximas disponibles. Vuelve más tarde para nuevos horarios.",
+    "day": "día",
+    "days": "días",
+    "priceComingSoon": "Precio disponible pronto"
+  },
+  "contactViaWhatsApp": "Contactar por WhatsApp",
+  "whatsappMessage": "Hola, estoy interesado en \"{{title}}\" para la fecha {{date}}.",
+
+
+  "blogs": {
+    "heading": "Conoce a tu compañero de viaje."
+  },
+  "rishikesh": {
+      "heading1": "La puerta espiritual del Himalaya",
+      "para1": "Ubicado en las estribaciones del Himalaya a lo largo del sagrado río Ganges, Rishikesh es un destino que combina perfectamente espiritualidad, aventura y belleza natural. Conocida como la 'Capital Mundial del Yoga', esta encantadora ciudad atrae a buscadores, aventureros y viajeros de todo el mundo. El suave sonido de las campanas del templo, el fascinante Ganga Aarti al anochecer y la vista del río esmeralda que fluye por el valle crean una atmósfera que toca el alma. Ya sea que busques paz interior a través de la meditación, una descarga de adrenalina a través del rafting en aguas bravas, o simplemente quieras sumergirte en la cultura del Himalaya, Rishikesh ofrece una experiencia inolvidable.",
+      "heading2": "Aventura y vida en el ashram",
+      "para2": "Rishikesh es un estudio de contrastes, donde los antiguos ashrams coexisten con operadores de deportes de aventura. Comienza tu día con yoga al amanecer en la orilla del río, donde la fresca brisa matutina y el sonido del agua que fluye crean el ambiente perfecto para la práctica. Los icónicos Lakshman Jhula y Ram Jhula, puentes colgantes que cruzan el Ganges, ofrecen vistas impresionantes y conectan el corazón espiritual de la ciudad. Para los entusiastas de la aventura, Rishikesh es la capital del rafting en aguas bravas de la India, con rápidos que van desde el suave Grado I hasta el emocionante Grado IV. Más allá del rafting, puedes probar el puenting en uno de los sitios de salto más altos de la India, hacer salto de acantilados o hacer senderismo hasta las cascadas y templos cercanos escondidos en las colinas.",
+      "heading3": "Ceremonias sagradas y cultura local",
+      "para3": "Lo más destacado de cualquier visita a Rishikesh es el Ganga Aarti vespertino en Parmarth Niketan o Triveni Ghat. Cuando se pone el sol, cientos de personas se reúnen en los ghats para presenciar este espectacular ritual. Los sacerdotes vestidos con túnicas azafrán realizan movimientos sincronizados con lámparas de fuego mientras las canciones devocionales llenan el aire. La vista de las diyas (lámparas de aceite) flotantes en el Ganges crea una atmósfera mágica que deja hechizados a los visitantes. Explora los numerosos ashrams que ofrecen cursos de yoga, retiros de meditación y tratamientos ayurvédicos. El Ashram de los Beatles, ahora abandonado pero cubierto de vibrantes grafitis, ofrece una visión de la conexión de la ciudad con la espiritualidad occidental en la década de 1960. No te pierdas probar la cocina vegetariana local en los cafés junto al río, donde puedes saborear platos tradicionales del norte de la India mientras ves pasar el río."
+    },
+    "nainital": {
+      "heading1": "Un paraíso himalayo alrededor del lago esmeralda",
+      "para1": "Situada a una altitud de 2,084 metros en las colinas de Kumaon, Nainital es una de las estaciones de montaña más queridas de Uttarakhand. La ciudad se envuelve alrededor del impresionante lago Naini, un cuerpo natural de agua dulce que brilla como una joya esmeralda en el valle. La arquitectura colonial británica salpica las laderas, dando a la ciudad un encantador carácter de viejo mundo. Mientras paseas por Mall Road, el aire fresco de la montaña, la vista de los barcos coloridos en el lago y el telón de fondo de los picos nevados crean un escenario perfecto para postal. Nainital es un destino durante todo el año, que ofrece veranos agradables, monzones vibrantes e inviernos encantadores cuando los picos circundantes están cubiertos de nieve. La ciudad sirve como una excelente base para explorar la región más amplia de Kumaon y ofrece algo para cada tipo de viajero.",
+      "heading2": "Miradores, aventuras y encanto colonial",
+      "para2": "Nainital ofrece numerosos miradores que proporcionan panoramas impresionantes de las cordilleras del Himalaya. Naina Peak (China Peak), el punto más alto de Nainital a 2,615 metros, ofrece vistas de 360 grados y se puede llegar a través de un emocionante viaje en teleférico o una caminata escénica. Snow View Point proporciona vistas espectaculares de los picos himalayos cargados de nieve, incluidos Nanda Devi y Trisul. Para los amantes de la naturaleza, el zoológico de Nainital alberga especies raras del Himalaya, mientras que los bosques circundantes ofrecen excelentes oportunidades para observar aves y paseos por la naturaleza. El patrimonio colonial de la ciudad es evidente en sus iglesias góticas, incluida la Iglesia de San Juan en el desierto, construida en 1844. Pasear en bote por el lago Naini es una actividad imperdible: elige entre botes de pedales, botes de remo o yates para una experiencia tranquila en las aguas tranquilas. El espectáculo de luces nocturno en el lago añade un toque mágico a tu visita, y comprar prendas de lana, velas y artesanías locales en el mercado tibetano es el recuerdo perfecto."
+    },
+    "valley": {
+      "heading1": "Una maravilla del Patrimonio Mundial de la UNESCO",
+      "para1": "Escondido en las cordilleras del Himalaya occidental de Uttarakhand se encuentra una de las exhibiciones más espectaculares de la naturaleza: el Parque Nacional del Valle de las Flores. Descubierto accidentalmente por el montañero Frank S. Smythe en 1931, este sitio del Patrimonio Mundial de la UNESCO se transforma en una alfombra vibrante de flores alpinas durante los meses del monzón. Distribuido en 87.50 kilómetros cuadrados a una altitud de 3,658 metros, el valle florece con más de 600 especies de flores, incluidas las raras y en peligro de extinción como el Brahma Kamal, la amapola azul y el lirio cobra. El valle se abre solo de junio a octubre, con el máximo florecimiento en julio y agosto cuando todo el paisaje se convierte en una pintura viva de púrpuras, amarillos, rojos y azules. Esto no es solo una caminata; es una peregrinación para amantes de la naturaleza, fotógrafos y botánicos que vienen de todo el mundo para presenciar este increíble fenómeno natural.",
+      "heading2": "El trekking y la biodiversidad",
+      "para2": "Llegar al Valle de las Flores requiere dedicación y aptitud moderada. El viaje comienza desde Govindghat, desde donde caminas 13 kilómetros hasta Ghangaria, el pueblo base. Desde Ghangaria, son otros 6 kilómetros hasta la entrada del valle. El sendero serpentea a través de densos bosques, cruza arroyos caudalosos y ofrece impresionantes vistas de los picos del Himalaya. El valle en sí es un tramo de 10 kilómetros de prados suaves donde puedes observar no solo flores sino también vida silvestre rara del Himalaya, incluido el oso negro asiático, el leopardo de las nieves, el ciervo almizclero y más de 114 especies de aves. La presencia de glaciares, picos nevados de Gauri Parbat y Rataban, y arroyos cristalinos añaden a la belleza etérea del valle. Cerca de Hemkund Sahib, un sitio de peregrinación sij situado a 4,632 metros junto a un lago glacial prístino, es una excelente adición a tu viaje.",
+      "heading3": "Planificando tu visita",
+      "para3": "El tiempo es crucial para una visita al Valle de las Flores. El mejor período es de mediados de julio a mediados de agosto cuando la máxima variedad de flores está en flor. Septiembre ofrece menos flores pero cielos más claros y mejores vistas de montaña. Se requieren permisos y están disponibles en Ghangaria. El valle no permite acampar, por lo que necesitarás basarte en Ghangaria donde hay alojamiento básico pero cómodo disponible. Empaca ropa abrigada, equipo para la lluvia, buenos zapatos de trekking y una cámara con baterías extra. El clima puede ser impredecible con lluvias repentinas. La aclimatación es importante: pasa un día en Ghangaria antes de intentar la caminata del valle. Recuerda, estás visitando un parque nacional protegido, así que mantén la disciplina del sendero, lleva de vuelta todos los desechos y no recojas flores ni molestes a la vida silvestre. Este ecosistema prístino se ha conservado durante millones de años, y es nuestra responsabilidad mantenerlo así para las generaciones futuras."
+    },
+    "corbett": {
+      "heading1": "El parque nacional y reserva de tigres más antiguo de la India",
+      "para1": "Establecido en 1936 como Parque Nacional Hailey y posteriormente renombrado en honor al legendario cazador convertido en conservacionista Jim Corbett, este parque tiene la distinción de ser el primer parque nacional de la India y desempeñó un papel fundamental en el lanzamiento del Proyecto Tigre en 1973. Distribuido en 520 kilómetros cuadrados en el distrito de Nainital de Uttarakhand, el parque abarca diversos paisajes que incluyen colinas, cinturones ribereños, depresiones pantanosas, pastizales y grandes áreas lacustres. El río Ramganga que fluye a través de la reserva añade a su belleza escénica y proporciona fuentes de agua cruciales para la rica vida silvestre. Hogar de más de 215 especies de aves, el parque es un paraíso para los observadores de aves. Los densos bosques de Sal y los pastizales albergan no solo al majestuoso tigre de Bengala sino también elefantes, leopardos, osos perezosos, cocodrilos y más de 600 especies de plantas, lo que lo convierte en una de las áreas protegidas más biodiversas de la India.",
+      "heading2": "Zonas de safari y experiencias de vida silvestre",
+      "para2": "El parque se divide en cinco zonas: Dhikala, Bijrani, Jhirna, Domunda y Durgadevi, cada una ofreciendo experiencias únicas de observación de vida silvestre. Dhikala, la zona central, ofrece la experiencia más inmersiva con estadías nocturnas posibles en casas de descanso forestales, donde puedes escuchar los sonidos salvajes por la noche. La zona de Bijrani es conocida por su alta probabilidad de avistamiento de tigres, mientras que Jhirna permanece abierta durante todo el año, lo que la hace ideal para visitas fuera de temporada. Las opciones de safari incluyen safaris en jeep y, en Dhikala, el único safari en canter (autobús). Los safaris temprano en la mañana y por la tarde ofrecen la mejor oportunidad de avistar vida silvestre cuando los animales están más activos. El parque está cerrado durante la temporada de monzones (mediados de junio a mediados de noviembre) excepto por la zona de Jhirna. Más allá de los safaris, puedes disfrutar de paseos en elefante, visitar el templo Garjia Devi situado en una gran roca en el río Kosi o hacer rafting en el río Kosi. La rica avifauna del parque lo convierte en un destino durante todo el año para los entusiastas de las aves, con especies migratorias que se suman a las aves residentes durante el invierno. Alojarse en uno de los albergues forestales o resorts cercanos completa la experiencia salvaje, ofreciendo una mezcla perfecta de aventura y comodidad."
+    },
+    "auli": {
+      "heading1": "La capital del esquí de la India",
+      "para1": "Situada a una altitud de 2,500 a 3,050 metros en el distrito de Chamoli, Auli es el destino de esquí premier de la India y uno de los mejores de Asia. El nombre 'Auli' significa prado, y este destino de gran altitud hace honor a su nombre con extensas laderas cubiertas de nieve durante el invierno y exuberantes prados verdes en verano. Lo que distingue a Auli son sus laderas perfectamente posicionadas que ofrecen condiciones ideales para esquiar, desde laderas suaves para principiantes hasta pistas desafiantes para esquiadores avanzados. Las vistas panorámicas de algunos de los picos más altos del Himalaya indio: Nanda Devi (7,816 m), Kamet (7,756 m), Mana Parvat (7,272 m) y Dunagiri (7,066 m) crean un telón de fondo impresionante para tu aventura de esquí. Durante el invierno (diciembre a febrero), cuando las laderas están cubiertas de nieve prístina y espesa, Auli se transforma en un paraíso de deportes de invierno. La Escuela de Guerra de Alta Altitud del Ejército Indio también realiza entrenamientos aquí, testimonio de las excelentes condiciones de esquí.",
+      "heading2": "Más allá del esquí: paraíso montañoso durante todo el año",
+      "para2": "Mientras que el invierno trae entusiastas del esquí, Auli es un destino durante todo el año con diferentes encantos en cada estación. Uno de los teleféricos más largos de Asia (4 kilómetros) conecta Auli con Joshimath, ofreciendo espectaculares vistas aéreas de los valles, huertos de manzanas y picos nevados. El viaje en teleférico en sí es una experiencia inolvidable. Durante el verano y el monzón, Auli se transforma en un paraíso para los excursionistas con senderos que conducen a Gurso Bugyal, un pintoresco prado que ofrece vistas de montaña de 360 grados, y Chattrakund, un lago prístino envuelto en misterio y mitología. El lago artificial de Auli, uno de los lagos artificiales más altos del mundo, fue creado para proporcionar nieve artificial en las laderas y añade a la belleza del área. Los buscadores de aventura pueden probar el viaje en telesilla, acampar bajo las estrellas o simplemente disfrutar de la atmósfera serena de la montaña. El cercano lago Chenab (justo antes de Auli) ofrece un lugar tranquilo para la contemplación. Auli también sirve como base para la caminata al Valle de las Flores y Hemkund Sahib. El área está salpicada de bosques de robles y coníferas, añadiendo a su belleza natural y ofreciendo oportunidades para paseos por la naturaleza y observación de aves."
+    }
+}

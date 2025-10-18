@@ -152,10 +152,10 @@ export default function Overview({ id }: OverviewProps) {
                   ))}
                 </ul>
                 <div className="flex flex-wrap gap-4">
-                  <div className="px-3 py-1 rounded-full text-xs md:text-sm bg-gray-100 dark:bg-gray-800">
+                  <div className="px-3 py-1 rounded-full text-xs md:text-sm bg-gray-100 dark:bg-gray-900">
                     <span className="font-medium">{t("stay")}:</span> {day.stay}
                   </div>
-                  <div className="px-3 py-1 rounded-full text-xs md:text-sm bg-gray-100 dark:bg-gray-800">
+                  <div className="px-3 py-1 rounded-full text-xs md:text-sm bg-gray-100 dark:bg-gray-900">
                     <span className="font-medium">{t("meals")}:</span>{" "}
                     {day.meals}
                   </div>

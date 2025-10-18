@@ -17,7 +17,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         break;
       case "secondary":
         variantClasses =
-          "bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600";
+          "bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-900 dark:text-white dark:hover:bg-gray-600";
         break;
       case "ghost":
         variantClasses =

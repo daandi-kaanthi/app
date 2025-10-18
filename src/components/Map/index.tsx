@@ -399,11 +399,11 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
   useEffect(() => {
     if (!mapRef.current) return;
     const streetView = mapRef.current.getStreetView();
-    
+
     const visibilityListener = streetView.addListener("visible_changed", () => {
       const isVisible = streetView.getVisible();
       setIsStreetViewActive(isVisible);
-      
+
       if (isVisible) {
         closeInfoWindow();
         // Push a state to history when Street View opens
@@ -415,7 +415,7 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
         }
       }
     });
-    
+
     // Handle browser back button
     const handlePopState = (event: PopStateEvent) => {
       if (streetView.getVisible()) {
@@ -424,25 +424,24 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
         event.preventDefault();
       }
     };
-    
+
     window.addEventListener("popstate", handlePopState);
-    
+
     return () => {
       visibilityListener.remove();
       window.removeEventListener("popstate", handlePopState);
     };
   }, [mapRef.current, closeInfoWindow]);
-  
+
   if (!isLoaded)
     return (
-      <div>
+      <div className="flex items-center justify-center w-full h-screen">
         <LoaderOne />
       </div>
     );
 
-    
   return (
-    <div className={`relative w-full h-screen z-1`}>
+    <div className={`relative w-full  z-1`}>
       {clickedPosition && (
         <div className="absolute inset-0 z-10 bg-transparent pointer-events-none" />
       )}
