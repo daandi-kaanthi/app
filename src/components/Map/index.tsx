@@ -433,6 +433,41 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
     };
   }, [mapRef.current, closeInfoWindow]);
 
+  // Street View listener with custom positioning
+  useEffect(() => {
+    if (!mapRef.current) return;
+
+    const streetView = mapRef.current.getStreetView();
+    
+    // Configure Street View options
+    streetView.setOptions({
+
+      addressControl: true,
+      addressControlOptions: {
+        position: 10,
+      },
+      fullscreenControl: true,
+      fullscreenControlOptions: {
+        position:4
+      },
+      zoomControl:true,
+      zoomControlOptions:{
+        position:8
+      },
+      panControlOptions:{
+        position:4
+      }
+    });
+    
+    const listener = streetView.addListener("visible_changed", () => {
+      const isVisible = streetView.getVisible();
+      if (isVisible) {
+        closeInfoWindow();
+      }
+    });
+
+    return () => listener.remove();
+  }, [mapRef.current, closeInfoWindow]);
   if (!isLoaded)
     return (
       <div className="flex items-center justify-center w-full h-screen">
