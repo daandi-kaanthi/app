@@ -10,6 +10,7 @@ import {
   Marker,
   InfoWindow,
   useJsApiLoader,
+  MarkerClusterer,
 } from "@react-google-maps/api";
 import type { ITravelPackage } from "../../redux/slices/Travel/TravelSlice";
 import MapAutocomplete from "./MapSearch";
@@ -561,7 +562,7 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={mapCenter}
-        zoom={7}
+        zoom={4}
         onLoad={(map) => {
           setMapInstance(map);
           mapRef.current = map;
@@ -594,6 +595,20 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
             onClick={() => handleMarkerClick(pkg)}
           />
         ))}
+             <MarkerClusterer >
+          {(clusterer) => (
+            <>
+              {packagesWithGeo.map((pkg) => (
+                <Marker
+                  key={pkg.id}
+                  position={{ lat: pkg.geoLocation![0], lng: pkg.geoLocation![1] }}
+                  onClick={() => handleMarkerClick(pkg)}
+                  clusterer={clusterer}
+                />
+              ))}
+            </>
+          )}
+        </MarkerClusterer>
         {searchedLocation && (
           <Marker
             key="searched-location"
