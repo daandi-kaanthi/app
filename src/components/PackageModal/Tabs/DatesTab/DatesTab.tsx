@@ -1,6 +1,6 @@
 import { DateAvailabilityDisplay } from "./DateAvailability";
-import { useSelectedTravelPackage } from "../../../redux/slices/Travel/TravelSlice";
-import { type AppDispatch } from "../../../redux/store";
+import { useSelectedTravelPackage } from "../../../../redux/slices/Travel/TravelSlice";
+import { type AppDispatch } from "../../../../redux/store";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { InfoIcon } from "lucide-react";

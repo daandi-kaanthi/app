@@ -173,7 +173,8 @@
   "sidebar": {
     "dashboard": "Tablero",
     "blogs": "Blogs",
-    "about": "Sobre Nosotros"
+    "about": "Sobre Nosotros",
+    "profile":"Profile"
   },
   "privatePackageInterestTitle": "Paquetes de trekking privados disponibles",
   "privatePackageInterest": "¿Interesado en un paquete privado? Complete el formulario a continuación.",

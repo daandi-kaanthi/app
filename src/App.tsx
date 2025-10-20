@@ -1,7 +1,12 @@
 "use client";
 import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
-import { BookAudio, LayoutDashboardIcon, MapPin } from "lucide-react";
+import {
+  BookAudio,
+  LayoutDashboardIcon,
+  MapPin,
+  User2Icon,
+} from "lucide-react";
 
 import { Sidebar, SidebarBody, SidebarLink } from "./components/ui/Sidebar";
 import ThemeToggle from "./layout/ThemeToggle";
@@ -14,9 +19,10 @@ import BlogsPage from "./pages/BlogPage/BlogsPage";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import { useTranslation } from "react-i18next";
+import ProfilePage from "./pages/Profile";
 
 export function App() {
-  const {t}=useTranslation()
+  const { t } = useTranslation();
   const links = [
     {
       label: t("sidebar.dashboard", "Dashboard"),
@@ -39,6 +45,13 @@ export function App() {
         <MapPin className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
     },
+    {
+      label: t("sidebar.profile", "My Profile"),
+      href: "/profile",
+      icon: (
+        <User2Icon className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+      ),
+    },
     // {
     //   label: "Settings",
     //   href: "#",
@@ -58,11 +71,11 @@ export function App() {
   return (
     <div
       className={cn(
-        "mx-auto flex w-full  flex-1 flex-col overflow-hidden border border-neutral-200 bg-white md:flex-row dark:border-neutral-700 dark:bg-black h-[100vh]",
+        "mx-auto flex w-full flex-1 flex-col overflow-hidden md:flex-row h-[100vh]"
       )}
     >
       <Sidebar open={open} setOpen={setOpen}>
-      <SidebarBody className="justify-between gap-10 h-[100vh]">
+        <SidebarBody className="justify-between gap-10 h-[100vh]">
           <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
             {open ? (
               <HomeLogo />
@@ -95,11 +108,12 @@ export function App() {
           </div>
         </SidebarBody>
         <div className="flex flex-1">
-          <div className="flex  w-full flex-1 flex-col  border border-neutral-200 dark:border-neutral-700 dark:bg-neutral-900">
+          <div className="flex  w-full flex-1 flex-col dark:bg-neutral-950 text-black dark:text-white ">
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/blogs" element={<BlogsPage />} />
               <Route path="/about" element={<AboutPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
               <Route path="*" element={<HomePage />} />
             </Routes>
           </div>

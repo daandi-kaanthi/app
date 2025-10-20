@@ -6,9 +6,9 @@ import {
   MountainSnow,
   Flag,
 } from "lucide-react";
-import { useSelectedTravelPackage } from "../../../redux/slices/Travel/TravelSlice";
+import { useSelectedTravelPackage } from "../../../../redux/slices/Travel/TravelSlice";
 import { useTranslation } from "react-i18next";
-import { Timeline } from "./Information/Timeline";
+import { Timeline } from "./Timeline";
 
 // 🔹 Default shared sections for all itineraries
 const defaultInclusions = [

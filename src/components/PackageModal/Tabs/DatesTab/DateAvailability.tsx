@@ -1,7 +1,7 @@
 // utils/dateCurrency.ts
-import { type DateAvailability } from "../../../redux/slices/Travel/TravelSlice";
+import { type DateAvailability } from "../../../../redux/slices/Travel/TravelSlice";
 import { useTranslation } from "react-i18next";
-import { WhatsAppMessageButton } from "../../ui/Button/WhatsAppMessageButton";
+import { WhatsAppMessageButton } from "../../../ui/Button/WhatsAppMessageButton";
 
 // ---------------------------
 // Utility Functions

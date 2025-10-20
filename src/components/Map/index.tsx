@@ -16,7 +16,7 @@ import type { ITravelPackage } from "../../redux/slices/Travel/TravelSlice";
 import MapAutocomplete from "./MapSearch";
 import MapCard from "../Card/MapCard";
 import { LoaderOne } from "../ui/Text/Loader";
-import ContactDialog from "../ui/Dialog/ContactDialog";
+import ContactDialog from "../ui/Dialog/SignUpForm";
 
 // Dark map style fallback
 const DARK_MAP_STYLE = [

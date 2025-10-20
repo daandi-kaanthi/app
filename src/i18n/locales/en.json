@@ -173,7 +173,8 @@
   "sidebar": {
     "dashboard": "Dashboard",
     "blogs": "Blogs",
-    "about": "About Us"
+    "about": "About Us",
+    "profile":"Profile"
   },
   "privatePackageInterestTitle": "Private Trek Packages Available",
   "privatePackageInterest": "Interested in a private package? Fill out the form below.",

@@ -97,16 +97,18 @@ export default function AboutPage() {
             {t("timeline.difference.content1")}
           </p>
           <div className="mb-8 italic">
-            {(t("timeline.difference.points", { returnObjects: true }) as string[]).map(
-              (point: string, idx: number) => (
-                <div
-                  key={idx}
-                  className="flex items-center gap-2 text-base text-neutral-700 dark:text-neutral-300"
-                >
-                  ✅ {point}
-                </div>
-              )
-            )}
+            {(
+              t("timeline.difference.points", {
+                returnObjects: true,
+              }) as string[]
+            ).map((point: string, idx: number) => (
+              <div
+                key={idx}
+                className="flex items-center gap-2 text-base text-neutral-700 dark:text-neutral-300"
+              >
+                ✅ {point}
+              </div>
+            ))}
           </div>
         </div>
       ),
@@ -190,12 +192,8 @@ export default function AboutPage() {
   ];
 
   return (
-    <div>
-      <div className="relative w-full z-1">
-        <div className="overflow-auto max-h-screen">
-          <Timeline data={data} />
-        </div>
-      </div>
+    <div className="overflow-auto max-h-screen">
+      <Timeline data={data} />
     </div>
   );
 }

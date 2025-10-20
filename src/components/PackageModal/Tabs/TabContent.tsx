@@ -1,9 +1,9 @@
 import { motion } from "motion/react";
 import { useRef } from "react";
-import Overview from "./OverviewTab";
-import { MediaTabs } from "./MediaTab";
+import Overview from "./OverViewTab/OverviewTab";
+import { MediaTabs } from "./MediaTab/MediaTab";
 // import { AiTab } from "./AiTab";
-import { DatesTab } from "./DatesTab";
+import { DatesTab } from "./DatesTab/DatesTab";
 
 interface TabContentProps {
   activeTab: number;

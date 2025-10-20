@@ -21,7 +21,7 @@ export function BlogsPage() {
   ));
 
   return (
-    <div className="w-full h-full py-20 z-5 space-y-2 bg-white dark:bg-neutral-950">
+    <div className="w-full h-full py-20 z-5 space-y-2 overflow-auto max-h-screen ">
       <h2 className="max-w-7xl pl-4 mx-auto text-2xl md:text-4xl font-bold text-neutral-800 dark:text-neutral-200 font-sans">
         {t("blogs.heading", "Discover the Wonders of Uttarakhand")}
       </h2>

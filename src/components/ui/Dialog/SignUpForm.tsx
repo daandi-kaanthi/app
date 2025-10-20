@@ -12,7 +12,7 @@ interface ContactDialogProps {
   onSubmit: (data: { name: string; email: string; message: string }) => void;
 }
 
-const ContactDialog: React.FC<ContactDialogProps> = ({
+const SignUpDialog: React.FC<ContactDialogProps> = ({
   open,
   onClose,
   onSubmit,
@@ -62,7 +62,7 @@ const ContactDialog: React.FC<ContactDialogProps> = ({
             </div>
 
             {/* Move form outside */}
-            <ContactForm onSubmit={handleFormSubmit} t={t} />
+            <SignUpForm onSubmit={handleFormSubmit} t={t} />
           </motion.div>
         </motion.div>
       )}
@@ -75,7 +75,7 @@ interface ContactFormProps {
   t: (key: string) => string;
 }
 
-export const ContactForm: React.FC<ContactFormProps> = ({ onSubmit, t }) => {
+export const SignUpForm: React.FC<ContactFormProps> = ({ onSubmit, t }) => {
   return (
     <form className="space-y-4" onSubmit={onSubmit}>
       <div>
@@ -124,4 +124,4 @@ export const ContactForm: React.FC<ContactFormProps> = ({ onSubmit, t }) => {
   );
 };
 
-export default ContactDialog;
+export default SignUpDialog;

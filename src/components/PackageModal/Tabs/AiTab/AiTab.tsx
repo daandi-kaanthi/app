@@ -1,8 +1,8 @@
-import { Description } from "../../ui/Text/Description";
+import { Description } from "../../../ui/Text/Description";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 // import { useSelectedTravelPackage } from "../../../redux/slices/Travel/TravelSlice";
-import type { AppDispatch } from "../../../redux/store";
+import type { AppDispatch } from "../../../../redux/store";
 import { useTranslation } from "react-i18next";
 
 interface AiTabProps {

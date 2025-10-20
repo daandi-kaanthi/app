@@ -2,8 +2,8 @@ import { useState } from "react";
 import {
   DraggableCardBody,
   DraggableCardContainer,
-} from "../../Card/DraggableCard";
-import { useSelectedTravelPackage } from "../../../redux/slices/Travel/TravelSlice";
+} from "../../../Card/DraggableCard";
+import { useSelectedTravelPackage } from "../../../../redux/slices/Travel/TravelSlice";
 import { useTranslation } from "react-i18next";
 
 interface MediaTabsProps {
