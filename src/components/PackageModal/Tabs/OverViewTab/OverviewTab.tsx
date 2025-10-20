@@ -9,6 +9,7 @@ import {
 import { useSelectedTravelPackage } from "../../../../redux/slices/Travel/TravelSlice";
 import { useTranslation } from "react-i18next";
 import { Timeline } from "./Timeline";
+import SinglePackageStreetView from "../../../Map/SinglePackageStreetView";
 
 // 🔹 Default shared sections for all itineraries
 const defaultInclusions = [
@@ -64,11 +65,13 @@ export default function Overview({ id }: OverviewProps) {
         content: (
           <div>
             <div className="flex justify-center mb-6">
-              <img
-                src={travelPackage.image}
-                alt={`${t("photos")} ${travelPackage.title}`}
-                className="pointer-events-none h-80 w-80 object-cover rounded-2xl shadow-lg"
-              />
+                  <SinglePackageStreetView
+        pkg={{
+          id:id,
+          name: travelPackage?.title || "Delhi",
+          geoLocation: travelPackage?.geoLocation || [28.6139, 77.209],
+        }}
+      />
             </div>
             <p className="mb-6 text-sm md:text-lg leading-relaxed">
               {travelPackage.overview?.description}
