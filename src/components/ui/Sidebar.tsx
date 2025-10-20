@@ -5,6 +5,7 @@ import { MenuIcon, X } from "lucide-react";
 import { cn } from "../../lib/utils";
 import HomeLogo from "../../layout/Logo";
 import { useNavigate } from "react-router-dom";
+import LanguageDropdown from "../../layout/languageSelector";
 
 interface Links {
   label: string;
@@ -116,12 +117,13 @@ export const MobileSidebar = ({
     <>
       <div
         className={cn(
-          "h-10 px-4 py-4 flex flex-row md:hidden z-10 items-center justify-between bg-white dark:bg-black w-full"
+          "h-12 px-4 py-4 flex flex-row md:hidden z-10 items-center justify-between bg-white dark:bg-black w-full"
         )}
         {...props}
       >
         <HomeLogo/>
-        <div className="flex justify-end z-20 w-full">
+        <div className="flex justify-end z-20 w-full items-center gap-2">
+          <LanguageDropdown/>
           <MenuIcon
             className="text-neutral-800 dark:text-neutral-200"
             onClick={() => setOpen(!open)}

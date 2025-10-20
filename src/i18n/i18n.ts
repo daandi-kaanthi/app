@@ -11,8 +11,16 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    resources: { en: { translation: en }, hi: { translation: hi }, es: { translation: es } },
-    fallbackLng: "hi",
+    resources: {
+      en: { translation: en },
+      hi: { translation: hi },
+      es: { translation: es },
+    },
+    fallbackLng: "hi", // ✅ Default Hindi only when no saved language
+    detection: {
+      order: ['localStorage', 'navigator'], // ✅ check saved language first
+      caches: ['localStorage'], // ✅ save user choice
+    },
     interpolation: { escapeValue: false },
   });
 

@@ -5,6 +5,7 @@ import {
 } from "../../../Card/DraggableCard";
 import { useSelectedTravelPackage } from "../../../../redux/slices/Travel/TravelSlice";
 import { useTranslation } from "react-i18next";
+import SinglePackageStreetView from "../../../Map/SinglePackageStreetView";
 
 interface MediaTabsProps {
   id: string;
@@ -19,7 +20,7 @@ export const MediaTabs = ({ id }: MediaTabsProps) => {
   if (!selectedTravelPackage) {
     return (
       <div className="flex h-[60vh] w-full items-center justify-center text-lg text-neutral-500">
-        { t("noPackage")}
+        {t("noPackage")}
       </div>
     );
   }
@@ -50,7 +51,7 @@ export const MediaTabs = ({ id }: MediaTabsProps) => {
               : "bg-neutral-200 text-neutral-700 hover:bg-neutral-300"
           }`}
         >
-         { t("photos")}
+          {t("photos")}
         </button>
         <button
           onClick={() => setActiveTab("videos")}
@@ -60,15 +61,21 @@ export const MediaTabs = ({ id }: MediaTabsProps) => {
               : "bg-neutral-200 text-neutral-700 hover:bg-neutral-300"
           }`}
         >
-          { t("videos")}
+          {t("videos")}
         </button>
       </div>
-
+      <SinglePackageStreetView
+        pkg={{
+          id: id,
+          name: selectedTravelPackage?.title || "Delhi",
+          geoLocation: selectedTravelPackage?.geoLocation || [28.6139, 77.209],
+        }}
+      />
       {/* Media Display */}
       <DraggableCardContainer className="relative flex w-full items-center justify-center overflow-clip min-h-[70vh]">
         {mediaItems.length === 0 ? (
           <div className="text-neutral-500 text-lg">
-            {activeTab == "photos" ?   t("noPhotos") : t("noVideos")}
+            {activeTab == "photos" ? t("noPhotos") : t("noVideos")}
           </div>
         ) : (
           mediaItems.map((src: string, index: number) => (

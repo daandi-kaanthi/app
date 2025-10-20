@@ -9,13 +9,11 @@ import {
   GoogleMap,
   Marker,
   InfoWindow,
-  useJsApiLoader,
   MarkerClusterer,
 } from "@react-google-maps/api";
 import type { ITravelPackage } from "../../redux/slices/Travel/TravelSlice";
 import MapAutocomplete from "./MapSearch";
 import MapCard from "../Card/MapCard";
-import { LoaderOne } from "../ui/Text/Loader";
 import ContactDialog from "../ui/Dialog/SignUpForm";
 
 // Dark map style fallback
@@ -72,11 +70,6 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
   const animationTimeoutRef = useRef<any | null>(null);
   const [isStreetViewActive, setIsStreetViewActive] = useState(false);
 
-  // Load Google Maps API
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
-    libraries: ["places"],
-  });
 
   // Observe dark mode
   useEffect(() => {
@@ -293,6 +286,9 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
 
       const lat = e.latLng.lat();
       const lng = e.latLng.lng();
+
+      console.log(lat,lng);
+      
 
       // Find nearest package
       const { package: nearest } = findNearestPackage(lat, lng);
@@ -543,12 +539,7 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
     return () => observer.disconnect();
   }, [isDarkMode, clickedPosition]);
 
-  if (!isLoaded)
-    return (
-      <div className="flex items-center justify-center w-full h-screen">
-        <LoaderOne />
-      </div>
-    );
+
 
   return (
     <div className={`relative w-full  z-1`}>
@@ -558,6 +549,7 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
       {!isStreetViewActive && (
         <MapAutocomplete onPlaceSelect={handlePlaceSelect} />
       )}
+
 
       <GoogleMap
         mapContainerStyle={containerStyle}
@@ -586,6 +578,10 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
           fullscreenControlOptions: {
             position: 4,
           },
+          mapTypeControl: true,
+          mapTypeControlOptions:{
+            position:9
+          }
         }}
       >
         {packagesWithGeo.map((pkg, i) => (

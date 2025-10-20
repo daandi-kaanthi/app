@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import PackagesMap from "../components/Map";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 // import { type AppDispatch } from "../redux/store";
 // import { fetchTravelPackagesApi } from "../redux/slices/Travel/TravelApiSlice.tsx";
 import { useOutsideClick } from "../hooks/use-outside-click";
@@ -9,6 +9,8 @@ import {
   type ITravelPackage,
 } from "../redux/slices/Travel/TravelSlice";
 import { PackageModal } from "../components/PackageModal/index.tsx";
+import { useJsApiLoader } from "@react-google-maps/api";
+import { LoaderOne } from "../components/ui/Text/Loader.tsx";
 
 const HomePage: React.FC = () => {
   const [active, setActive] = useState<ITravelPackage | null>(null);
@@ -38,15 +40,15 @@ const HomePage: React.FC = () => {
   const closeDrawer = useCallback(() => {
     if (isClosingRef.current) return;
     isClosingRef.current = true;
-    
+
     setDrawerOpen(false);
     setActive(null);
-    
+
     // Remove history state if it exists
     if (window.history.state?.modal) {
       window.history.back();
     }
-    
+
     // Reset the closing flag after a short delay
     setTimeout(() => {
       isClosingRef.current = false;
@@ -56,14 +58,14 @@ const HomePage: React.FC = () => {
   const closeModal = useCallback(() => {
     if (isClosingRef.current) return;
     isClosingRef.current = true;
-    
+
     setActive(null);
-    
+
     // Remove history state if it exists
     if (window.history.state?.modal) {
       window.history.back();
     }
-    
+
     // Reset the closing flag after a short delay
     setTimeout(() => {
       isClosingRef.current = false;
@@ -118,6 +120,19 @@ const HomePage: React.FC = () => {
   //     })
   //   );
   // }, [dispatch]);
+
+  // Load Google Maps API
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
+    libraries: ["places"],
+  });
+
+  if (!isLoaded)
+    return (
+      <div className="flex items-center justify-center w-full h-screen">
+        <LoaderOne />
+      </div>
+    );
 
   return (
     <div className="fixed inset-0 flex flex-1 flex-col md:relative">

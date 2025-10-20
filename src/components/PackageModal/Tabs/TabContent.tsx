@@ -14,19 +14,9 @@ interface TabContentProps {
 
 const TabContent: React.FC<TabContentProps> = ({
   activeTab,
-  tabs,
-  setActiveTab,
   id
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const handleDragEnd = (_: any, info: any) => {
-    const threshold = 25;
-    if (info.offset.x < -threshold && activeTab < tabs.length - 1) {
-      setActiveTab(activeTab + 1);
-    } else if (info.offset.x > threshold && activeTab > 0) {
-      setActiveTab(activeTab - 1);
-    }
-  };
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -47,10 +37,6 @@ const TabContent: React.FC<TabContentProps> = ({
     <motion.div
       ref={containerRef}
       className="flex-1 overflow-y-auto px-1 pb-4 text-black dark:text-white"
-      drag="x"
-      dragConstraints={{ left: 0, right: 0 }}
-      dragElastic={0.1}
-      onDragEnd={handleDragEnd}
     >
       {renderTabContent()}
     </motion.div>
