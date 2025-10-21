@@ -6,6 +6,7 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import en from "./locales/en.json";
 import hi from "./locales/hi.json";
 import es from "./locales/es.json";
+import mr from "./locales/mr.json";
 
 i18n
   .use(LanguageDetector)
@@ -15,11 +16,13 @@ i18n
       en: { translation: en },
       hi: { translation: hi },
       es: { translation: es },
+      mr: { translation: mr },
     },
-    fallbackLng: "hi", // ✅ Default Hindi only when no saved language
+    fallbackLng: "hi",
     detection: {
-      order: ['localStorage', 'navigator'], // ✅ check saved language first
-      caches: ['localStorage'], // ✅ save user choice
+      order: ['querystring', 'localStorage', 'navigator'], // ✅ Check URL first
+      lookupQuerystring: 'lang', // ✅ Use ?lang=en in URL
+      caches: ['localStorage'],
     },
     interpolation: { escapeValue: false },
   });

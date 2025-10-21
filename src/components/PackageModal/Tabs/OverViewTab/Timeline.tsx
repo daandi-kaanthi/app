@@ -2,10 +2,9 @@
 import { useScroll, useTransform, motion } from "motion/react";
 import React, { useEffect, useRef, useState } from "react";
 
-interface TimelineEntry {
+export interface TimelineEntry {
   content: React.ReactNode;
-  title?: string;
-  designation?: string;
+  title?: React.ReactNode;
 }
 
 export const Timeline = ({
@@ -38,32 +37,27 @@ export const Timeline = ({
   return (
     <div className="w-full font-sans md:px-4" ref={containerRef}>
       {title && (
-        <div className="max-w-7xl mx-auto py-4 px-4 md:px-8 lg:px-10">
+        <div className="max-w-7xl mx-auto py-4 px-4 md:px-8 ">
           <h2 className="text-gray-100 text-4xl mb-4 text-gray-100 dark:text-white max-w-4xl">
             {title}
           </h2>
         </div>
       )}
-      <div ref={ref} className="relative max-w-7xl mx-auto pb-20">
+      <div ref={ref} className="relative max-w-7xl mx-auto">
         {data.map((item, index) => (
-          <div key={index} className="flex justify-start mb-10">
+          <div key={index} className="flex justify-start mb-20">
             <div
               className={`${
                 item.title ? "sticky" : "hidden"
 
-              } w-[200px] flex md:flex-row z-40 items-center self-start max-w-xs lg:max-w-sm md:w-full top-20`}
+              } w-[200px] flex md:flex-row z-40 items-center self-start max-w-xs lg:max-w-sm md:w-full top-2`}
             >
               {item.title && (
                 <div className="h-10 absolute left-2 md:left-2 w-1 rounded-full bg-white dark:bg-black flex items-center justify-center">
                   <div className="h-2 w-2 rounded-full bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 p-2" />
                 </div>
               )}
-              <h3 className="block pl-7 md:text-2xl text-lg px-1 font-bold text-neutral-500 dark:text-neutral-500">
                 {item.title}
-              </h3>
-              <h3 className="block pl-6 md:text-2xl text-xl font-bold text-neutral-500 dark:text-neutral-500">
-                {item.designation}
-              </h3>
             </div>
 
             <div className="relative pl-4 md:pl-8 w-full">

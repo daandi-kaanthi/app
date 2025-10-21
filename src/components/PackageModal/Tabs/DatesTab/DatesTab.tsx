@@ -88,3 +88,5 @@ export const DatesTab = ({ id }: DatesTabProps) => {
     </div>
   );
 };
+
+export default DatesTab;

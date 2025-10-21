@@ -1,19 +1,31 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const languages = [
   { name: "English", value: "en" },
   { name: "हिंदी", value: "hi" },
-  { name: "Español", value: "es" },
+  // { name: "Español", value: "es" },
+  { name: "Marathi", value: "mr" },
 ];
 
 export const LanguageDropdown: React.FC = () => {
   const { i18n } = useTranslation();
+  const navigate = useNavigate();
+  const location = useLocation();
 
+  const changeLanguage = (lang: string) => {
+    i18n.changeLanguage(lang);
+    
+    // Update URL with new language
+    const params = new URLSearchParams(location.search);
+    params.set('lang', lang);
+    navigate(`${location.pathname}?${params.toString()}`, { replace: true });
+  };
   return (
     <select
       value={i18n.language}
-      onChange={(e) => i18n.changeLanguage(e.target.value)}
+      onChange={(e) => changeLanguage(e.target.value)}
       className="
         border-2 border-gray-300 dark:border-gray-700
         bg-white dark:bg-neutral-900

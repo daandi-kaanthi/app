@@ -1,14 +1,7 @@
-import type { ReactNode } from "react";
-import {
-  CalendarCheck,
-  MapPinned,
-  Clock9,
-  MountainSnow,
-  Flag,
-} from "lucide-react";
+import { CalendarCheck, MapPinned, Clock9, MountainSnow } from "lucide-react";
 import { useSelectedTravelPackage } from "../../../../redux/slices/Travel/TravelSlice";
 import { useTranslation } from "react-i18next";
-import { Timeline } from "./Timeline";
+import { Timeline, type TimelineEntry } from "./Timeline";
 import SinglePackageStreetView from "../../../Map/SinglePackageStreetView";
 
 // 🔹 Default shared sections for all itineraries
@@ -25,7 +18,7 @@ const defaultExclusions = [
   "Personal expenses (snacks, shopping, tips)",
   "Lunch Not Included",
   "Travel insurance",
-  "Anything not mentioned under “Inclusions”",
+  `nything not mentioned under "Inclusions"`,
 ];
 
 const defaultWhyChooseUs = [
@@ -40,38 +33,32 @@ const defaultContact = {
   website: "www.daandikaanthi.com",
 };
 
-type TimelineItem = {
-  title: string;
-  content: ReactNode;
-};
-
 interface OverviewProps {
   id: string;
 }
+
 export default function Overview({ id }: OverviewProps) {
-  // ✅ Get the selected travel package with translations applied
   const travelPackage = useSelectedTravelPackage(id);
-
-  if (!travelPackage) {
-    return <div>No package found</div>; // or a skeleton loader
-  }
-
   const { t } = useTranslation();
 
-  const formatTravelPackageData = (): TimelineItem[] => {
+
+  if (!travelPackage) {
+    return <div>No package found</div>;
+  }
+  const formatTravelPackageData = (): TimelineEntry[] => {
     return [
       {
         title: "",
         content: (
           <div>
             <div className="flex justify-center mb-6">
-                  <SinglePackageStreetView
-        pkg={{
-          id:id,
-          name: travelPackage?.title || "Delhi",
-          geoLocation: travelPackage?.geoLocation || [28.6139, 77.209],
-        }}
-      />
+              <SinglePackageStreetView
+                pkg={{
+                  id: id,
+                  name: travelPackage?.title || "Delhi",
+                  geoLocation: travelPackage?.geoLocation || [28.6139, 77.209],
+                }}
+              />
             </div>
             <p className="mb-6 text-sm md:text-lg leading-relaxed">
               {travelPackage.overview?.description}
@@ -130,46 +117,11 @@ export default function Overview({ id }: OverviewProps) {
         ),
       },
       {
-        title: t("dayWiseItinerary"),
-        content: (
-          <div>
-            {travelPackage.days?.map((day, index) => (
-              <div
-                key={index}
-                className="mb-8 pb-8 border-b border-gray-200 last:border-0"
-              >
-                <div className="flex items-center gap-4 mb-4">
-                  <Flag className="text-red-500 h-10 w-10 md:h-12 md:w-12" />
-                  <h3 className="text-base md:text-xl font-bold mb-2">
-                    {t("day")} {day.day}: {day.title}
-                  </h3>
-                </div>
-                <ul className="list-disc pl-5 mb-4 space-y-2">
-                  {day.activities.map((activity, i) => (
-                    <li
-                      key={i}
-                      className="text-sm md:text-base leading-relaxed"
-                    >
-                      {activity}
-                    </li>
-                  ))}
-                </ul>
-                <div className="flex flex-wrap gap-4">
-                  <div className="px-3 py-1 rounded-full text-xs md:text-sm bg-gray-100 dark:bg-gray-900">
-                    <span className="font-medium">{t("stay")}:</span> {day.stay}
-                  </div>
-                  <div className="px-3 py-1 rounded-full text-xs md:text-sm bg-gray-100 dark:bg-gray-900">
-                    <span className="font-medium">{t("meals")}:</span>{" "}
-                    {day.meals}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+        title: (
+          <h3 className="block pl-7 md:text-2xl text-lg px-1 font-bold text-neutral-500 dark:text-neutral-500">
+            {t("tourInclusions")}
+          </h3>
         ),
-      },
-      {
-        title: t("tourInclusions"),
         content: (
           <ul className="space-y-2">
             {defaultInclusions.map((item, index) => (
@@ -184,7 +136,11 @@ export default function Overview({ id }: OverviewProps) {
         ),
       },
       {
-        title: t("tourExclusions"),
+        title: (
+          <h3 className="block pl-7 md:text-2xl text-lg px-1 font-bold text-neutral-500 dark:text-neutral-500">
+            {t("tourExclusions")}
+          </h3>
+        ),
         content: (
           <ul className="space-y-2">
             {defaultExclusions.map((item, index) => (
@@ -199,7 +155,11 @@ export default function Overview({ id }: OverviewProps) {
         ),
       },
       {
-        title: t("whyChooseUs"),
+        title: (
+          <h3 className="block pl-7 md:text-2xl text-lg px-1 font-bold text-neutral-500 dark:text-neutral-500">
+            {t("whyChooseUs")}
+          </h3>
+        ),
         content: (
           <ul className="space-y-2">
             {defaultWhyChooseUs.map((item, index) => (
@@ -214,7 +174,11 @@ export default function Overview({ id }: OverviewProps) {
         ),
       },
       {
-        title: t("bookAdventure"),
+        title: (
+          <h3 className="block pl-7 md:text-2xl text-lg px-1 font-bold text-neutral-500 dark:text-neutral-500">
+            {t("bookAdventure")}
+          </h3>
+        ),
         content: (
           <div className="rounded-lg">
             <h3 className="text-base md:text-xl font-bold mb-4">
@@ -261,7 +225,7 @@ export default function Overview({ id }: OverviewProps) {
   };
 
   return (
-    <div className="mx-auto px-3 md:px-8 ">
+    <div className="mx-auto px-3 md:px-8">
       <Timeline data={formatTravelPackageData()} />
     </div>
   );

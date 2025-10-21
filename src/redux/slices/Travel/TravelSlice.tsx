@@ -4,12 +4,12 @@ import { useSelector } from 'react-redux';
 import { generateFutureDatesDynamic } from './dateGenerator';
 import { mockTravelPackages } from './PackagesData';
 
-
 export interface ITravelPackage {
   id: string;
   image: string;
   geoLocation: number[]
   dateAvailabilities?: DateAvailability[];
+  days?: DayLocation[];
   images?: string[];
   videos?: IVideosResponse | any;
   travelType?: string
@@ -25,7 +25,7 @@ export interface TravelPackageTranslation {
   subtitle?: string;
   overview?: Overview;
   activities?: string[];
-  days?: Day[];
+  days?: DayActivity[];
 }
 
 export interface IVideoItem {
@@ -50,7 +50,7 @@ export interface DateAvailability {
   travelPackageId?: string;
 }
 
-interface Day {
+export interface DayActivity {
   day: number;
   title: string;
   activities: string[];
@@ -58,6 +58,10 @@ interface Day {
   meals: string;
 }
 
+export interface DayLocation {
+  day: number;
+  location: { lat: number; lng: number };
+}
 interface Overview {
   description: string;
   duration: string;
@@ -126,8 +130,10 @@ export const selectPackageDates = (id: string) => (state: { travelCollection: Tr
   return pkg?.dateAvailabilities ?? [];
 };
 
-export type FlattenedTravelPackage = Omit<ITravelPackage, "translations"> &
-  TravelPackageTranslation;
+export type FlattenedTravelPackage = Omit<ITravelPackage, "translations" | "days"> &
+  Omit<TravelPackageTranslation, "days"> & {
+    days?: (DayActivity & DayLocation)[];
+  };
 
 export const useSelectedTravelPackage = (id: string): FlattenedTravelPackage | undefined => {
   const { i18n } = useTranslation();
@@ -140,9 +146,20 @@ export const useSelectedTravelPackage = (id: string): FlattenedTravelPackage | u
   const lang = i18n.language as keyof typeof travelPackage.translations;
   const translation = travelPackage.translations[lang] || travelPackage.translations.en;
 
+  // ✅ Merge `days` + `locations` together properly; only include entries that have a location
+  const mergedDays = translation.days
+    ?.map((day) => {
+      const location = travelPackage.days?.find((d) => d.day === day.day)?.location;
+      if (!location) return null;
+      return { ...day, location };
+    })
+    .filter((d): d is DayActivity & DayLocation => d !== null);
+
   return {
     ...travelPackage,
     ...translation,
-  } as FlattenedTravelPackage;
+    days: mergedDays
+  };
 };
+
 

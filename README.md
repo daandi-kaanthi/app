@@ -75,3 +75,7 @@ npm run lint
 # or
 yarn lint
 ```
+
+
+
+?lang=hi at each will udpate langugae

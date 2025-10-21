@@ -1,9 +1,12 @@
 import { motion } from "motion/react";
-import { useRef } from "react";
-import Overview from "./OverViewTab/OverviewTab";
-import { MediaTabs } from "./MediaTab/MediaTab";
-// import { AiTab } from "./AiTab";
-import { DatesTab } from "./DatesTab/DatesTab";
+import { useEffect, useRef, lazy } from "react";
+import { SuspenseWrapper } from "../../common/SuspenseWrapper";
+
+// ✅ Lazy load these components
+const Overview = lazy(() => import("./OverViewTab/OverviewTab"));
+const ItineraryTab = lazy(() => import("./ItineraryTab"));
+const MediaTabs = lazy(() => import("./MediaTab/MediaTab"));
+const DatesTab = lazy(() => import("./DatesTab/DatesTab"));
 
 interface TabContentProps {
   activeTab: number;
@@ -12,24 +15,47 @@ interface TabContentProps {
   id: string;
 }
 
-const TabContent: React.FC<TabContentProps> = ({
-  activeTab,
-  id
-}) => {
+const TabContent: React.FC<TabContentProps> = ({ activeTab, id }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop = 0;
+    }
+  }, [activeTab, id]);
 
   const renderTabContent = () => {
     switch (activeTab) {
       case 0:
-        return <DatesTab id={id} />;
+        return (
+          <SuspenseWrapper>
+            <Overview id={id} />
+          </SuspenseWrapper>
+        );
       case 1:
-        return <Overview id={id} />;
+        return (
+          <SuspenseWrapper>
+            <ItineraryTab id={id} />
+          </SuspenseWrapper>
+        );
       case 2:
-        return <MediaTabs id={id} />;
-      // case 2:
-      //   return <AiTab id={id} />;
+        return (
+          <SuspenseWrapper>
+            <MediaTabs id={id} />
+          </SuspenseWrapper>
+        );
+      case 3:
+        return (
+          <SuspenseWrapper>
+            <DatesTab id={id} />
+          </SuspenseWrapper>
+        );
       default:
-        return <Overview id={id} />;
+        return (
+          <SuspenseWrapper>
+            <Overview id={id} />
+          </SuspenseWrapper>
+        );
     }
   };
 

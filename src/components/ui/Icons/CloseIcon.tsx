@@ -24,7 +24,7 @@ export const CloseIcon = () => {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="h-6 w-6 text-neutral-100 dark:text-neutral-900"
+      className="h-6 w-6 text-neutral-900 dark:text-neutral-100"
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
       <path d="M18 6l-12 12" />

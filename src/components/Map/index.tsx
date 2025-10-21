@@ -15,27 +15,11 @@ import type { ITravelPackage } from "../../redux/slices/Travel/TravelSlice";
 import MapAutocomplete from "./MapSearch";
 import MapCard from "../Card/MapCard";
 import ContactDialog from "../ui/Dialog/SignUpForm";
-
-// Dark map style fallback
-const DARK_MAP_STYLE = [
-  { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
-  { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
-  { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
-  {
-    featureType: "road",
-    elementType: "geometry",
-    stylers: [{ color: "#38414e" }],
-  },
-  {
-    featureType: "water",
-    elementType: "geometry",
-    stylers: [{ color: "#17263c" }],
-  },
-];
+import useMapStyling from "../../hooks/useMapStyling";
 
 interface PackagesMapProps {
   packages: ITravelPackage[];
-  onMarkerClick?: (packageId: string) => void;
+  onMarkerClick?: (packageId: string,packageTitle:string) => void;
   onMapClick?: (lat: number, lng: number) => void;
 }
 
@@ -59,7 +43,6 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
     lng: number;
     name: string;
   } | null>(null);
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [openContactDialog, setOpenContactDialog] = useState(false);
 
   const [mapInstance, setMapInstance] = useState<google.maps.Map | null>(null);
@@ -70,19 +53,9 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
   const animationTimeoutRef = useRef<any | null>(null);
   const [isStreetViewActive, setIsStreetViewActive] = useState(false);
 
-
-  // Observe dark mode
-  useEffect(() => {
-    const checkTheme = () =>
-      setIsDarkMode(document.documentElement.classList.contains("dark"));
-    checkTheme();
-    const observer = new MutationObserver(checkTheme);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class"],
-    });
-    return () => observer.disconnect();
-  }, []);
+  const { isDarkMode, mapStyles } = useMapStyling({ 
+    mapRef, 
+  });
 
   // Apply control background styling based on theme
   useEffect(() => {
@@ -153,18 +126,19 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
 
   // Auto-center on packages
   const mapCenter = useMemo(() => {
-    if (!packagesWithGeo.length) return { lat: 22, lng: 78 };
-    const sum = packagesWithGeo.reduce(
-      (acc, pkg) => ({
-        lat: acc.lat + pkg.geoLocation![0],
-        lng: acc.lng + pkg.geoLocation![1],
-      }),
-      { lat: 0, lng: 0 }
-    );
-    return {
-      lat: sum.lat / packagesWithGeo.length,
-      lng: sum.lng / packagesWithGeo.length,
-    };
+    // if (!packagesWithGeo.length)
+       return { lat: 24, lng: 78 };
+    // const sum = packagesWithGeo.reduce(
+    //   (acc, pkg) => ({
+    //     lat: acc.lat + pkg.geoLocation![0],
+    //     lng: acc.lng + pkg.geoLocation![1],
+    //   }),
+    //   { lat: 0, lng: 0 }
+    // );
+    // return {
+    //   lat: sum.lat / packagesWithGeo.length,
+    //   lng: sum.lng / packagesWithGeo.length,
+    // };
   }, [packagesWithGeo]);
 
   const getDistanceInKm = (
@@ -272,7 +246,7 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
 
   const handleMarkerClick = useCallback(
     (pkg: ITravelPackage) => {
-      onMarkerClick?.(pkg.id);
+      onMarkerClick?.(pkg.id,pkg.translations.en.title);
       setClickedPosition(null);
       setSearchedLocation(null);
       setNearestPackage(null);
@@ -539,8 +513,6 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
     return () => observer.disconnect();
   }, [isDarkMode, clickedPosition]);
 
-
-
   return (
     <div className={`relative w-full  z-1`}>
       {clickedPosition && (
@@ -554,14 +526,14 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={mapCenter}
-        zoom={4}
+        zoom={5}
         onLoad={(map) => {
           setMapInstance(map);
           mapRef.current = map;
         }}
         onClick={handleMapClick}
         options={{
-          styles: isDarkMode ? DARK_MAP_STYLE : [],
+          styles: isDarkMode ? mapStyles : [],
           gestureHandling: "greedy",
           disableDoubleClickZoom: true,
           draggableCursor: "pointer",

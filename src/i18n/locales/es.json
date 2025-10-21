@@ -15,6 +15,7 @@
   "viewDetails": "Ver detalles",
 
   "tabOverview": "Resumen",
+  "tabItinerary": "Itinerario",
   "tabGallery": "Galería",
   "tabAskAi": "Preguntar a la IA",
   "tabDates": "Fechas",
@@ -174,7 +175,7 @@
     "dashboard": "Tablero",
     "blogs": "Blogs",
     "about": "Sobre Nosotros",
-    "profile":"Profile"
+    "profile":"Perfil"
   },
   "privatePackageInterestTitle": "Paquetes de trekking privados disponibles",
   "privatePackageInterest": "¿Interesado en un paquete privado? Complete el formulario a continuación.",

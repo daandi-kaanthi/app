@@ -5,7 +5,6 @@ import {
 } from "../../../Card/DraggableCard";
 import { useSelectedTravelPackage } from "../../../../redux/slices/Travel/TravelSlice";
 import { useTranslation } from "react-i18next";
-import SinglePackageStreetView from "../../../Map/SinglePackageStreetView";
 
 interface MediaTabsProps {
   id: string;
@@ -64,13 +63,6 @@ export const MediaTabs = ({ id }: MediaTabsProps) => {
           {t("videos")}
         </button>
       </div>
-      <SinglePackageStreetView
-        pkg={{
-          id: id,
-          name: selectedTravelPackage?.title || "Delhi",
-          geoLocation: selectedTravelPackage?.geoLocation || [28.6139, 77.209],
-        }}
-      />
       {/* Media Display */}
       <DraggableCardContainer className="relative flex w-full items-center justify-center overflow-clip min-h-[70vh]">
         {mediaItems.length === 0 ? (
@@ -105,3 +97,5 @@ export const MediaTabs = ({ id }: MediaTabsProps) => {
     </div>
   );
 };
+
+export default MediaTabs;

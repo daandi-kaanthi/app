@@ -15,6 +15,7 @@
   "viewDetails": "विवरण देखें",
 
   "tabOverview": "सारांश",
+  "tabItinerary": "यात्रा कार्यक्रम",
   "tabGallery": "गैलरी",
   "tabAskAi": "AI से पूछें",
   "tabDates": "तिथियाँ",
@@ -172,7 +173,7 @@
     "dashboard": "डैशबोर्ड",
     "blogs": "ब्लॉग्स",
     "about": "हमारे बारे में",
-    "profile":"Profile"
+    "profile":"प्रोफ़ाइल"
   },
   "privatePackageInterestTitle": "प्राइवेट ट्रेक पैकेज उपलब्ध",
   "privatePackageInterest": "क्या आप प्राइवेट पैकेज में रुचि रखते हैं? नीचे दिया फॉर्म भरें।",

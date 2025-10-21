@@ -8,9 +8,9 @@ import {
   selectedTravelPackages,
   type ITravelPackage,
 } from "../redux/slices/Travel/TravelSlice";
-import { PackageModal } from "../components/PackageModal/index.tsx";
 import { useJsApiLoader } from "@react-google-maps/api";
 import { LoaderOne } from "../components/ui/Text/Loader.tsx";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const HomePage: React.FC = () => {
   const [active, setActive] = useState<ITravelPackage | null>(null);
@@ -21,20 +21,12 @@ const HomePage: React.FC = () => {
   const modalRef = useRef<HTMLDivElement>(null);
   const isClosingRef = useRef(false);
 
+  const navigate = useNavigate();
   const handleMarkerClick = useCallback(
-    (packageId: string) => {
-      setDrawerOpen(true);
-      // Find the full package object to pass to the modal
-      const pkg = travelPackages.travelPackages.find(
-        (p: { id: string }) => p.id === packageId
-      );
-      if (pkg) {
-        setActive(pkg);
-        // Push state to history when modal opens
-        window.history.pushState({ modal: true, packageId }, "");
-      }
+    (packageId: string,packageTitle:String) => {
+      navigate(`/package/${packageId}/${packageTitle}/overview`);
     },
-    [travelPackages]
+    [navigate]
   );
 
   const closeDrawer = useCallback(() => {
@@ -141,11 +133,7 @@ const HomePage: React.FC = () => {
         onMarkerClick={handleMarkerClick}
       />
       {/* Modal for larger screens */}
-      <PackageModal
-        ref={modalRef}
-        id={(active && active.id) || ""}
-        onClose={closeModal}
-      />
+      <Outlet />
     </div>
   );
 };

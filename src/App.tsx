@@ -1,6 +1,6 @@
 "use client";
-import { useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Route, Routes, useSearchParams } from "react-router-dom";
 import {
   BookAudio,
   LayoutDashboardIcon,
@@ -19,10 +19,13 @@ import BlogsPage from "./pages/BlogPage/BlogsPage";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import { useTranslation } from "react-i18next";
-import ProfilePage from "./pages/Profile";
+// import ProfilePage from "./pages/Profile";
+import { PackageModal } from "./components/PackageModal";
 
 export function App() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const [searchParams] = useSearchParams();
+
   const links = [
     {
       label: t("sidebar.dashboard", "Dashboard"),
@@ -67,7 +70,15 @@ export function App() {
     //   ),
     // },
   ];
+
   const [open, setOpen] = useState(false);
+  useEffect(() => {
+    const langParam = searchParams.get("lang");
+    if (langParam && ["en", "hi", "es", "mr"].includes(langParam)) {
+      i18n.changeLanguage(langParam);
+    }
+  }, [searchParams, i18n]);
+
   return (
     <div
       className={cn(
@@ -109,11 +120,15 @@ export function App() {
         </SidebarBody>
         <div className="flex flex-1">
           <div className="flex  w-full flex-1 flex-col dark:bg-neutral-950 text-black dark:text-white ">
-            <Routes>
+            <Routes location={location}>
               <Route path="/" element={<HomePage />} />
               <Route path="/blogs" element={<BlogsPage />} />
               <Route path="/about" element={<AboutPage />} />
-              <Route path="/profile" element={<ProfilePage />} />
+              {/* <Route path="/profile" element={<ProfilePage />} /> */}
+              <Route path="/package/:id/:title/:tab?" element={<HomePage />}>
+                <Route path="" element={<PackageModal />} />
+              </Route>
+
               <Route path="*" element={<HomePage />} />
             </Routes>
           </div>
