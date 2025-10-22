@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   DraggableCardBody,
   DraggableCardContainer,
@@ -14,6 +14,7 @@ export const MediaTabs = ({ id }: MediaTabsProps) => {
   const selectedTravelPackage = useSelectedTravelPackage(id);
   const [activeTab, setActiveTab] = useState<"photos" | "videos">("photos");
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const { t } = useTranslation();
 
   if (!selectedTravelPackage) {
@@ -38,8 +39,46 @@ export const MediaTabs = ({ id }: MediaTabsProps) => {
 
   const mediaItems = activeTab === "photos" ? allImages : allVideos;
 
+  // Handle browser back button for fullscreen
+  useEffect(() => {
+    const handlePopState = () => {
+      if (isFullscreen) {
+        setIsFullscreen(false);
+      }
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [isFullscreen]);
+
+  const openFullscreen = (index: number) => {
+    setActiveIndex(index);
+    setIsFullscreen(true);
+    // Push a new history state so back button can close fullscreen
+    window.history.pushState({ fullscreen: true }, "");
+  };
+
+  const closeFullscreen = () => {
+    setIsFullscreen(false);
+    // Remove the fullscreen history state so back works normally
+    if (window.history.state?.fullscreen) {
+      window.history.back();
+    }
+  };
+
+  const prevImage = () => {
+    if (activeIndex !== null) {
+      setActiveIndex((activeIndex - 1 + allImages.length) % allImages.length);
+    }
+  };
+
+  const nextImage = () => {
+    if (activeIndex !== null) {
+      setActiveIndex((activeIndex + 1) % allImages.length);
+    }
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center w-full ">
+    <div className="flex flex-col items-center justify-center w-full">
       {/* Tabs Header */}
       <div className="mb-6 flex space-x-6">
         <button
@@ -63,11 +102,12 @@ export const MediaTabs = ({ id }: MediaTabsProps) => {
           {t("videos")}
         </button>
       </div>
+
       {/* Media Display */}
       <DraggableCardContainer className="relative flex w-full items-center justify-center overflow-clip min-h-[70vh]">
         {mediaItems.length === 0 ? (
           <div className="text-neutral-500 text-lg">
-            {activeTab == "photos" ? t("noPhotos") : t("noVideos")}
+            {activeTab === "photos" ? t("noPhotos") : t("noVideos")}
           </div>
         ) : (
           mediaItems.map((src: string, index: number) => (
@@ -75,25 +115,62 @@ export const MediaTabs = ({ id }: MediaTabsProps) => {
               key={src}
               className={randomClasses[index % randomClasses.length]}
               isActive={activeIndex === index}
-              onClick={() => setActiveIndex(index)}
+              onClick={() => {
+                if (activeTab === "photos") openFullscreen(index);
+              }}
             >
               {activeTab === "photos" ? (
                 <img
                   src={src}
                   alt={`${t("photos")} -${index + 1}`}
-                  className="pointer-events-none relative z-10 h-60 w-60 object-cover rounded-2xl shadow-lg"
+                  className="pointer-events-none relative z-10 h-60 w-60 object-cover rounded-2xl shadow-lg cursor-pointer"
                 />
               ) : (
                 <video
                   src={src}
                   controls
-                  className="pointer-events-none relative z-10 h-80 w-80 object-cover rounded-2xl shadow-lg"
+                  className="relative z-10 h-80 w-80 object-cover rounded-2xl shadow-lg"
                 />
               )}
             </DraggableCardBody>
           ))
         )}
       </DraggableCardContainer>
+
+      {/* Fullscreen Gallery */}
+      {isFullscreen && activeIndex !== null && (
+        <div className="fixed inset-0 z-500 flex items-center justify-center bg-white dark:bg-black bg-opacity-90">
+          {/* Close button */}
+          <button
+            onClick={closeFullscreen}
+            className="absolute top-5 right-5 z-50 text-black dark:text-white text-3xl font-bold p-2 rounded-full hover:bg-white/20"
+          >
+            ✕
+          </button>
+
+          {/* Previous Button */}
+          <button
+            onClick={prevImage}
+            className="absolute left-5 z-50 text-black dark:text-white text-4xl font-bold p-2 rounded-full hover:bg-white/20"
+          >
+            ‹
+          </button>
+
+          {/* Next Button */}
+          <button
+            onClick={nextImage}
+            className="absolute right-5 z-50 text-black dark:text-white text-4xl font-bold p-2 rounded-full hover:bg-white/20"
+          >
+            ›
+          </button>
+
+          <img
+            src={allImages[activeIndex]}
+            alt={`Full Image - ${activeIndex + 1}`}
+            className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg shadow-xl"
+          />
+        </div>
+      )}
     </div>
   );
 };

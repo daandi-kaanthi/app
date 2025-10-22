@@ -175,7 +175,7 @@
     "dashboard": "Dashboard",
     "blogs": "Blogs",
     "about": "About Us",
-    "profile":"Profile"
+    "profile": "Profile"
   },
   "privatePackageInterestTitle": "Private Trek Packages Available",
   "privatePackageInterest": "Interested in a private package? Fill out the form below.",
@@ -186,5 +186,9 @@
   "writeMessage": "Write your message here",
   "submit": "Submit",
   "whatsappMessageCustom": "Hello! I am interested in the package at this location: {{location}}",
-  "defaultLocation": "Custom Location"
+  "defaultLocation": "Custom Location",
+
+  "currentTrip": "Current Trip",
+  "oldTrips": "Old Trips",
+  "myGallery": "My Gallery"
 }

@@ -123,9 +123,15 @@
   },
 
   "team": {
-    "himanshu": { "title": "हिमांशु जयारा", "designation": "सीईओ आणि संस्थापक" },
+    "himanshu": {
+      "title": "हिमांशु जयारा",
+      "designation": "सीईओ आणि संस्थापक"
+    },
     "divya": { "title": "दिव्या धनाई", "designation": "सीएमओ आणि सह-संस्थापक" },
-    "shubham": { "title": "शुभम कुंवर", "designation": "सीटीओ आणि सह-संस्थापक" },
+    "shubham": {
+      "title": "शुभम कुंवर",
+      "designation": "सीटीओ आणि सह-संस्थापक"
+    },
     "jayant": { "title": "जयंत भट्ट", "designation": "कायदेशीर सल्लागार" },
     "kajal": { "title": "काजल नेगी", "designation": "टूर गाइड (महिला)" },
     "yogesh": { "title": "योगेश मेहार", "designation": "टूर गाइड (पुरुष)" }
@@ -186,5 +192,9 @@
   "writeMessage": "तुमचा संदेश येथे लिहा",
   "submit": "सबमिट करा",
   "whatsappMessageCustom": "नमस्कार! मला या ठिकाणी पॅकेजमध्ये स्वारस्य आहे: {{location}}",
-  "defaultLocation": "सानुकूल स्थान"
+  "defaultLocation": "सानुकूल स्थान",
+
+  "currentTrip": "सध्याची यात्रा",
+  "oldTrips": "जुनी प्रवास",
+  "myGallery": "माझी गॅलरी"
 }

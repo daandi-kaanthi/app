@@ -5,7 +5,6 @@ import {
   BookAudio,
   LayoutDashboardIcon,
   MapPin,
-  User2Icon,
 } from "lucide-react";
 
 import { Sidebar, SidebarBody, SidebarLink } from "./components/ui/Sidebar";
@@ -21,6 +20,7 @@ import AboutPage from "./pages/AboutPage";
 import { useTranslation } from "react-i18next";
 // import ProfilePage from "./pages/Profile";
 import { PackageModal } from "./components/PackageModal";
+import ProfilePage from "./pages/Profile";
 
 export function App() {
   const { t, i18n } = useTranslation();
@@ -48,13 +48,13 @@ export function App() {
         <MapPin className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
     },
-    {
-      label: t("sidebar.profile", "My Profile"),
-      href: "/profile",
-      icon: (
-        <User2Icon className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
-      ),
-    },
+    // {
+    //   label: t("sidebar.profile", "My Profile"),
+    //   href: "/profile",
+    //   icon: (
+    //     <User2Icon className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+    //   ),
+    // },
     // {
     //   label: "Settings",
     //   href: "#",
@@ -124,11 +124,10 @@ export function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/blogs" element={<BlogsPage />} />
               <Route path="/about" element={<AboutPage />} />
-              {/* <Route path="/profile" element={<ProfilePage />} /> */}
+              <Route path="/profile" element={<ProfilePage />} />
               <Route path="/package/:id/:title/:tab?" element={<HomePage />}>
                 <Route path="" element={<PackageModal />} />
               </Route>
-
               <Route path="*" element={<HomePage />} />
             </Routes>
           </div>

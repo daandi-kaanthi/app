@@ -1,28 +1,14 @@
 "use client";
-import { useTranslation } from "react-i18next";
-import { blogs } from "./blogs";
-import { ProfileCarasoul, ProfileCard } from "../../components/Card/ProfileCard";
+import { PackageModal } from "./UserInquiries";
+import { ConenctWalletButton } from "../../components/ui/Button/ThirdwebLoginButton";
 
 export function ProfilePage() {
-  const { i18n } = useTranslation();
-  const loggedIn=false
-  
-  const cards = blogs.map((blog, index) => (
-    <ProfileCard
-      key={index}
-      card={{
-        ...blog,
-        title: blog.title[i18n.language] || blog.title.en,
-        category: blog.category[i18n.language] || blog.category.en,
-        // Pass the content as a function that receives the translation function
-      }}
-      index={index}
-    />
-  ));
 
   return (
-    <div className="overflow-auto max-h-screen ">
-        <ProfileCarasoul items={cards} loggedIn={loggedIn} />
+    <div className="overflow-auto max-h-screen py-12 px-4 md:px-8 flex flex-col gap-8 justify-center">
+        {/* <ProfileCarasoul items={cards} loggedIn={loggedIn} /> */}
+        <ConenctWalletButton/>
+        <PackageModal/>
     </div>
   );
 }

@@ -76,6 +76,6 @@ npm run lint
 yarn lint
 ```
 
-
-
 ?lang=hi at each will udpate langugae
+
+Update: Upload to s3 => cloudfront create invalidation

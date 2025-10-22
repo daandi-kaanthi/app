@@ -12,7 +12,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { cn } from "../../lib/utils";
 import { useOutsideClick } from "../../hooks/use-outside-click";
 import { CloseIcon } from "../ui/Icons/CloseIcon";
-import SignupCard from "./SignUpCard";
+import { ConenctWalletButton } from "../ui/Button/ThirdwebLoginButton";
 
 interface CarouselProps {
   items: JSX.Element[];
@@ -104,7 +104,7 @@ export const ProfileCarasoul = ({
                 ))}
               </>
             )}
-            <SignupCard loggedIn={loggedIn} />
+            <ConenctWalletButton/>
           </div>
         </div>
       </div>

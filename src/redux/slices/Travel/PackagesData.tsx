@@ -2353,6 +2353,9 @@ export const mockTravelPackages = [
       "https://skaya-bucket.s3.us-east-1.amazonaws.com/Madhyamaheshwar/Madhyamaheshwar2.jpg",
       "https://skaya-bucket.s3.us-east-1.amazonaws.com/Madhyamaheshwar/Madhyamaheshwar.jpg",
     ],
+    videos:[
+      "https://skaya-bucket.s3.us-east-1.amazonaws.com/Madhyamaheshwar/IMG_1462.MP4"
+    ],
     geoLocation: [30.62838, 79.2126],
     days: [
       { day: 1, location: { lat: 30.115, lng: 78.285 } },

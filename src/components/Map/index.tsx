@@ -127,7 +127,7 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
   // Auto-center on packages
   const mapCenter = useMemo(() => {
     // if (!packagesWithGeo.length)
-       return { lat: 24, lng: 78 };
+       return { lat: 28, lng: 80 };
     // const sum = packagesWithGeo.reduce(
     //   (acc, pkg) => ({
     //     lat: acc.lat + pkg.geoLocation![0],
