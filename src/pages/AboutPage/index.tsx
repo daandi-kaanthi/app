@@ -192,7 +192,7 @@ export default function AboutPage() {
   ];
 
   return (
-    <div className="overflow-auto max-h-screen">
+    <div>
       <Timeline data={data} />
     </div>
   );

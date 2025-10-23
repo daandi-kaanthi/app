@@ -1,11 +1,13 @@
 import { configureStore, type ThunkAction, type Action } from '@reduxjs/toolkit'
 // import logger from 'redux-logger'
 import TravelSlice from "./slices/Travel/TravelSlice"
+import otpReducer from "./slices/otpService/otpSlice"
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
         travelCollection:TravelSlice,
+         otp: otpReducer,
     }, 
     // middleware:getDefaultMiddlerware =>
     //   getDefaultMiddlerware().concat(logger),

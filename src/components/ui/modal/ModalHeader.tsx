@@ -1,4 +1,4 @@
-import { CloseIcon } from "../ui/Icons/CloseIcon";
+import { CloseIcon } from "../Icons/CloseIcon";
 
 interface ModalHeaderProps {
   onClose: () => void;

@@ -2,10 +2,9 @@ import { AnimatePresence } from "motion/react";
 import { forwardRef, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { LoaderFour } from "../ui/Text/Loader";
-import { Description } from "../ui/Text/Description";
-import ModalOverlay from "./ModalOverlay";
-import ModalContainer from "./ModalContainer";
-import ModalHeader from "./ModalHeader";
+import ModalOverlay from "../ui/modal/ModalOverlay";
+import ModalContainer from "../ui/modal/ModalContainer";
+import ModalHeader from "../ui/modal/ModalHeader";
 import TabsHeader from "./Tabs/TabsHeader";
 import TabContent from "./Tabs/TabContent";
 import { useSelectedTravelPackage } from "../../redux/slices/Travel/TravelSlice";
@@ -67,7 +66,6 @@ export const PackageModal = forwardRef<HTMLDivElement>((_, ref) => {
             <ModalContainer ref={ref} id={id}>
               <ModalHeader onClose={closeModal} />
               <LoaderFour text={travelPackage.title} />
-              <Description description={travelPackage.subtitle || ""} />
               <TabsHeader
                 tabs={tabs}
                 activeTab={activeTab}

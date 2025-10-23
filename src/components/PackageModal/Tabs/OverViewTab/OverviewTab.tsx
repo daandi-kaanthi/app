@@ -43,7 +43,7 @@ export default function Overview({ id }: OverviewProps) {
 
 
   if (!travelPackage) {
-    return <div>No package found</div>;
+    return <div>{t("noPackage")}</div>;
   }
   const formatTravelPackageData = (): TimelineEntry[] => {
     return [

@@ -2,7 +2,7 @@ import { motion } from "motion/react";
 import { forwardRef } from "react";
 
 interface ModalContainerProps {
-  id: string;
+  id?: string;
   children: React.ReactNode;
 }
 

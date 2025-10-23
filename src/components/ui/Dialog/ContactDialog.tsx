@@ -12,7 +12,7 @@ interface ContactDialogProps {
   onSubmit: (data: { name: string; email: string; message: string }) => void;
 }
 
-const SignUpDialog: React.FC<ContactDialogProps> = ({
+const ContactDialog: React.FC<ContactDialogProps> = ({
   open,
   onClose,
   onSubmit,
@@ -124,4 +124,4 @@ export const SignUpForm: React.FC<ContactFormProps> = ({ onSubmit, t }) => {
   );
 };
 
-export default SignUpDialog;
+export default ContactDialog;

@@ -21,6 +21,7 @@ import { useTranslation } from "react-i18next";
 // import ProfilePage from "./pages/Profile";
 import { PackageModal } from "./components/PackageModal";
 import ProfilePage from "./pages/Profile";
+import RegisterPage from "./pages/RegisterPage";
 
 export function App() {
   const { t, i18n } = useTranslation();
@@ -44,6 +45,13 @@ export function App() {
     {
       label: t("sidebar.about", "About Us"),
       href: "/about",
+      icon: (
+        <MapPin className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+      ),
+    },
+    {
+      label: t("sidebar.profile", "Profile"),
+      href: "/profile",
       icon: (
         <MapPin className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
@@ -119,7 +127,7 @@ export function App() {
           </div>
         </SidebarBody>
         <div className="flex flex-1">
-          <div className="flex  w-full flex-1 flex-col dark:bg-neutral-950 text-black dark:text-white ">
+          <div className="flex  w-full flex-1 flex-col overflow-auto max-h-screen bg-white dark:bg-neutral-950">
             <Routes location={location}>
               <Route path="/" element={<HomePage />} />
               <Route path="/blogs" element={<BlogsPage />} />
@@ -128,6 +136,7 @@ export function App() {
               <Route path="/package/:id/:title/:tab?" element={<HomePage />}>
                 <Route path="" element={<PackageModal />} />
               </Route>
+                  <Route path="/register" element={<RegisterPage/>} />
               <Route path="*" element={<HomePage />} />
             </Routes>
           </div>

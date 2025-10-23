@@ -14,7 +14,7 @@ import {
 import type { ITravelPackage } from "../../redux/slices/Travel/TravelSlice";
 import MapAutocomplete from "./MapSearch";
 import MapCard from "../Card/MapCard";
-import ContactDialog from "../ui/Dialog/SignUpForm";
+import ContactDialog from "../ui/Dialog/ContactDialog";
 import useMapStyling from "../../hooks/useMapStyling";
 
 interface PackagesMapProps {

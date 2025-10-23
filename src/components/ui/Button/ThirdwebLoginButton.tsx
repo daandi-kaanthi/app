@@ -37,6 +37,7 @@ export function ConenctWalletButton() {
       client={client}
       connectModal={{ size: "compact" }}
       wallets={wallets}
+      signInButton={{className: "btn btn-primary"}}
       theme={isDarkMode ? "dark": "light"}
     />
   );

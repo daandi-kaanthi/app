@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import DayWiseTimelineCard from "../../../Card/DayWiseTimelineCard";
 import type { TimelineEntry } from "../OverViewTab/Timeline";
 import TravelDayMap from "../../../Map/TravelItineraryMap";
+import { useTranslation } from "react-i18next";
 
 interface ItineraryTabProps {
   id: string;
@@ -12,7 +13,7 @@ interface ItineraryTabProps {
 
 export const ItineraryTab = ({ id }: ItineraryTabProps) => {
   const dispatch = useDispatch<AppDispatch>();
-
+  const {t}=useTranslation()
   // State to track which day is currently in view
   const [currentDayIndex, setCurrentDayIndex] = useState(0);
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
@@ -20,7 +21,7 @@ export const ItineraryTab = ({ id }: ItineraryTabProps) => {
   const dayRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   if (!travelPackage) {
-    return <div>No package found</div>;
+    return <div>{t("noPackage")}</div>;
   }
 
   // Scroll observer to detect which day is in view

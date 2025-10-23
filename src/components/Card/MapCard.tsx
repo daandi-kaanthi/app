@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useSelectedTravelPackage } from "../../redux/slices/Travel/TravelSlice";
-import { Description } from "../ui/Text/Description";
+import { WhatsAppMessageButton } from "../ui/Button/WhatsAppMessageButton";
 
 interface MapCardProps {
   nearestId: string;
@@ -18,20 +18,17 @@ const MapCard: React.FC<MapCardProps> = ({
   onViewDetails,
   minWidth = 160,
   maxWidth = 220,
-  location
+  location,
 }) => {
   const { t } = useTranslation();
   const selectedTravelPackage = useSelectedTravelPackage(nearestId);
+  const phone = import.meta.env.VITE_CONTACT_SALES_PHONE;
 
-  const contactViaWhatsApp = () => {
-    const phone = import.meta.env.VITE_CONTACT_PHONE;
-    const message = encodeURIComponent(
-      t("whatsappMessageCustom", {
-        location: location || t("defaultLocation") // fallback translation
-      })
-    );
-    window.open(`https://wa.me/${phone}?text=${message}`, "_blank");
-  };
+  const message = encodeURIComponent(
+    t("whatsappMessageCustom", {
+      location: location || t("defaultLocation"), // fallback translation
+    })
+  );
 
   return (
     <div
@@ -40,27 +37,19 @@ const MapCard: React.FC<MapCardProps> = ({
                  dark:bg-neutral-950 dark:text-white dark:border-gray-700"
       style={{ minWidth, maxWidth }}
     >
-      {comingSoon && (
-        <Description description={t("expandingSoon")} className="text-sm px-2 py-2" />
-      )}
+      {comingSoon && <>{t("expandingSoon")}</>}
 
       {comingSoon && (
-        <div
-          className="border border-dashed border-blue-500 rounded-md p-3 mb-2 bg-blue-50 dark:bg-blue-950 dark:border-blue-400"
-        >
+        <div className="border border-dashed border-blue-500 rounded-md p-3 mb-2 bg-blue-50 dark:bg-blue-950 dark:border-blue-400">
           <h3 className="font-semibold text-blue-700 dark:text-blue-300 text-sm mb-1">
             {t("privatePackageInterestTitle")}
           </h3>
 
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              contactViaWhatsApp();
-            }}
-            className="w-full text-sm font-medium py-1.5 rounded bg-blue-600 text-white hover:bg-blue-700 transition"
-          >
-            {t("contactUs")}
-          </button>
+          <WhatsAppMessageButton
+            phone={phone}
+            message={message}
+            buttonText={t("contactUs")}
+          />
         </div>
       )}
 
