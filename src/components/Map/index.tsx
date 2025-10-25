@@ -261,9 +261,6 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
       const lat = e.latLng.lat();
       const lng = e.latLng.lng();
 
-      console.log(lat,lng);
-      
-
       // Find nearest package
       const { package: nearest } = findNearestPackage(lat, lng);
 
