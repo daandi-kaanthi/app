@@ -35,7 +35,7 @@ export const Timeline = ({
   const opacityTransform = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
 
   return (
-    <div className="w-full font-sans md:px-4" ref={containerRef}>
+    <div className="w-full font-sans " ref={containerRef}>
       {title && (
         <div className="max-w-7xl mx-auto py-4 px-4 md:px-8 ">
           <h2 className="text-gray-100 text-4xl mb-4 text-gray-100 dark:text-white max-w-4xl">

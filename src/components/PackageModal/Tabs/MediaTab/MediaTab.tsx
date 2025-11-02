@@ -104,8 +104,8 @@ export const MediaTabs = ({ id }: MediaTabsProps) => {
       </div>
 
       {/* Media Display */}
-      <DraggableCardContainer className="relative flex w-full items-center justify-center overflow-clip min-h-[70vh]">
-        {mediaItems.length === 0 ? (
+   <DraggableCardContainer className="relative flex w-full items-center justify-center overflow-visible min-h-[70vh]">
+     {mediaItems.length === 0 ? (
           <div className="text-neutral-500 text-lg">
             {activeTab === "photos" ? t("noPhotos") : t("noVideos")}
           </div>
@@ -135,15 +135,13 @@ export const MediaTabs = ({ id }: MediaTabsProps) => {
             </DraggableCardBody>
           ))
         )}
-      </DraggableCardContainer>
-
       {/* Fullscreen Gallery */}
       {isFullscreen && activeIndex !== null && (
         <div className="fixed inset-0 z-500 flex items-center justify-center bg-white dark:bg-black bg-opacity-90">
           {/* Close button */}
           <button
             onClick={closeFullscreen}
-            className="absolute top-5 right-5 z-50 text-black dark:text-white text-3xl font-bold p-2 rounded-full hover:bg-white/20"
+            className="absolute top-5 right-5 z-50 text-black dark:text-white text-2xl md:text-3xl font-bold p-2 rounded-full bg-black/20 dark:bg-white/20 "
           >
             ✕
           </button>
@@ -151,7 +149,7 @@ export const MediaTabs = ({ id }: MediaTabsProps) => {
           {/* Previous Button */}
           <button
             onClick={prevImage}
-            className="absolute left-5 z-50 text-black dark:text-white text-4xl font-bold p-2 rounded-full hover:bg-white/20"
+            className="absolute left-5 z-50 text-black bg-white dark:text-white dark:bg-black text-4xl font-bold p-2 rounded-full "
           >
             ‹
           </button>
@@ -159,7 +157,7 @@ export const MediaTabs = ({ id }: MediaTabsProps) => {
           {/* Next Button */}
           <button
             onClick={nextImage}
-            className="absolute right-5 z-50 text-black dark:text-white text-4xl font-bold p-2 rounded-full hover:bg-white/20"
+            className="absolute right-5 z-50 text-black bg-white dark:text-white dark:bg-black text-4xl font-bold p-2 rounded-full "
           >
             ›
           </button>
@@ -167,10 +165,12 @@ export const MediaTabs = ({ id }: MediaTabsProps) => {
           <img
             src={allImages[activeIndex]}
             alt={`Full Image - ${activeIndex + 1}`}
-            className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg shadow-xl"
+            className="h-[80%] w-[80%] object-contain rounded-lg "
           />
         </div>
       )}
+      </DraggableCardContainer>
+
     </div>
   );
 };

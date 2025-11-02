@@ -12,49 +12,16 @@ interface ItineraryTabProps {
 
 export const ItineraryTab = ({ id }: ItineraryTabProps) => {
   const dispatch = useDispatch<AppDispatch>();
-
-  // State to track which day is currently in view
-  const [currentDayIndex, setCurrentDayIndex] = useState(0);
+  const [selectedDayIndex, setSelectedDayIndex] = useState(0);
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const travelPackage = useSelectedTravelPackage(id);
-  const dayRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   if (!travelPackage) {
     return <div>No package found</div>;
   }
 
-  // Scroll observer to detect which day is in view
-  useEffect(() => {
-    const observers: IntersectionObserver[] = [];
-
-    dayRefs.current.forEach((ref, index) => {
-      if (!ref) return;
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
-              setCurrentDayIndex(index);
-            }
-          });
-        },
-        {
-          threshold: [0.5],
-          rootMargin: "-20% 0px -20% 0px",
-        }
-      );
-
-      observer.observe(ref);
-      observers.push(observer);
-    });
-
-    return () => {
-      observers.forEach((observer) => observer.disconnect());
-    };
-  }, [travelPackage.days?.length]);
-
   const dayWiseTimeline: TimelineEntry[] =
-    travelPackage.days?.map((day, idx) => ({
+    travelPackage.days?.map((day, _idx) => ({
       title: null,
       content: (
         <DayWiseTimelineCard
@@ -63,12 +30,10 @@ export const ItineraryTab = ({ id }: ItineraryTabProps) => {
           activities={day.activities}
           stay={day.stay}
           meals={day.meals}
-          innerRef={(el) => {
-            dayRefs.current[idx] = el;
-          }}
         />
       ),
     })) || [];
+
   useEffect(() => {
     // fetchSingleTravelPackageApi commented for now
   }, [dispatch, id]);
@@ -77,35 +42,55 @@ export const ItineraryTab = ({ id }: ItineraryTabProps) => {
     <div
       className="
         text-gray-900 dark:text-gray-100
-        rounded-2xl p-4 md:p-8 pb-80
+        rounded-2xl p-4 md:p-8
         border border-gray-200 dark:border-gray-700
         shadow-md dark:shadow-[0_0_15px_rgba(0,0,0,0.4)]
-        transition-all duration-300 ease-in-out mb-20
+        transition-all duration-300 ease-in-out 
       "
     >
-        {/* Sticky Map Container */}
-        <div
-          ref={mapContainerRef}
-          className="sticky top-0 z-10 mb-6 rounded-lg overflow-hidden shadow-lg bg-white dark:bg-gray-800"
-          style={{ height: "250px" }}
-        >
-          {travelPackage.days && travelPackage.days.length > 0 && (
-            <TravelDayMap
-              day={travelPackage.days[currentDayIndex]}
-              allDays={travelPackage.days}
-              isSelected={true}
-              currentDayIndex={currentDayIndex}
-            />
-          )}
-        </div>
+      {/* Sticky Map Container */}
+      <div
+        ref={mapContainerRef}
+        className="sticky top-0 z-10 mb-6 rounded-lg overflow-hidden shadow-lg bg-white dark:bg-gray-800"
+        style={{ height: "250px" }}
+      >
+        {travelPackage.days && travelPackage.days.length > 0 && (
+          <TravelDayMap
+            day={travelPackage.days[selectedDayIndex]}
+            allDays={travelPackage.days}
+            isSelected={true}
+            currentDayIndex={selectedDayIndex}
+          />
+        )}
+      </div>
 
-        {/* Day by Day Content */}
-        <div className="flex flex-col gap-4 pointer-events-none pb-40">
-          {dayWiseTimeline.map((entry, i) => (
-            <div key={i} className="py-16">{entry.content}</div>
+      {/* Day Tabs */}
+      <div className="mb-6 overflow-x-auto">
+        <div className="flex gap-2 min-w-max pb-2">
+          {dayWiseTimeline.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setSelectedDayIndex(index)}
+              className={`
+                px-4 py-2 rounded-lg font-medium transition-all duration-200
+                whitespace-nowrap
+                ${
+                  selectedDayIndex === index
+                    ? "bg-blue-600 text-white shadow-md"
+                    : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
+                }
+              `}
+            >
+              Day {index + 1}
+            </button>
           ))}
         </div>
+      </div>
 
+      {/* Selected Day Content */}
+      <div className="pb-20">
+        {dayWiseTimeline[selectedDayIndex]?.content}
+      </div>
     </div>
   );
 };

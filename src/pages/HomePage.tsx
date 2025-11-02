@@ -3,7 +3,6 @@ import PackagesMap from "../components/Map";
 import { useSelector } from "react-redux";
 // import { type AppDispatch } from "../redux/store";
 // import { fetchTravelPackagesApi } from "../redux/slices/Travel/TravelApiSlice.tsx";
-import { useOutsideClick } from "../hooks/use-outside-click";
 import {
   selectedTravelPackages,
   type ITravelPackage,
@@ -14,11 +13,8 @@ import { Outlet, useNavigate } from "react-router-dom";
 
 const HomePage: React.FC = () => {
   const [active, setActive] = useState<ITravelPackage | null>(null);
-  const [drawerOpen, setDrawerOpen] = useState(false);
   const travelPackages = useSelector(selectedTravelPackages);
   // const dispatch = useDispatch<AppDispatch>();
-  const drawerRef = useRef<HTMLDivElement>(null);
-  const modalRef = useRef<HTMLDivElement>(null);
   const isClosingRef = useRef(false);
 
   const navigate = useNavigate();
@@ -29,45 +25,6 @@ const HomePage: React.FC = () => {
     [navigate]
   );
 
-  const closeDrawer = useCallback(() => {
-    if (isClosingRef.current) return;
-    isClosingRef.current = true;
-
-    setDrawerOpen(false);
-    setActive(null);
-
-    // Remove history state if it exists
-    if (window.history.state?.modal) {
-      window.history.back();
-    }
-
-    // Reset the closing flag after a short delay
-    setTimeout(() => {
-      isClosingRef.current = false;
-    }, 100);
-  }, []);
-
-  const closeModal = useCallback(() => {
-    if (isClosingRef.current) return;
-    isClosingRef.current = true;
-
-    setActive(null);
-
-    // Remove history state if it exists
-    if (window.history.state?.modal) {
-      window.history.back();
-    }
-
-    // Reset the closing flag after a short delay
-    setTimeout(() => {
-      isClosingRef.current = false;
-    }, 100);
-  }, []);
-
-  // Use the outside click hook for both drawer and modal
-  useOutsideClick(drawerRef, closeDrawer);
-  useOutsideClick(modalRef, closeModal);
-
   // Handle browser back button
   useEffect(() => {
     const handlePopState = (event: PopStateEvent) => {
@@ -75,7 +32,6 @@ const HomePage: React.FC = () => {
         // Prevent the closing ref check in this case
         isClosingRef.current = false;
         setActive(null);
-        setDrawerOpen(false);
         event.preventDefault();
       }
     };
@@ -86,23 +42,6 @@ const HomePage: React.FC = () => {
       window.removeEventListener("popstate", handlePopState);
     };
   }, [active]);
-
-  useEffect(() => {
-    function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        closeDrawer();
-      }
-    }
-
-    if (drawerOpen || active) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [drawerOpen, active, closeDrawer]);
 
   // useEffect(() => {
   //   dispatch(

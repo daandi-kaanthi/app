@@ -1,11 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Route, Routes, useSearchParams } from "react-router-dom";
-import {
-  BookAudio,
-  LayoutDashboardIcon,
-  MapPin,
-} from "lucide-react";
+import { BookAudio, LayoutDashboardIcon, MapPin } from "lucide-react";
 
 import { Sidebar, SidebarBody, SidebarLink } from "./components/ui/Sidebar";
 import ThemeToggle from "./layout/ThemeToggle";
@@ -121,7 +117,9 @@ export function App() {
         <div className="flex flex-1">
           <div className="flex  w-full flex-1 flex-col dark:bg-neutral-950 text-black dark:text-white ">
             <Routes location={location}>
-              <Route path="/" element={<HomePage />} />
+              <Route path="/" element={<HomePage />}>
+                <Route path="" element={<PackageModal />} />
+              </Route>
               <Route path="/blogs" element={<BlogsPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/profile" element={<ProfilePage />} />

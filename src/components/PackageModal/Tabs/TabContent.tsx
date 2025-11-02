@@ -62,7 +62,7 @@ const TabContent: React.FC<TabContentProps> = ({ activeTab, id }) => {
   return (
     <motion.div
       ref={containerRef}
-      className="flex-1 overflow-y-auto px-1 pb-4 text-black dark:text-white"
+      className="flex-1 overflow-y-auto  pb-4 text-black dark:text-white"
     >
       {renderTabContent()}
     </motion.div>
