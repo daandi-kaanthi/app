@@ -1,5 +1,6 @@
 import { motion, useMotionValue, animate } from "motion/react";
 import { forwardRef, useEffect } from "react";
+import TravelExplorer from "./HomeModalData";
 
 interface ModalContainerProps {
   id: string;
@@ -83,10 +84,11 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
           overflow-hidden flex flex-col"
       >
         {/* Drag Handle */}
-        <div className="sticky top-0 z-10 bg-white/80 dark:bg-black/40 backdrop-blur-sm">
-          <div className="flex justify-center pt-3 pb-2 cursor-grab active:cursor-grabbing">
+        <div className="sticky top-0 z-10 min-h-[100px]">
+          <div className="flex justify-center pt-3 pb-0 cursor-grab active:cursor-grabbing">
             <div className="w-12 h-1.5 bg-gray-300 dark:bg-gray-600 rounded-full" />
           </div>
+            <TravelExplorer id={id}/>
         </div>
         <div
           onPointerDownCapture={handlePointerDown}

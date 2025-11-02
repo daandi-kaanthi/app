@@ -4,7 +4,12 @@ import { DropdownList } from "../ui/DropdownList/DropDown";
 import { useTranslation } from "react-i18next";
 
 interface MapAutocompleteProps {
-  onPlaceSelect: (lat: number, lng: number, name: string, zoom?: number) => void;
+  onPlaceSelect: (
+    lat: number,
+    lng: number,
+    name: string,
+    zoom?: number
+  ) => void;
 }
 
 const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
@@ -88,7 +93,9 @@ const MapAutocomplete: React.FC<MapAutocompleteProps> = ({ onPlaceSelect }) => {
       setActiveIndex((prev) => (prev + 1) % suggestions.length);
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
-      setActiveIndex((prev) => (prev - 1 + suggestions.length) % suggestions.length);
+      setActiveIndex(
+        (prev) => (prev - 1 + suggestions.length) % suggestions.length
+      );
     } else if (e.key === "Enter") {
       e.preventDefault();
       if (activeIndex >= 0) selectSuggestion(suggestions[activeIndex]);
@@ -105,7 +112,7 @@ const MapAutocomplete: React.FC<MapAutocompleteProps> = ({ onPlaceSelect }) => {
   };
 
   return (
-    <div className="absolute top-16 left-1/2 transform -translate-x-1/2 z-20 w-full max-w-2xl px-4">
+    <div className=" z-20 w-full max-w-4xl px-2">
       <Searchbar
         ref={inputRef}
         value={query}

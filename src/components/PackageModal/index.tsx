@@ -8,7 +8,6 @@ import TabsHeader from "./Tabs/TabsHeader";
 import TabContent from "./Tabs/TabContent";
 import { useSelectedTravelPackage } from "../../redux/slices/Travel/TravelSlice";
 import { useTranslation } from "react-i18next";
-import TravelExplorer from "./HomeModalData";
 
 const tabSlugs = ["overview", "itinerary", "gallery", "dates"];
 
@@ -53,7 +52,6 @@ export const PackageModal = forwardRef<HTMLDivElement>((_, ref) => {
             {/* Default modal when no id */}
             {!id ? (
               <div className="p-6 text-center">
-            <TravelExplorer />
               </div>
             ) : (
               <>

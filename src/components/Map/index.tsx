@@ -12,15 +12,21 @@ import {
   MarkerClusterer,
 } from "@react-google-maps/api";
 import type { ITravelPackage } from "../../redux/slices/Travel/TravelSlice";
-import MapAutocomplete from "./MapSearch";
 import MapCard from "../Card/MapCard";
 import ContactDialog from "../ui/Dialog/SignUpForm";
 import useMapStyling from "../../hooks/useMapStyling";
 
 interface PackagesMapProps {
   packages: ITravelPackage[];
-  onMarkerClick?: (packageId: string,packageTitle:string) => void;
+  onMarkerClick?: (packageId: string, packageTitle: string) => void;
   onMapClick?: (lat: number, lng: number) => void;
+  searchResult?: {
+    lat: number;
+    lng: number;
+    name: string;
+    zoom?: number;
+  } | null;
+  onSearchComplete?: () => void;
 }
 
 const containerStyle = { width: "100%", height: "100vh" };
@@ -29,6 +35,8 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
   packages,
   onMarkerClick,
   onMapClick,
+  searchResult,
+  onSearchComplete,
 }) => {
   const [clickedPosition, setClickedPosition] = useState<{
     lat: number;
@@ -53,8 +61,8 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
   const animationTimeoutRef = useRef<any | null>(null);
   const [isStreetViewActive, setIsStreetViewActive] = useState(false);
 
-  const { isDarkMode, mapStyles } = useMapStyling({ 
-    mapRef, 
+  const { isDarkMode, mapStyles } = useMapStyling({
+    mapRef,
   });
 
   // Apply control background styling based on theme
@@ -126,19 +134,7 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
 
   // Auto-center on packages
   const mapCenter = useMemo(() => {
-    // if (!packagesWithGeo.length)
-       return { lat: 22, lng: 80 };
-    // const sum = packagesWithGeo.reduce(
-    //   (acc, pkg) => ({
-    //     lat: acc.lat + pkg.geoLocation![0],
-    //     lng: acc.lng + pkg.geoLocation![1],
-    //   }),
-    //   { lat: 0, lng: 0 }
-    // );
-    // return {
-    //   lat: sum.lat / packagesWithGeo.length,
-    //   lng: sum.lng / packagesWithGeo.length,
-    // };
+    return { lat: 22, lng: 80 };
   }, [packagesWithGeo]);
 
   const getDistanceInKm = (
@@ -178,7 +174,6 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
           pkg.geoLocation![1]
         );
         if (d < minDistance && d <= 250) {
-          // Only consider packages within 100km
           minDistance = d;
           nearest = pkg;
         }
@@ -246,7 +241,7 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
 
   const handleMarkerClick = useCallback(
     (pkg: ITravelPackage) => {
-      onMarkerClick?.(pkg.id,pkg.translations.en.title);
+      onMarkerClick?.(pkg.id, pkg.translations.en.title);
       setClickedPosition(null);
       setSearchedLocation(null);
       setNearestPackage(null);
@@ -328,6 +323,26 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
     setSearchedLocation(null);
   }, []);
 
+  // Handle external search result
+  useEffect(() => {
+    if (searchResult && mapInstance && packagesWithGeo.length) {
+      handlePlaceSelect(
+        searchResult.lat,
+        searchResult.lng,
+        searchResult.name,
+        searchResult.zoom
+      );
+      // Clear the search result after processing
+      onSearchComplete?.();
+    }
+  }, [
+    searchResult,
+    mapInstance,
+    packagesWithGeo.length,
+    handlePlaceSelect,
+    onSearchComplete,
+  ]);
+
   // Street View listener
   useEffect(() => {
     if (!mapRef.current) return;
@@ -358,9 +373,9 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
     const streetView = mapRef.current.getStreetView();
     const listener = streetView.addListener("visible_changed", () => {
       const isVisible = streetView.getVisible();
-      setIsStreetViewActive(isVisible); // Track visibility
+      setIsStreetViewActive(isVisible);
       if (isVisible) {
-        closeInfoWindow(); // Optional: close InfoWindow
+        closeInfoWindow();
       }
     });
 
@@ -378,20 +393,16 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
 
       if (isVisible) {
         closeInfoWindow();
-        // Push a state to history when Street View opens
         window.history.pushState({ streetView: true }, "");
       } else {
-        // Remove the history state when Street View closes
         if (window.history.state?.streetView) {
           window.history.back();
         }
       }
     });
 
-    // Handle browser back button
     const handlePopState = (event: PopStateEvent) => {
       if (streetView.getVisible()) {
-        // Close Street View when back button is pressed
         streetView.setVisible(false);
         event.preventDefault();
       }
@@ -411,7 +422,6 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
 
     const streetView = mapRef.current.getStreetView();
 
-    // Configure Street View options
     streetView.setOptions({
       addressControl: true,
       addressControlOptions: {
@@ -443,15 +453,13 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
   // Update InfoWindow background based on dark/light mode
   useEffect(() => {
     const updateInfoWindowStyle = () => {
-      // Fix inner scroll container (.gm-style-iw-d)
       const scrollContainers = document.querySelectorAll(".gm-style-iw-d");
       scrollContainers.forEach((el) => {
         const div = el as HTMLElement;
-        div.style.overflow = "hidden"; // remove scroll
-        div.style.maxHeight = "none"; // remove height restriction
+        div.style.overflow = "hidden";
+        div.style.maxHeight = "none";
       });
 
-      // Style main container (.gm-style-iw-c)
       const containers = document.querySelectorAll(".gm-style-iw-c");
       containers.forEach((el) => {
         const div = el as HTMLElement;
@@ -459,7 +467,7 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
         div.style.color = isDarkMode ? "#ffffff" : "#000000";
         div.style.borderRadius = "12px";
         div.style.padding = "10px";
-        div.style.overflow = "hidden"; // prevent spill
+        div.style.overflow = "hidden";
         div.style.boxShadow = "0 4px 16px rgba(0,0,0,0.25)";
       });
     };
@@ -475,7 +483,7 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
     return () => observer.disconnect();
   }, [isDarkMode, clickedPosition]);
 
-  //close button css
+  // Close button css
   useEffect(() => {
     const applyStyles = () => {
       const closeButtons = document.querySelectorAll(
@@ -493,7 +501,6 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
         el.style.boxShadow = isDarkMode
           ? "0 2px 6px rgba(0,0,0,0.6)"
           : "0 2px 6px rgba(0,0,0,0.2)";
-        // Fix for icon color visibility
         el.style.filter = isDarkMode
           ? "invert(1) brightness(1.8)"
           : "invert(0) brightness(0.2)";
@@ -511,14 +518,10 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
   }, [isDarkMode, clickedPosition]);
 
   return (
-    <div className={`relative w-full  z-1`}>
+    <div className={`relative w-full z-1`}>
       {clickedPosition && (
         <div className="absolute inset-0 z-10 bg-transparent pointer-events-none" />
       )}
-      {!isStreetViewActive && (
-        <MapAutocomplete onPlaceSelect={handlePlaceSelect} />
-      )}
-
 
       <GoogleMap
         mapContainerStyle={containerStyle}
@@ -535,38 +538,26 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
           disableDoubleClickZoom: true,
           draggableCursor: "pointer",
           disableDefaultUI: true,
-          zoomControl: true,
-          zoomControlOptions: {
-            position: 8,
-          },
           streetViewControl: true,
           streetViewControlOptions: {
             position: 4,
           },
-          fullscreenControl: true,
-          fullscreenControlOptions: {
-            position: 4,
+          zoomControl: true,
+          zoomControlOptions: {
+            position: 8,
           },
-          mapTypeControl: true,
-          mapTypeControlOptions:{
-            position:9
-          }
         }}
       >
-        {packagesWithGeo.map((pkg, i) => (
-          <Marker
-            key={`package-${pkg.id}-${i}`}
-            position={{ lat: pkg.geoLocation![0], lng: pkg.geoLocation![1] }}
-            onClick={() => handleMarkerClick(pkg)}
-          />
-        ))}
-             <MarkerClusterer >
+        <MarkerClusterer>
           {(clusterer) => (
             <>
               {packagesWithGeo.map((pkg) => (
                 <Marker
                   key={pkg.id}
-                  position={{ lat: pkg.geoLocation![0], lng: pkg.geoLocation![1] }}
+                  position={{
+                    lat: pkg.geoLocation![0],
+                    lng: pkg.geoLocation![1],
+                  }}
                   onClick={() => handleMarkerClick(pkg)}
                   clusterer={clusterer}
                 />
@@ -574,6 +565,7 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
             </>
           )}
         </MarkerClusterer>
+
         {searchedLocation && (
           <Marker
             key="searched-location"
@@ -583,6 +575,7 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
             }}
           />
         )}
+
         {clickedPosition && (
           <InfoWindow position={clickedPosition} onCloseClick={closeInfoWindow}>
             <MapCard
@@ -591,10 +584,10 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
               onViewDetails={() =>
                 nearestPackage && handleMarkerClick(nearestPackage)
               }
-              // onOpenContact={() => setOpenContactDialog(true)}
             />
           </InfoWindow>
         )}
+
         <ContactDialog
           open={openContactDialog}
           onClose={() => setOpenContactDialog(false)}

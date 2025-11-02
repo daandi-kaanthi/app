@@ -1,8 +1,6 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import PackagesMap from "../components/Map";
 import { useSelector } from "react-redux";
-// import { type AppDispatch } from "../redux/store";
-// import { fetchTravelPackagesApi } from "../redux/slices/Travel/TravelApiSlice.tsx";
 import {
   selectedTravelPackages,
   type ITravelPackage,
@@ -11,25 +9,49 @@ import { useJsApiLoader } from "@react-google-maps/api";
 import { LoaderOne } from "../components/ui/Text/Loader.tsx";
 import { Outlet, useNavigate } from "react-router-dom";
 
+// Create a context for search functionality
+export const MapSearchContext = React.createContext<{
+  handlePlaceSelect: (lat: number, lng: number, name: string, zoom?: number) => void;
+} | null>(null);
+
 const HomePage: React.FC = () => {
   const [active, setActive] = useState<ITravelPackage | null>(null);
+  const [searchResult, setSearchResult] = useState<{
+    lat: number;
+    lng: number;
+    name: string;
+    zoom?: number;
+  } | null>(null);
+  
   const travelPackages = useSelector(selectedTravelPackages);
-  // const dispatch = useDispatch<AppDispatch>();
   const isClosingRef = useRef(false);
 
   const navigate = useNavigate();
+  
   const handleMarkerClick = useCallback(
-    (packageId: string,packageTitle:String) => {
+    (packageId: string, packageTitle: string) => {
       navigate(`/package/${packageId}/${packageTitle}/overview`);
     },
     [navigate]
   );
 
+  // Handler for place selection from MapAutocomplete
+  const handlePlaceSelect = useCallback(
+    (lat: number, lng: number, name: string, zoom?: number) => {
+      setSearchResult({ lat, lng, name, zoom });
+    },
+    []
+  );
+
+  // Clear search result after it's been processed
+  const clearSearchResult = useCallback(() => {
+    setSearchResult(null);
+  }, []);
+
   // Handle browser back button
   useEffect(() => {
     const handlePopState = (event: PopStateEvent) => {
       if (window.history.state?.modal || active) {
-        // Prevent the closing ref check in this case
         isClosingRef.current = false;
         setActive(null);
         event.preventDefault();
@@ -66,14 +88,18 @@ const HomePage: React.FC = () => {
     );
 
   return (
-    <div className="fixed inset-0 flex flex-1 flex-col md:relative">
-      <PackagesMap
-        packages={travelPackages.travelPackages}
-        onMarkerClick={handleMarkerClick}
-      />
-      {/* Modal for larger screens */}
-      <Outlet />
-    </div>
+    <MapSearchContext.Provider value={{ handlePlaceSelect }}>
+      <div className="fixed inset-0 flex flex-1 flex-col md:relative">
+        <PackagesMap
+          packages={travelPackages.travelPackages}
+          onMarkerClick={handleMarkerClick}
+          searchResult={searchResult}
+          onSearchComplete={clearSearchResult}
+        />
+        {/* Modal for larger screens */}
+        <Outlet />
+      </div>
+    </MapSearchContext.Provider>
   );
 };
 
