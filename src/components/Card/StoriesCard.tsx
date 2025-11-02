@@ -313,25 +313,25 @@ useEffect(() => {
     }
   }, [replyText, activeGroup, currentStoryIndex, onReply]);
 
-  const handleSendWhatsApp = useCallback(() => {
-    const phone = import.meta.env.VITE_CONTACT_PHONE;
-    if (!phone) {
-      console.error(
-        "WhatsApp phone number is not set in environment variables"
-      );
-      return;
-    }
+const handleSendWhatsApp = useCallback(() => {
+  const phone = import.meta.env.VITE_CONTACT_PHONE;
 
-    const message = encodeURIComponent(
-      `${t("whatsappMessageCustom", {
-        story: t(`stories.titles.${activeGroup?.title}`),
-        message: replyText.trim(),
-      })}`
-    );
+  if (!phone) {
+    console.error("WhatsApp phone number is not set in environment variables");
+    return;
+  }
 
-    const whatsappUrl = `https://wa.me/${phone}?text=${message}`;
-    window.open(whatsappUrl, "_blank");
-  }, [replyText, activeGroup, t]);
+  // If user typed a reply, use that; else use the default translation
+  const messageText = replyText.trim()
+    ? replyText.trim()
+    : t("whatsappMessageCustom", {
+        location: t(`stories.titles.${activeGroup?.title}`),
+      });
+
+  const message = encodeURIComponent(messageText);
+  const whatsappUrl = `https://wa.me/${phone}?text=${message}`;
+  window.open(whatsappUrl, "_blank");
+}, [replyText, activeGroup, t]);
 
   // --- Keyboard controls ---
   useEffect(() => {
