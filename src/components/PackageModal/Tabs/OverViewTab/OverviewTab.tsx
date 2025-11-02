@@ -41,29 +41,16 @@ export default function Overview({ id }: OverviewProps) {
   const travelPackage = useSelectedTravelPackage(id);
   const { t } = useTranslation();
 
-
   if (!travelPackage) {
-    return <div>No package found</div>;
+    return <div>{t("noPackageFound")}</div>;
   }
+
   const formatTravelPackageData = (): TimelineEntry[] => {
     return [
       {
         title: "",
         content: (
           <div>
-            <div className="flex justify-center mb-6">
-              <SinglePackageStreetView
-                pkg={{
-                  id: id,
-                  name: travelPackage?.title || "Delhi",
-                  geoLocation: travelPackage?.geoLocation || [28.6139, 77.209],
-                }}
-              />
-            </div>
-            <p className="mb-6 text-sm md:text-lg leading-relaxed">
-              {travelPackage.overview?.description}
-            </p>
-
             <div className="grid grid-cols-2 md:grid-cols-2 gap-6 mb-8">
               <div className="flex items-start gap-3">
                 <CalendarCheck className="mt-1 text-blue-600" />
@@ -225,7 +212,19 @@ export default function Overview({ id }: OverviewProps) {
   };
 
   return (
-    <div className="mx-auto px-3 md:px-8">
+    <div className="mx-auto px-2 md:px-8">
+      <div className="flex justify-center flex-col px-2 mb-6 gap-6 w-full">
+        <SinglePackageStreetView
+          pkg={{
+            id: id,
+            name: travelPackage?.title,
+            geoLocation: travelPackage?.geoLocation || [28.6139, 77.209],
+          }}
+        />
+        <p className="mb-6 text-sm md:text-lg leading-relaxed">
+          {travelPackage.overview?.description}
+        </p>
+      </div>
       <Timeline data={formatTravelPackageData()} />
     </div>
   );

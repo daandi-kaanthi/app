@@ -51,7 +51,7 @@ export const WhatsAppMessageButton: React.FC<WhatsAppMessageButtonProps> = ({
     <>
       <button
         onClick={handleSendMessage}
-        className="max-w-[150px] px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md transition-colors"
+        className="max-w-[150px] px-4 py-2 bg-green-500 dark:bg-green-700 hover:bg-green-600 text-white rounded-md transition-colors"
       >
         {t("contactViaWhatsApp")}
       </button>

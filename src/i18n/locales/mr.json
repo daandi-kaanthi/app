@@ -196,5 +196,13 @@
 
   "currentTrip": "सध्याची यात्रा",
   "oldTrips": "जुनी प्रवास",
-  "myGallery": "माझी गॅलरी"
+  "myGallery": "माझी गॅलरी",
+  "noPackageFound": "कोणताही पॅकेज सापडला नाही",
+  "dayLabel": "दिवस {{number}}",
+  "stories": {
+    "titles": {
+      "tungnath": "तुंगनाथ",
+      "kedarnath": "केदारनाथ"
+    }
+  }
 }

@@ -134,7 +134,7 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
 
   // Auto-center on packages
   const mapCenter = useMemo(() => {
-    return { lat: 22, lng: 80 };
+    return { lat: 28, lng: 80 };
   }, [packagesWithGeo]);
 
   const getDistanceInKm = (
@@ -526,7 +526,7 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={mapCenter}
-        zoom={5}
+        zoom={7}
         onLoad={(map) => {
           setMapInstance(map);
           mapRef.current = map;
@@ -548,7 +548,13 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
           },
         }}
       >
-        <MarkerClusterer>
+        <MarkerClusterer
+          options={{
+            gridSize:10, // smaller = tighter clusters (default is 60)
+            minimumClusterSize: 4, // min markers to form a cluster
+            maxZoom: 10, // optional: prevents clustering beyond this zoom
+          }}
+        >
           {(clusterer) => (
             <>
               {packagesWithGeo.map((pkg) => (

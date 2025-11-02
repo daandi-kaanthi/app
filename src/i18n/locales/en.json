@@ -190,5 +190,14 @@
 
   "currentTrip": "Current Trip",
   "oldTrips": "Old Trips",
-  "myGallery": "My Gallery"
+  "myGallery": "My Gallery",
+
+  "noPackageFound": "No package found",
+  "dayLabel": "Day {{number}}",
+  "stories": {
+    "titles": {
+      "tungnath": "Tungnath",
+      "kedarnanth": "Kedarnanth"
+    }
+  }
 }

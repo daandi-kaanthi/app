@@ -58,7 +58,6 @@ export default function SinglePackageStreetView({ pkg }: SinglePackageStreetView
 
   return (
     <div>
-
       {/* Map Container */}
       <div
         ref={containerRef}
@@ -67,7 +66,7 @@ export default function SinglePackageStreetView({ pkg }: SinglePackageStreetView
           borderRadius: "10px",
           overflow: "hidden",
         }}
-        className="w-[90vw] md:w-[50vw] border border-neutral-300 dark:border-neutral-600" 
+        className="w-[100%]  border border-neutral-300 dark:border-neutral-600" 
       />
     </div>
   );

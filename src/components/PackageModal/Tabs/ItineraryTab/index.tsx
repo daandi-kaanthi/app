@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import DayWiseTimelineCard from "../../../Card/DayWiseTimelineCard";
 import type { TimelineEntry } from "../OverViewTab/Timeline";
 import TravelDayMap from "../../../Map/TravelItineraryMap";
+import { useTranslation } from "react-i18next";
 
 interface ItineraryTabProps {
   id: string;
@@ -12,14 +13,14 @@ interface ItineraryTabProps {
 
 export const ItineraryTab = ({ id }: ItineraryTabProps) => {
   const dispatch = useDispatch<AppDispatch>();
+   const { t } = useTranslation(); 
   const [selectedDayIndex, setSelectedDayIndex] = useState(0);
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const travelPackage = useSelectedTravelPackage(id);
 
   if (!travelPackage) {
-    return <div>No package found</div>;
+    return <div>{t("noPackageFound")}</div>;
   }
-
   const dayWiseTimeline: TimelineEntry[] =
     travelPackage.days?.map((day, _idx) => ({
       title: null,
@@ -81,7 +82,8 @@ export const ItineraryTab = ({ id }: ItineraryTabProps) => {
                 }
               `}
             >
-              Day {index + 1}
+              {t("dayLabel", { number: index + 1 })} {/* ✅ dynamic translation */}
+          
             </button>
           ))}
         </div>

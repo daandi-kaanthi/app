@@ -188,5 +188,13 @@
 
   "currentTrip": "वर्तमान यात्रा",
   "oldTrips": "पुरानी यात्राएँ",
-  "myGallery": "मेरा गैलरी"
+  "myGallery": "मेरा गैलरी",
+  "noPackageFound": "कोई पैकेज नहीं मिला",
+  "dayLabel": "दिन {{number}}",
+  "stories": {
+    "titles": {
+      "tungnath": "तुंगनाथ",
+      "kedarnath": "केदारनाथ"
+    }
+  }
 }
