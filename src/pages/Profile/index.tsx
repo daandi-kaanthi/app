@@ -1,14 +1,19 @@
 "use client";
-import { PackageModal } from "./UserInquiries";
-import { ConenctWalletButton } from "../../components/ui/Button/ThirdwebLoginButton";
+import { useAuth0 } from "@auth0/auth0-react";
+import { AuthenticatedProfile } from "./AuthenticatedProfile";
+import { UnauthenticatedProfile } from "./UnauthenticatedProfile";
 
 export function ProfilePage() {
+  const { isAuthenticated } = useAuth0();
 
   return (
-    <div className="overflow-auto max-h-screen py-12 px-4 md:px-8 flex flex-col gap-8 justify-center">
-        {/* <ProfileCarasoul items={cards} loggedIn={loggedIn} /> */}
-        <ConenctWalletButton/>
-        <PackageModal/>
+    <div
+     className="min-h-screen flex flex-col items-center justify-center gap-8 py-6 px-2 md:px-2 text-center">
+      {!isAuthenticated ? (
+        <UnauthenticatedProfile />
+      ) : (
+        <AuthenticatedProfile />
+      )}
     </div>
   );
 }

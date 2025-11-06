@@ -12,17 +12,15 @@ import { AnimatePresence, motion } from "motion/react";
 import { cn } from "../../lib/utils";
 import { useOutsideClick } from "../../hooks/use-outside-click";
 import { CloseIcon } from "../ui/Icons/CloseIcon";
-import { ConenctWalletButton } from "../ui/Button/ThirdwebLoginButton";
 
 interface CarouselProps {
   items: JSX.Element[];
   initialScroll?: number;
-  loggedIn: boolean;
 }
 
 type Card = {
-  title: string;
-  category: string;
+  title?: string;
+  category?: string;
 };
 
 export const CarouselContext = createContext<{
@@ -36,7 +34,6 @@ export const CarouselContext = createContext<{
 export const ProfileCarasoul = ({
   items,
   initialScroll = 0,
-  loggedIn,
 }: CarouselProps) => {
   const carouselRef = React.useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -68,46 +65,38 @@ export const ProfileCarasoul = ({
     <CarouselContext.Provider
       value={{ onCardClose: handleCardClose, currentIndex }}
     >
-      <div className="relative w-full">
-        <div
-          className="flex  w-full overflow-y-scroll overscroll-y-auto scroll-smooth [scrollbar-width:none]"
-          ref={carouselRef}
+<div className="relative w-full">
+  <div
+    ref={carouselRef}
+    className="flex flex-col w-full overflow-x-scroll overscroll-x-auto scroll-smooth [scrollbar-width:none]"
+  >
+    <div
+      className={cn(
+        "flex items-center gap-4 px-4 flex-col", // horizontal layout
+      )}
+    >
+      {items.map((item, index) => (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{
+            opacity: 1,
+            y: 0,
+            transition: {
+              duration: 0.5,
+              delay: 0.2 * index,
+              ease: "easeOut",
+            },
+          }}
+          key={"card" + index}
+          className="flex-shrink-0 w-80 md:w-96 rounded-3xl flex justify-center py-2"
         >
-          <div
-            className={cn(
-              "w-full flex flex-col justify-center py-16",
-              "mx-auto max-w-7xl" // remove max-w-4xl if you want the carousel to span the full width of its container
-            )}
-          >
-            {loggedIn && (
-              <>
-                {items.map((item, index) => (
-                  <motion.div
-                    initial={{
-                      opacity: 0,
-                      y: 20,
-                    }}
-                    animate={{
-                      opacity: 1,
-                      y: 0,
-                      transition: {
-                        duration: 0.5,
-                        delay: 0.2 * index,
-                        ease: "easeOut",
-                      },
-                    }}
-                    key={"card" + index}
-                    className="rounded-3xl last:pr-[5%] md:last:pr-[33%] flex justify-center py-2"
-                  >
-                    {item}
-                  </motion.div>
-                ))}
-              </>
-            )}
-            <ConenctWalletButton/>
-          </div>
-        </div>
-      </div>
+          {item}
+        </motion.div>
+      ))}
+    </div>
+  </div>
+</div>
+
     </CarouselContext.Provider>
   );
 };
@@ -182,7 +171,7 @@ export const ProfileCard = ({
   }, [open]);
 
   return (
-    <>
+    <div className="w-full">
       <AnimatePresence>
         {open && (
           <div className="fixed inset-0 z-50 h-screen mt-2 w-full overflow-auto">
@@ -197,8 +186,8 @@ export const ProfileCard = ({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               ref={containerRef}
-              layoutId={layout ? `card-${card.title}` : undefined}
-              className="relative z-[60] mx-auto my-10 h-fit max-w-5xl rounded-3xl bg-white p-4 font-sans md:p-10 dark:bg-black"
+              layoutId={layout ? `card-${card?.title}` : undefined}
+              className="relative z-[60] mx-auto my-10 h-fit  rounded-3xl bg-white p-4 font-sans md:p-10 dark:bg-black"
             >
               <button
                 className="sticky top-12 right-0 ml-auto flex h-8 w-8 items-center justify-center rounded-full bg-black dark:bg-white"
@@ -207,41 +196,37 @@ export const ProfileCard = ({
                 <CloseIcon />
               </button>
               <motion.p
-                layoutId={layout ? `category-${card.title}` : undefined}
+                layoutId={layout ? `category-${card?.title}` : undefined}
                 className="text-base font-medium text-black dark:text-white"
               >
                 {card.category}
               </motion.p>
               <motion.p
-                layoutId={layout ? `title-${card.title}` : undefined}
+                layoutId={layout ? `title-${card?.title}` : undefined}
                 className="mt-4 text-2xl font-semibold text-neutral-700 md:text-5xl dark:text-white"
               >
-                {card.title}
+                {card?.title}
               </motion.p>
             </motion.div>
           </div>
         )}
       </AnimatePresence>
 
-
-   
-       
-      <div className="flex justify- w-full  mx-4">
-        <h2
-          onClick={handleOpen}
-          className={`w-full text-sm font-medium py-1.5 rounded`}
-        >
-          {card.category} :
+      <div
+        onClick={handleOpen}
+        className="flex items-center justify-between w-full px-4 py-2 rounded-lg hover:bg-muted transition-colors cursor-pointer"
+      >
+        {/* Category on the Left */}
+        <h2 className="text-sm font-medium text-muted-foreground">
+          {card?.category} :
         </h2>
-        <h2
-          onClick={handleOpen}
-          className={`w-full text-sm font-medium py-1.5 rounded `}
-        >
-          {card.title}
+
+        {/* Title on the Right */}
+        <h2 className="text-sm font-semibold text-foreground text-right ">
+          {card?.title}
         </h2>
       </div>
-    
-    </>
+    </div>
   );
 };
 

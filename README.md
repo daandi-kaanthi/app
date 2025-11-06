@@ -78,4 +78,8 @@ yarn lint
 
 ?lang=hi at each will udpate langugae
 
-Update: Upload to s3 => cloudfront create invalidation
+Update: Upload to s3 => cloudfront create invalidation =>
+
+todo => show google map same location lat and lang 
+
+things to carry to order items quickly before travel

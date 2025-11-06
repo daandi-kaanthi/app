@@ -42,7 +42,7 @@ export default function Overview({ id }: OverviewProps) {
   const { t } = useTranslation();
 
   if (!travelPackage) {
-    return <div>{t("noPackageFound")}</div>;
+    return <div className="flex justify-center item-center">{t("noPackage")}</div>;
   }
 
   const formatTravelPackageData = (): TimelineEntry[] => {
@@ -212,8 +212,15 @@ export default function Overview({ id }: OverviewProps) {
   };
 
   return (
-    <div className="mx-auto px-2 md:px-8">
-      <div className="flex justify-center flex-col px-2 mb-6 gap-6 w-full">
+    <div
+      className="
+        text-gray-900 dark:text-gray-100
+        rounded-2xl p-4 md:p-8
+        border border-gray-200 dark:border-gray-700
+        shadow-md dark:shadow-[0_0_15px_rgba(0,0,0,0.4)]
+        transition-all duration-300 ease-in-out
+      "
+    >   
         <SinglePackageStreetView
           pkg={{
             id: id,
@@ -224,7 +231,6 @@ export default function Overview({ id }: OverviewProps) {
         <p className="mb-6 text-sm md:text-lg leading-relaxed">
           {travelPackage.overview?.description}
         </p>
-      </div>
       <Timeline data={formatTravelPackageData()} />
     </div>
   );

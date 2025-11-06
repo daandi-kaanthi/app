@@ -44,12 +44,12 @@ const Stories: React.FC<StoriesProps> = ({
   const [isMuted, setIsMuted] = useState(false);
   const [showReplyBox, setShowReplyBox] = useState(false);
   const [replyText, setReplyText] = useState("");
-  const [longPressTimer, setLongPressTimer] = useState<NodeJS.Timeout | null>(
+  const [longPressTimer, setLongPressTimer] = useState<any | null>(
     null
   );
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
-  const progressInterval = useRef<NodeJS.Timeout | null>(null);
+  const progressInterval = useRef<any | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const replyInputRef = useRef<HTMLInputElement | null>(null);
 

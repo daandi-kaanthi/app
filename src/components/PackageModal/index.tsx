@@ -1,81 +1,78 @@
-import { AnimatePresence } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { forwardRef, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { LoaderFour } from "../ui/Text/Loader";
-import { Description } from "../ui/Text/Description";
 import ModalContainer from "./ModalContainer";
 import TabsHeader from "./Tabs/TabsHeader";
 import TabContent from "./Tabs/TabContent";
-import { useSelectedTravelPackage } from "../../redux/slices/Travel/TravelSlice";
 import { useTranslation } from "react-i18next";
+import { DateAvailabilityDisplay } from "./Tabs/DatesTab/DateAvailability";
 
 const tabSlugs = ["overview", "itinerary", "gallery", "dates"];
 
 export const PackageModal = forwardRef<HTMLDivElement>((_, ref) => {
-  const { id = "", title = "", tab } = useParams<{ id: string; title: string; tab?: string }>();
+  const {
+    id = "",
+    title = "",
+    tab,
+  } = useParams<{ id: string; title: string; tab?: string }>();
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const travelPackage = useSelectedTravelPackage(id);
-
-  // Determine active tab index from URL
-  const initialTabIndex = tab ? tabSlugs.indexOf(tab) : 0;
-  const [activeTab, setActiveTab] = useState(
-    initialTabIndex >= 0 ? initialTabIndex : 0
-  );
+  const [activeTab, setActiveTab] = useState(3);
 
   const tabs = useMemo(
-    () => [t("tabOverview"), t("tabItinerary"), t("tabGallery"), t("tabDates")],
+    () => [t("tabOverview"), t("tabItinerary"), t("tabGallery")],
     [t]
   );
 
-  // Update URL when tab changes (only if id exists)
   useEffect(() => {
     if (!id) return;
-    navigate(`/package/${id}/${title}/${tabSlugs[activeTab]}`, { replace: true });
+    navigate(`/package/${id}/${title}/${tabSlugs[activeTab]}`, {
+      replace: true,
+    });
   }, [activeTab, id, title, navigate]);
 
-  // Sync tab index if URL changes
   useEffect(() => {
-    const tabIndex = tab ? tabSlugs.indexOf(tab) : 0;
-    if (tabIndex >= 0 && tabIndex !== activeTab) {
+    const tabIndex = tab ? tabSlugs.indexOf(tab) : 3;
+    if (tab && tabIndex >= 0 && tabIndex !== activeTab) {
       setActiveTab(tabIndex);
     }
   }, [tab]);
 
-  // Rendered content
-  const modalContent = useMemo(
-    () => (
+  return (
+    <>
       <AnimatePresence>
-        <>
-          <ModalContainer ref={ref} id={id}>
-
-            {/* Default modal when no id */}
-            {!id ? (
-              <div className="p-6 text-center">
-              </div>
-            ) : (
-              <>
-                <LoaderFour text={travelPackage?.title} />
-                <Description description={travelPackage?.subtitle || ""} />
-                <TabsHeader
-                  tabs={tabs}
-                  activeTab={activeTab}
-                  setActiveTab={setActiveTab}
-                />
-                <TabContent
-                  activeTab={activeTab}
-                  tabs={tabs}
-                  setActiveTab={setActiveTab}
-                  id={id}
-                />
-              </>
-            )}
-          </ModalContainer>
-        </>
+        <ModalContainer ref={ref} id={id}>
+          {!id ? (
+            <div className="p-6 text-center"></div>
+          ) : (
+            <>
+              <TabsHeader
+                tabs={tabs}
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+              />
+              <TabContent
+                activeTab={activeTab}
+                tabs={tabs}
+                setActiveTab={setActiveTab}
+                id={id}
+              />
+            </>
+          )}
+        </ModalContainer>
       </AnimatePresence>
-    ),
-    [id, activeTab, travelPackage, tabs, t]
-  );
 
-  return modalContent;
+      {/* ✅ Floating bottom button (outside modal) */}
+      {id && (
+        <motion.div
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 100, opacity: 0 }}
+          transition={{ type: "spring", stiffness: 100, damping: 15 }}
+        >
+          <DateAvailabilityDisplay id={id} />
+        </motion.div>
+      )}
+    </>
+  );
 });

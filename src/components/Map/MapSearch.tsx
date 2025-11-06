@@ -1,7 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Searchbar } from "../Searchbar";
 import { DropdownList } from "../ui/DropdownList/DropDown";
+import { useAuth0 } from "@auth0/auth0-react";
 import { useTranslation } from "react-i18next";
+import { User, X } from "lucide-react";
+import { createPortal } from "react-dom";
+import { motion } from "framer-motion";
+import { UnauthenticatedProfile } from "../../pages/Profile/UnauthenticatedProfile";
+import { useNavigate } from "react-router-dom";
 
 interface MapAutocompleteProps {
   onPlaceSelect: (
@@ -17,11 +23,14 @@ const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 const MapAutocomplete: React.FC<MapAutocompleteProps> = ({ onPlaceSelect }) => {
   const { t, i18n } = useTranslation();
   const [query, setQuery] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [activeIndex, setActiveIndex] = useState(-1);
   const serviceRef = useRef<google.maps.places.AutocompleteService>(null);
   const detailsServiceRef = useRef<google.maps.places.Place>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { user, isAuthenticated } = useAuth0();
+  const navigate = useNavigate();
 
   // Initialize Google Places services
   useEffect(() => {
@@ -35,6 +44,9 @@ const MapAutocomplete: React.FC<MapAutocompleteProps> = ({ onPlaceSelect }) => {
     initServices();
   }, []);
 
+  const handleClosePopup = () => {
+    setShowPopup(false);
+  };
   // Handle input change
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -112,15 +124,37 @@ const MapAutocomplete: React.FC<MapAutocompleteProps> = ({ onPlaceSelect }) => {
   };
 
   return (
-    <div className=" z-20 w-full max-w-4xl px-8">
-      <Searchbar
-        ref={inputRef}
-        value={query}
-        onChange={handleInputChange}
-        onKeyDown={handleKeyDown}
-        onClear={clearSearch}
-        placeholder={t("searchPlaceholder")}
-      />
+    <div className=" z-1000 w-full max-w-4xl px-8">
+      <div className="flex w-full items-center gap-3 px-4 py-2 ">
+
+        {/* 🔍 Searchbar — full width */}
+        <div className="flex-1">
+          <Searchbar
+            ref={inputRef}
+            value={query}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
+            onClear={clearSearch}
+            placeholder={t("searchPlaceholder")}
+          />
+        </div>
+                {/* 👤 User Icon or Profile Picture */}
+        {isAuthenticated ? (
+          <div onClick={() => navigate("/profile")} className="flex-shrink-0">
+            <img
+              src={user?.picture}
+              alt="User"
+              className="w-9 h-9 rounded-full cursor-pointer border border-gray-300 hover:scale-105 transition"
+            />
+          </div>
+        ) : (
+          <User
+            className="w-7 h-7 text-gray-700 dark:text-gray-200 cursor-pointer hover:text-blue-500 flex-shrink-0"
+            onClick={() => setShowPopup(true)}
+          />
+        )}
+      </div>
+
       {suggestions.length > 0 && (
         <DropdownList
           items={suggestions}
@@ -130,6 +164,36 @@ const MapAutocomplete: React.FC<MapAutocompleteProps> = ({ onPlaceSelect }) => {
           renderItem={(s) => s.description}
         />
       )}
+
+      {/* ⚡ Popup for unauthenticated users */}
+      {showPopup &&
+        typeof document !== "undefined" &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 backdrop-blur-md"
+            onClick={handleClosePopup}
+          >
+            <motion.div
+              className="relative bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-6 max-w-lg w-[90%]"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <UnauthenticatedProfile
+                getShowSkip={true}
+                onShowSkipButton={handleClosePopup}
+              />
+              <button
+                onClick={handleClosePopup}
+                className="absolute top-3 right-3 p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </motion.div>
+          </div>,
+          document.body
+        )}
     </div>
   );
 };

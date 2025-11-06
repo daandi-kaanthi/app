@@ -1,12 +1,9 @@
 import { motion } from "motion/react";
 import { useEffect, useRef, lazy } from "react";
-import { SuspenseWrapper } from "../../common/SuspenseWrapper";
+import { SuspenseWrapper } from "../../../components/common/SuspenseWrapper";
 
 // ✅ Lazy load these components
-const Overview = lazy(() => import("./OverViewTab/OverviewTab"));
-const ItineraryTab = lazy(() => import("./ItineraryTab"));
-const MediaTabs = lazy(() => import("./MediaTab/MediaTab"));
-// const DatesTab = lazy(() => import("./DatesTab/DatesTab"));
+const Overview = lazy(() => import("../../../components/PackageModal/Tabs/OverViewTab/OverviewTab"));
 
 interface TabContentProps {
   activeTab: number;
@@ -15,7 +12,7 @@ interface TabContentProps {
   id: string;
 }
 
-const TabContent: React.FC<TabContentProps> = ({ activeTab, id }) => {
+const ProfileTabContent: React.FC<TabContentProps> = ({ activeTab, id }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -35,21 +32,9 @@ const TabContent: React.FC<TabContentProps> = ({ activeTab, id }) => {
       case 1:
         return (
           <SuspenseWrapper>
-            <ItineraryTab id={id} />
+            <Overview id={id} />
           </SuspenseWrapper>
         );
-      case 2:
-        return (
-          <SuspenseWrapper>
-            <MediaTabs id={id} />
-          </SuspenseWrapper>
-        );
-      // case 3:
-      //   return (
-      //     <SuspenseWrapper>
-      //       <DatesTab id={id} />
-      //     </SuspenseWrapper>
-      //   );
       default:
         return (
           <SuspenseWrapper>
@@ -69,4 +54,4 @@ const TabContent: React.FC<TabContentProps> = ({ activeTab, id }) => {
   );
 };
 
-export default TabContent;
+export default ProfileTabContent;

@@ -1,13 +1,19 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Route, Routes, useSearchParams } from "react-router-dom";
-import { BookAudio, LayoutDashboardIcon, MapPin } from "lucide-react";
+import {
+  BookAudio,
+  LayoutDashboardIcon,
+  MapPin,
+  User2Icon,
+} from "lucide-react";
 
 import { Sidebar, SidebarBody, SidebarLink } from "./components/ui/Sidebar";
 import ThemeToggle from "./layout/ThemeToggle";
 import LanguageDropdown from "./layout/languageSelector";
 import HomeLogo from "./layout/Logo";
 import { cn } from "./lib/utils";
+import { useAuth0 } from "@auth0/auth0-react";
 
 //pages
 import BlogsPage from "./pages/BlogPage/BlogsPage";
@@ -17,10 +23,12 @@ import { useTranslation } from "react-i18next";
 // import ProfilePage from "./pages/Profile";
 import { PackageModal } from "./components/PackageModal";
 import ProfilePage from "./pages/Profile";
+import LoginButton from "./components/ui/Button/LoginButton";
 
 export function App() {
   const { t, i18n } = useTranslation();
   const [searchParams] = useSearchParams();
+  const { user, isAuthenticated } = useAuth0();
 
   const links = [
     {
@@ -44,13 +52,23 @@ export function App() {
         <MapPin className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
     },
-    // {
-    //   label: t("sidebar.profile", "My Profile"),
-    //   href: "/profile",
-    //   icon: (
-    //     <User2Icon className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
-    //   ),
-    // },
+    {
+      label: t("sidebar.profile", "My Profile"),
+      href: "/profile",
+      icon: (
+        <>
+          {isAuthenticated ? (
+            <img
+              src={user?.picture}
+              alt="Profile"
+              className="w-5 h-5 rounded-full border-2 border-muted-foreground"
+            />
+          ) : (
+            <User2Icon className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+          )}
+        </>
+      ),
+    },
     // {
     //   label: "Settings",
     //   href: "#",
@@ -78,7 +96,7 @@ export function App() {
   return (
     <div
       className={cn(
-        "mx-auto flex w-full flex-1 flex-col overflow-hidden md:flex-row h-[100vh]"
+        "mx-auto flex w-full flex-1 flex-col overflow-hidden md:flex-row "
       )}
     >
       <Sidebar open={open} setOpen={setOpen}>
@@ -112,10 +130,20 @@ export function App() {
               }}
               shouldNavigate={false}
             />
+            <SidebarLink
+              link={{
+                label: "",
+                href: "#",
+                icon: (
+                    <LoginButton />
+                ),
+              }}
+              shouldNavigate={false}
+            />
           </div>
         </SidebarBody>
         <div className="flex flex-1">
-          <div className="flex  w-full flex-1 flex-col dark:bg-neutral-950 text-black dark:text-white ">
+          <div className="flex  w-full flex-1 flex-col bg-white dark:bg-neutral-950 text-black dark:text-white ">
             <Routes location={location}>
               <Route path="/" element={<HomePage />}>
                 <Route path="" element={<PackageModal />} />

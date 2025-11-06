@@ -18,12 +18,12 @@
   "tabItinerary": "Itinerary",
   "tabGallery": "Gallery",
   "tabAskAi": "Ask AI",
-  "tabDates": "Dates",
+  "tabDates": "Book Now",
   "photos": "Photos",
   "videos": "Videos",
   "noPhotos": "No photos available",
   "noVideos": "No videos available",
-  "noPackage": "No travel package selected.",
+  "noPackage": "No travel plans available.",
 
   "duration": "Duration",
   "destinations": "Destinations",
@@ -67,19 +67,6 @@
     "instantAnswers": "Get instant answers",
     "personalizedSuggestions": "Personalized suggestions",
     "virtualAssistance": "24/7 virtual assistance"
-  },
-  "datesTab": {
-    "availableDates": "Available Dates",
-    "availabilityInfo": "Information about availability",
-    "spotLegend": "🟢 Green = plenty of spots\n🟡 Yellow = limited spots\n🔴 Red = fully booked",
-    "spotsAvailable": "{{count}} spots available",
-    "limitedSpots": "Only {{count}} spots left!",
-    "fullyBooked": "Fully booked",
-    "optionsAvailable": "{{count}} options available",
-    "noUpcomingDates": "No upcoming dates available. Check back later for new schedules.",
-    "day": "day",
-    "days": "days",
-    "priceComingSoon": "Price coming soon"
   },
   "contactViaWhatsApp": "Contact via WhatsApp",
   "whatsappMessage": "Hello, I am interested in \"{{title}}\" for the date {{date}}.",
@@ -192,12 +179,24 @@
   "oldTrips": "Old Trips",
   "myGallery": "My Gallery",
 
-  "noPackageFound": "No package found",
   "dayLabel": "Day {{number}}",
   "stories": {
     "titles": {
       "tungnath": "Tungnath",
       "kedarnath": "Kedarnath"
     }
+  },
+  "welcomeTo": "Welcome to",
+  "loginNow": "Login now to book your next adventure and enjoy the best travel experience with us. 🌍",
+  "skipForNow": "Skip for now",
+  "login": "Login",
+  "logout": "Logout",
+  "datesTab": {
+    "noUpcomingDates": "No upcoming dates available.",
+    "selectedDate": "Selected Date",
+    "bookNow": "Book Now",
+    "addDestination": "Add Destination",
+    "destinationAdded": "Destination Added",
+    "optional": "Optional"
   }
 }

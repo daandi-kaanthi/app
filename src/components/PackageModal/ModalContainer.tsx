@@ -73,7 +73,7 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
       <motion.div
         ref={ref}
         layoutId={`card-${id}`}
-        initial={{ y: "100%", opacity: 0 }} // Start from bottom
+        initial={{ y: "50%", opacity: 0 }} // Start from bottom
         animate={{
           y: id ? "20%" : "60%",
           opacity: 1,
@@ -93,11 +93,11 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
           w-full max-w-[1000px] mx-auto
           h-[100%] md:h-[100%] lg:h-[100%] lg:top-10 lg:bottom-auto
           z-30 rounded-t-3xl lg:rounded-3xl
-          bg-white dark:bg-black/20 backdrop-blur-2xl
-          overflow-hidden flex flex-col"
+          bg-white dark:bg-black/90 backdrop-blur-2xl
+           flex flex-col pb-20"
       >
         {/* Drag Handle */}
-        <div className="sticky top-0 z-10 min-h-[100px]">
+        <div className="sticky top-0 z-1000 min-h-[100px]">
           <div className="flex justify-center pt-3 pb-0 cursor-grab active:cursor-grabbing">
             <div className="w-12 h-1.5 bg-gray-300 dark:bg-gray-600 rounded-full" />
           </div>
@@ -112,7 +112,12 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
         )}
         <div
           onPointerDownCapture={handlePointerDown}
-          className="flex-1 overflow-y-auto"
+          className="
+            flex-1 overflow-y-auto 
+            scroll-smooth
+            scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-600
+            px-1 pb-40
+          "
         >
           {children}
         </div>
