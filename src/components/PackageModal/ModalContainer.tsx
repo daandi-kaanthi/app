@@ -45,7 +45,7 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
 
     const dragConstraints = {
       top: 60,
-      bottom: 550,
+      bottom: 500,
     };
 
     const handleDragEnd = (
@@ -75,7 +75,7 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
         layoutId={`card-${id}`}
         initial={{ y: "50%", opacity: 0 }} // Start from bottom
         animate={{
-          y: id ? "20%" : "60%",
+          y: id ? "40%" : "60%",
           opacity: 1,
         }}
         exit={{ y: "100%", opacity: 0 }}

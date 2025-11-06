@@ -228,7 +228,7 @@ export default function Overview({ id }: OverviewProps) {
             geoLocation: travelPackage?.geoLocation || [28.6139, 77.209],
           }}
         />
-        <p className="mb-6 text-sm md:text-lg leading-relaxed">
+        <p className="mb-6 text-sm md:text-lg leading-relaxed pt-4">
           {travelPackage.overview?.description}
         </p>
       <Timeline data={formatTravelPackageData()} />

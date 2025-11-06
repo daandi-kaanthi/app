@@ -57,16 +57,16 @@ export default function SinglePackageStreetView({ pkg }: SinglePackageStreetView
   }, [mode, pkg]);
 
   return (
-    <div>
+    <div className="flex justify-center">
       {/* Map Container */}
       <div
         ref={containerRef}
         style={{
-          height: "350px",
+          height: "200px",
           borderRadius: "10px",
           overflow: "hidden",
         }}
-        className="w-[100%]  border border-neutral-300 dark:border-neutral-600" 
+        className="w-[80%] border border-neutral-300 dark:border-neutral-600" 
       />
     </div>
   );

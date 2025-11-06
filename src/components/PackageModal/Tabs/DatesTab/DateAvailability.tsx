@@ -57,7 +57,7 @@ export const DateAvailabilityDisplay: React.FC<{ id: string }> = ({ id }) => {
   const handleBookNow = () => {
     if (!selectedRange) return;
     window.open(
-      `https://wa.me/918218146710?text=Hi! I want to book ${title} on ${formatDateRange(
+      `https://wa.me/9548883930?text=Hi! I want to book ${title} on ${formatDateRange(
         selectedRange.startDate,
         selectedRange.endDate
       )}.`,
@@ -72,7 +72,7 @@ export const DateAvailabilityDisplay: React.FC<{ id: string }> = ({ id }) => {
         initial={{ y: 150, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 120, damping: 16 }}
-        className="fixed bottom-0 left-0 right-0 z-50 p-2 
+        className="fixed bottom-0 left-0 right-0 z-50 p-2  flex flex-col justify-center
                    bg-white dark:bg-neutral-900 border-t border-gray-200 dark:border-gray-700
                    sm:left-1/2 sm:-translate-x-1/2 w-full max-w-xl sm:rounded-t-2xl sm:shadow-2xl"
       >

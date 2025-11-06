@@ -3174,9 +3174,9 @@ export const mockTravelPackages = [
   geoLocation: [31.078, 78.1842],
   travelType: "group",
   contact: {
-    phone: "+91-8218146710",
-    email: "info@himalayanfootprint.com",
-    website: "www.himalayanfootprint.com",
+    phone: "+91-9548883930",
+    email: "team@daandikaanthi.com",
+    website: "https://daandikaanthi.com/",
   },
 }
 

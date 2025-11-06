@@ -127,6 +127,7 @@ const MapAutocomplete: React.FC<MapAutocompleteProps> = ({ onPlaceSelect }) => {
     <div className=" z-1000 w-full max-w-4xl px-8">
       <div className="flex w-full items-center gap-3 px-4 py-2 ">
 
+
         {/* 🔍 Searchbar — full width */}
         <div className="flex-1">
           <Searchbar

@@ -29,8 +29,8 @@ interface TravelDayMapProps {
 }
 
 /* ---------- Constants ---------- */
-const containerStyle = { 
-  width: "100%", 
+const containerStyle = {
+  width: "100%",
   height: "100%",
   position: "relative" as "relative",
 };
@@ -51,10 +51,10 @@ const MAP_OPTIONS: google.maps.MapOptions = {
   streetViewControl: false,
   fullscreenControl: true,
   zoomControlOptions: {
-    position: 8, // RIGHT_BOTTOM
+    position: 4, // RIGHT_BOTTOM
   },
   mapTypeControlOptions: {
-    position: 9, // BOTTOM_RIGHT
+    position: 2, // BOTTOM_RIGHT
   },
 };
 
@@ -275,6 +275,40 @@ const TravelDayMap: React.FC<TravelDayMapProps> = ({
     };
   }, [currentDayIndex, densePath, allDays]);
 
+  // Close button css
+  useEffect(() => {
+    const applyStyles = () => {
+      const closeButtons = document.querySelectorAll(
+        ".gm-ui-hover-effect span"
+      );
+      closeButtons.forEach((span) => {
+        const el = span as HTMLElement;
+        el.style.backgroundColor = isDarkMode ? "#000" : "#fff";
+        el.style.borderRadius = "50%";
+        el.style.width = "24px";
+        el.style.height = "24px";
+        el.style.display = "flex";
+        el.style.alignItems = "center";
+        el.style.justifyContent = "center";
+        el.style.boxShadow = isDarkMode
+          ? "0 2px 6px rgba(0,0,0,0.6)"
+          : "0 2px 6px rgba(0,0,0,0.2)";
+        el.style.filter = isDarkMode
+          ? "invert(1) brightness(1.8)"
+          : "invert(0) brightness(0.2)";
+        el.style.transition = "all 0.3s ease";
+      });
+    };
+
+    applyStyles();
+
+    const observer = new MutationObserver(applyStyles);
+    const mapDiv = mapRef.current?.getDiv();
+    if (mapDiv) observer.observe(mapDiv, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
+  }, [isDarkMode]);
+
   /* ---------- Auto-fit bounds ---------- */
   useEffect(() => {
     if (!mapRef.current) return;
@@ -339,39 +373,39 @@ const TravelDayMap: React.FC<TravelDayMapProps> = ({
     [day]
   );
 
-    // Update InfoWindow background based on dark/light mode
-    useEffect(() => {
-      const updateInfoWindowStyle = () => {
-        const scrollContainers = document.querySelectorAll(".gm-style-iw-d");
-        scrollContainers.forEach((el) => {
-          const div = el as HTMLElement;
-          div.style.overflow = "hidden";
-          div.style.maxHeight = "none";
-        });
-  
-        const containers = document.querySelectorAll(".gm-style-iw-c");
-        containers.forEach((el) => {
-          const div = el as HTMLElement;
-          div.style.backgroundColor = isDarkMode ? "#121417" : "#ffffff";
-          div.style.color = isDarkMode ? "#ffffff" : "#000000";
-          div.style.borderRadius = "12px";
-          div.style.padding = "10px";
-          div.style.overflow = "hidden";
-          div.style.boxShadow = "0 4px 16px rgba(0,0,0,0.25)";
-        });
-      };
-  
-      updateInfoWindowStyle();
-  
-      const observer = new MutationObserver(updateInfoWindowStyle);
-      const mapDiv = mapRef.current?.getDiv();
-      if (mapDiv) {
-        observer.observe(mapDiv, { childList: true, subtree: true });
-      }
-  
-      return () => observer.disconnect();
-    }, [isDarkMode, currentDayIndex]);
-  
+  // Update InfoWindow background based on dark/light mode
+  useEffect(() => {
+    const updateInfoWindowStyle = () => {
+      const scrollContainers = document.querySelectorAll(".gm-style-iw-d");
+      scrollContainers.forEach((el) => {
+        const div = el as HTMLElement;
+        div.style.overflow = "hidden";
+        div.style.maxHeight = "none";
+      });
+
+      const containers = document.querySelectorAll(".gm-style-iw-c");
+      containers.forEach((el) => {
+        const div = el as HTMLElement;
+        div.style.backgroundColor = isDarkMode ? "#121417" : "#ffffff";
+        div.style.color = isDarkMode ? "#ffffff" : "#000000";
+        div.style.borderRadius = "12px";
+        div.style.padding = "10px";
+        div.style.overflow = "hidden";
+        div.style.boxShadow = "0 4px 16px rgba(0,0,0,0.25)";
+      });
+    };
+
+    updateInfoWindowStyle();
+
+    const observer = new MutationObserver(updateInfoWindowStyle);
+    const mapDiv = mapRef.current?.getDiv();
+    if (mapDiv) {
+      observer.observe(mapDiv, { childList: true, subtree: true });
+    }
+
+    return () => observer.disconnect();
+  }, [isDarkMode, currentDayIndex]);
+
   /* ---------- Render ---------- */
   return (
     <div style={containerStyle}>
@@ -537,30 +571,34 @@ const TravelDayMap: React.FC<TravelDayMapProps> = ({
           </InfoWindow>
         )}
       </GoogleMap>
-      
+
       {/* Absolutely positioned Day Tabs OVER the map */}
-      <div 
+      <div
         className="
-          absolute top-4 left-1/2 transform -translate-x-1/2 
-          z-20 bg-white/80 dark:bg-gray-800/80 
-          p-2 rounded-xl shadow-2xl backdrop-blur-sm
-          overflow-x-auto
-        "
+    absolute top-4 left-1/2 transform -translate-x-1/2 
+    z-20 bg-white/80 dark:bg-gray-800/80 
+    p-2 rounded-xl shadow-2xl backdrop-blur-sm
+    overflow-x-auto scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-600
+  "
+        style={{
+          maxWidth: "90%", // keep within map width
+          pointerEvents: "auto",
+          whiteSpace: "nowrap",
+        }}
       >
-        <div className="flex gap-2 min-w-max">
+        <div className="flex gap-2">
           {allDays.map((_, index) => (
             <button
               key={index}
               onClick={() => setSelectedDayIndex(index)}
               className={`
-                px-3 py-1 rounded-lg text-sm font-medium transition-all duration-200
-                whitespace-nowrap
-                ${
-                  currentDayIndex === index
-                    ? "bg-blue-600 text-white shadow-md hover:bg-blue-700"
-                    : "bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-300 hover:bg-gray-400 dark:hover:bg-gray-600"
-                }
-              `}
+          px-3 py-1 rounded-lg text-sm font-medium transition-all duration-200
+          ${
+            currentDayIndex === index
+              ? "bg-blue-600 text-white shadow-md hover:bg-blue-700"
+              : "bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-300 hover:bg-gray-400 dark:hover:bg-gray-600"
+          }
+        `}
             >
               {t("dayLabel", { number: index + 1 })}
             </button>
