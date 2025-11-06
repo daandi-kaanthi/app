@@ -339,6 +339,39 @@ const TravelDayMap: React.FC<TravelDayMapProps> = ({
     [day]
   );
 
+    // Update InfoWindow background based on dark/light mode
+    useEffect(() => {
+      const updateInfoWindowStyle = () => {
+        const scrollContainers = document.querySelectorAll(".gm-style-iw-d");
+        scrollContainers.forEach((el) => {
+          const div = el as HTMLElement;
+          div.style.overflow = "hidden";
+          div.style.maxHeight = "none";
+        });
+  
+        const containers = document.querySelectorAll(".gm-style-iw-c");
+        containers.forEach((el) => {
+          const div = el as HTMLElement;
+          div.style.backgroundColor = isDarkMode ? "#121417" : "#ffffff";
+          div.style.color = isDarkMode ? "#ffffff" : "#000000";
+          div.style.borderRadius = "12px";
+          div.style.padding = "10px";
+          div.style.overflow = "hidden";
+          div.style.boxShadow = "0 4px 16px rgba(0,0,0,0.25)";
+        });
+      };
+  
+      updateInfoWindowStyle();
+  
+      const observer = new MutationObserver(updateInfoWindowStyle);
+      const mapDiv = mapRef.current?.getDiv();
+      if (mapDiv) {
+        observer.observe(mapDiv, { childList: true, subtree: true });
+      }
+  
+      return () => observer.disconnect();
+    }, [isDarkMode, currentDayIndex]);
+  
   /* ---------- Render ---------- */
   return (
     <div style={containerStyle}>

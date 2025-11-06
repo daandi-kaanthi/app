@@ -22,7 +22,7 @@ export default function DayWiseTimelineCard({
   return (
     <div
       ref={innerRef}
-      className="pt-0 border-b border-gray-200 last:border-0 overflow-y-auto overflow-x-auto max-h-[100vh]"
+      className="pt-0 border-b border-gray-200 last:border-0 overflow-y-auto overflow-x-auto max-h-[100vh] "
     >
       <div className="flex items-center gap-4 mb-4">
         <Flag className="text-red-500 h-6 w-6 md:h-8 md:w-8" />
