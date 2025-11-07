@@ -15,6 +15,54 @@ import type { ITravelPackage } from "../../redux/slices/Travel/TravelSlice";
 import MapCard from "../Card/MapCard";
 import ContactDialog from "../ui/Dialog/SignUpForm";
 import useMapStyling from "../../hooks/useMapStyling";
+import MapAutocomplete from "./MapSearch";
+import Stories, { type StoryGroup } from "../Card/StoriesCard";
+
+const groups: StoryGroup[] = [
+  {
+    id: 1,
+    title: "tungnath",
+    thumbnail:
+      "https://skaya-bucket.s3.us-east-1.amazonaws.com/tungnath/Tungnath+Rudraprayag+Uttarakhand+India.jpeg",
+
+    stories: [
+      {
+        id: 1,
+        type: "image",
+        url: "https://skaya-bucket.s3.us-east-1.amazonaws.com/tungnath/Tungnath_Temple_in_winter.jpg",
+        duration: 4000,
+      },
+      {
+        id: 2,
+        type: "video",
+        url: "https://skaya-bucket.s3.us-east-1.amazonaws.com/tungnath/reviews/tungnath.mp4",
+      },
+    ],
+  },
+  {
+    id: 2,
+    title: "kedarnath",
+    thumbnail:
+      "https://skaya-bucket.s3.us-east-1.amazonaws.com/Kedarnath/Kedarnath+Dham.jpg",
+    stories: [
+      {
+        id: 1,
+        type: "image",
+        url: "https://skaya-bucket.s3.us-east-1.amazonaws.com/Kedarnath/rishu-bhosale-8Y0Ql4SjGfY-unsplash.jpg",
+      },
+      {
+        id: 2,
+        type: "image",
+        url: "https://skaya-bucket.s3.us-east-1.amazonaws.com/Kedarnath/pexels-ravikant-14102698.jpg",
+      },
+      {
+        id: 3,
+        type: "image",
+        url: "https://skaya-bucket.s3.us-east-1.amazonaws.com/Kedarnath/pexels-soubhagya23-18915949.jpg",
+      },
+    ],
+  },
+];
 
 interface PackagesMapProps {
   packages: ITravelPackage[];
@@ -52,6 +100,7 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
     name: string;
   } | null>(null);
   const [openContactDialog, setOpenContactDialog] = useState(false);
+  const [activeStory, setActiveStory] = useState<StoryGroup | null>(null);
 
   const [mapInstance, setMapInstance] = useState<google.maps.Map | null>(null);
   const mapRef = useRef<google.maps.Map | null>(null);
@@ -60,6 +109,7 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
   );
   const animationTimeoutRef = useRef<any | null>(null);
   const [isStreetViewActive, setIsStreetViewActive] = useState(false);
+  const [outOfViewMarkers, setOutOfViewMarkers] = useState<ITravelPackage[]>([]);
 
   const { isDarkMode, mapStyles } = useMapStyling({
     mapRef,
@@ -134,7 +184,7 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
 
   // Auto-center on packages
   const mapCenter = useMemo(() => {
-    return { lat: 28, lng: 80 };
+    return { lat: 30, lng: 80 };
   }, [packagesWithGeo]);
 
   const getDistanceInKm = (
@@ -208,26 +258,61 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
     [mapInstance]
   );
 
-  // Open InfoWindow at position with smooth animation
+
+// Pan so clicked marker is at bottom center
+const panToBottomCenter = useCallback(
+  (lat: number, lng: number, onComplete?: () => void) => {
+    if (!mapInstance) {
+      onComplete?.();
+      return;
+    }
+    const mapDiv = mapInstance.getDiv();
+    const mapHeight = mapDiv.clientHeight;
+
+    const proj = mapInstance.getProjection();
+    if (!proj) {
+      mapInstance.panTo({ lat, lng });
+      onComplete?.();
+      return;
+    }
+
+    const zoom = mapInstance.getZoom();
+    if (zoom === undefined) {
+      mapInstance.panTo({ lat, lng });
+      onComplete?.();
+      return;
+    }
+
+    const worldPoint = proj.fromLatLngToPoint(new google.maps.LatLng(lat, lng));
+    if (!worldPoint) {
+      mapInstance.panTo({ lat, lng });
+      onComplete?.();
+      return;
+    }
+
+    const yOffset = mapHeight / 4 / Math.pow(2, zoom);
+    const newCenter = proj.fromPointToLatLng(
+      new google.maps.Point(worldPoint.x, worldPoint.y - yOffset)
+    );
+    
+    if (newCenter) {
+      mapInstance.panTo(newCenter);
+    }
+    
+    if (onComplete) {
+      setTimeout(onComplete, 300);
+    }
+  },
+  [mapInstance]
+);
+
   const openInfoWindowAt = useCallback(
-    (
-      lat: number,
-      lng: number,
-      nearest: ITravelPackage | null,
-      isComingSoon: boolean
-    ) => {
-      if (!mapInstance) return;
-
-      // Store pending position
+    (lat: number, lng: number, nearest: ITravelPackage | null, isComingSoon: boolean) => {
       pendingInfoWindowRef.current = { lat, lng };
-
-      // Smooth pan first
-      smoothPanTo(lat, lng, () => {
-        // Only show InfoWindow if this is still the latest request
+      panToBottomCenter(lat, lng, () => {
         if (
-          pendingInfoWindowRef.current &&
-          pendingInfoWindowRef.current.lat === lat &&
-          pendingInfoWindowRef.current.lng === lng
+          pendingInfoWindowRef.current?.lat === lat &&
+          pendingInfoWindowRef.current?.lng === lng
         ) {
           setClickedPosition({ lat, lng });
           setNearestPackage(nearest);
@@ -236,8 +321,9 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
         }
       });
     },
-    [mapInstance, smoothPanTo]
+    [panToBottomCenter]
   );
+
 
   const handleMarkerClick = useCallback(
     (pkg: ITravelPackage) => {
@@ -517,16 +603,101 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
     return () => observer.disconnect();
   }, [isDarkMode, clickedPosition]);
 
+  // Check for markers outside current view
+  useEffect(() => {
+    if (!mapInstance) return;
+
+    const checkMarkersInView = () => {
+      const bounds = mapInstance.getBounds();
+      if (!bounds) return;
+
+      const markersOutOfView = packagesWithGeo.filter((pkg) => {
+        const markerPos = new google.maps.LatLng(
+          pkg.geoLocation![0],
+          pkg.geoLocation![1]
+        );
+        return !bounds.contains(markerPos);
+      });
+
+      setOutOfViewMarkers(markersOutOfView);
+    };
+
+    checkMarkersInView();
+
+    const boundsListener = mapInstance.addListener("bounds_changed", checkMarkersInView);
+    const idleListener = mapInstance.addListener("idle", checkMarkersInView);
+
+    return () => {
+      boundsListener.remove();
+      idleListener.remove();
+    };
+  }, [mapInstance, packagesWithGeo]);
+
+  // Pan to show all markers
+  const handleShowAllMarkers = useCallback(() => {
+    if (!mapInstance || packagesWithGeo.length === 0) return;
+
+    const bounds = new google.maps.LatLngBounds();
+    packagesWithGeo.forEach((pkg) => {
+      bounds.extend(
+        new google.maps.LatLng(pkg.geoLocation![0], pkg.geoLocation![1])
+      );
+    });
+
+    mapInstance.fitBounds(bounds, { top: 80, right: 50, bottom: 50, left: 50 });
+  }, [mapInstance, packagesWithGeo]);
+
   return (
-    <div className={`relative w-full z-1`}>
+    <div className={`relative w-full h-screen z-1`}>
       {clickedPosition && (
         <div className="absolute inset-0 z-10 bg-transparent pointer-events-none" />
+      )}
+      <div className="absolute top-10 md:top-2 left-1/2 transform -translate-x-1/2 z-20 w-full max-w-2xl px-4">
+      <Stories
+        storyGroups={groups}
+        activeGroup={activeStory}
+        setActiveGroup={setActiveStory}
+      />
+        {!isStreetViewActive && (
+          <MapAutocomplete onPlaceSelect={handlePlaceSelect} />
+        )}
+      </div>
+
+      {/* Out of view markers indicator */}
+      {outOfViewMarkers.length > 0 && !isStreetViewActive && (
+        <button
+          onClick={handleShowAllMarkers}
+          className={`absolute bottom-24 right-4 z-20 flex items-center gap-2 px-4 py-3 rounded-full shadow-lg transition-all hover:scale-105 ${
+            isDarkMode
+              ? "bg-[#121417] text-white border border-white/10"
+              : "bg-white text-gray-800 border border-gray-200"
+          }`}
+        >
+          <div className="relative">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="12" cy="12" r="3" fill="currentColor" />
+              <circle cx="6" cy="8" r="2" fill="currentColor" opacity="0.7" />
+              <circle cx="18" cy="8" r="2" fill="currentColor" opacity="0.7" />
+              <circle cx="8" cy="16" r="2" fill="currentColor" opacity="0.5" />
+              <circle cx="16" cy="16" r="2" fill="currentColor" opacity="0.5" />
+            </svg>
+          </div>
+          <span className="font-medium text-sm">
+            {outOfViewMarkers.length} location{outOfViewMarkers.length !== 1 ? "s" : ""} outside view
+          </span>
+        </button>
       )}
 
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={mapCenter}
-        zoom={7}
+        zoom={6}
         onLoad={(map) => {
           setMapInstance(map);
           mapRef.current = map;
@@ -550,7 +721,7 @@ const PackagesMap: React.FC<PackagesMapProps> = ({
       >
         <MarkerClusterer
           options={{
-            gridSize:10, // smaller = tighter clusters (default is 60)
+            gridSize: 16, // smaller = tighter clusters (default is 60)
             minimumClusterSize: 4, // min markers to form a cluster
             maxZoom: 10, // optional: prevents clustering beyond this zoom
           }}

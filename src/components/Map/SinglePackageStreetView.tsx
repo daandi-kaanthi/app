@@ -62,7 +62,7 @@ export default function SinglePackageStreetView({ pkg }: SinglePackageStreetView
       <div
         ref={containerRef}
         style={{
-          height: "200px",
+          height: "300px",
           borderRadius: "10px",
           overflow: "hidden",
         }}

@@ -1,62 +1,119 @@
-import { useSelectedTravelPackage } from "../../../../redux/slices/Travel/TravelSlice";
-import { type AppDispatch } from "../../../../redux/store";
-import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import TravelDayMap from "../../../Map/TravelItineraryMap";
+import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+import { useTrekAddOns } from "../../../../context/TrekAddOnContext";
+import TravelDayMap from "../../../Map/TravelItineraryMap";
+import type {
+  TravelState,
+  ITravelPackage,
+  DayActivity,
+  DayLocation,
+  FlattenedTravelPackage,
+} from "../../../../redux/slices/Travel/TravelSlice";
+import { useMemo, useState, useEffect } from "react";
+
+// ✅ Pure helper (same logic as inside useSelectedTravelPackage but hook-free)
+const mergePackageWithTranslation = (
+  pkg: ITravelPackage,
+  lang: string
+): FlattenedTravelPackage | undefined => {
+  if (!pkg) return undefined;
+  const translation =
+    pkg.translations[lang as keyof typeof pkg.translations] ||
+    pkg.translations.en;
+
+  // Merge days + location (like the hook)
+  const mergedDays = translation.days
+    ?.map((day) => {
+      const location = pkg.days?.find((d) => d.day === day.day)?.location;
+      if (!location) return null;
+      return { ...day, location };
+    })
+    .filter((d): d is DayActivity & DayLocation => d !== null);
+
+  return {
+    ...pkg,
+    ...translation,
+    days: mergedDays,
+  };
+};
 
 interface ItineraryTabProps {
   id: string;
 }
 
 export const ItineraryTab = ({ id }: ItineraryTabProps) => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const { selectedTrekIds } = useTrekAddOns();
+
+  const allPackages = useSelector(
+    (state: { travelCollection: TravelState }) =>
+      state.travelCollection.travelPackages
+  );
+
+  const mainPackageRaw = allPackages.find((pkg) => pkg.id === id);
+  const mainPackage = mergePackageWithTranslation(mainPackageRaw!, i18n.language);
+
+  const addOnPackages = selectedTrekIds
+    .map((trekId) => allPackages.find((pkg) => pkg.id === trekId))
+    .filter(Boolean)
+    .map((pkg) => mergePackageWithTranslation(pkg!, i18n.language))
+    .filter(Boolean) as FlattenedTravelPackage[];
+
+  const combinedDays = useMemo(() => {
+    if (!mainPackage) return [];
+    let dayCounter = 1;
+
+    const normalize = (pkg: FlattenedTravelPackage, isMain: boolean) =>
+      (pkg.days || []).map((day) => ({
+        ...day,
+        day: dayCounter++,
+        title: day.title || `Day ${dayCounter}`,
+        location: day.location,
+        activities: day.activities || [],
+        stay: day.stay || "",
+        meals: day.meals || "",
+        source: isMain ? "Main Trek" : pkg.title,
+      }));
+
+    return [
+      ...normalize(mainPackage, true),
+      ...addOnPackages.flatMap((pkg) => normalize(pkg, false)),
+    ];
+  }, [mainPackage, addOnPackages]);
+
   const [selectedDayIndex, setSelectedDayIndex] = useState(0);
-  const mapContainerRef = useRef<HTMLDivElement | null>(null);
-  const travelPackage = useSelectedTravelPackage(id);
 
+  // ✅ Automatically reset index if out of range
   useEffect(() => {
-    // fetchSingleTravelPackageApi commented for now
-  }, [dispatch, id]);
+    if (selectedDayIndex >= combinedDays.length) {
+      setSelectedDayIndex(combinedDays.length - 1 >= 0 ? combinedDays.length - 1 : 0);
+    }
+  }, [combinedDays, selectedDayIndex]);
 
-  if (!travelPackage) {
+  if (!mainPackage) {
     return <div className="flex justify-center">{t("noPackage")}</div>;
   }
 
-  const days = travelPackage.days || [];
-
   return (
-    <div
-      className="
-        text-gray-900 dark:text-gray-100
-        rounded-2xl 
-        border border-gray-200 dark:border-gray-700
-        shadow-md dark:shadow-[0_0_15px_rgba(0,0,0,0.4)]
-        transition-all duration-300 ease-in-out
-      "
-    >
-      {/* Sticky Map Container */}
+    <div className="text-gray-900 dark:text-gray-100 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-md">
       <div
-        ref={mapContainerRef}
-        className="sticky top-0 z-10 mb-6 rounded-lg overflow-hidden shadow-lg bg-white dark:bg-gray-800"
-        style={{ height: "50vh" }}
+        className="sticky top-0 z-10 rounded-lg overflow-hidden shadow-lg bg-white dark:bg-gray-800"
+        style={{ height: "60vh" }}
       >
-        {days.length > 0 && (
+        {combinedDays.length > 0 && (
           <TravelDayMap
-            day={days[selectedDayIndex]}
-            allDays={days}
+            day={combinedDays[selectedDayIndex]}
+            allDays={combinedDays}
             isSelected={true}
             currentDayIndex={selectedDayIndex}
-            setSelectedDayIndex={setSelectedDayIndex} 
+            setSelectedDayIndex={setSelectedDayIndex}
             t={t}
           />
         )}
       </div>
-
-      {/* Day timeline content goes here */}
     </div>
   );
 };
+
 
 export default ItineraryTab;

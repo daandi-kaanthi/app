@@ -20,7 +20,7 @@ const TravelExplorer: React.FC<TravelExplorerProps> = () => {
   const { handlePlaceSelect } = searchContext;
 
 return (
-  <div className="relative flex flex-col items-center justify-center min-h-[100px] px-2 py-2 gap-4">
+  <div className="relative flex flex-col items-center justify-center min-h-[100px] px-2 py-0 gap-4">
     {/* Search bar always visible */}
     <div className="relative w-full z-[60]">
       <MapAutocomplete onPlaceSelect={handlePlaceSelect} />

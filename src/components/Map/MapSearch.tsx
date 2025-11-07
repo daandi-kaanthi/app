@@ -124,10 +124,8 @@ const MapAutocomplete: React.FC<MapAutocompleteProps> = ({ onPlaceSelect }) => {
   };
 
   return (
-    <div className=" z-1000 w-full max-w-4xl px-8">
-      <div className="flex w-full items-center gap-3 px-4 py-2 ">
-
-
+    <div className=" z-1000 w-full max-w-4xl">
+      <div className="flex w-full items-center gap-3  py-0 ">
         {/* 🔍 Searchbar — full width */}
         <div className="flex-1">
           <Searchbar
@@ -139,7 +137,7 @@ const MapAutocomplete: React.FC<MapAutocompleteProps> = ({ onPlaceSelect }) => {
             placeholder={t("searchPlaceholder")}
           />
         </div>
-                {/* 👤 User Icon or Profile Picture */}
+        {/* 👤 User Icon or Profile Picture */}
         {isAuthenticated ? (
           <div onClick={() => navigate("/profile")} className="flex-shrink-0">
             <img

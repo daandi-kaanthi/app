@@ -1,32 +1,42 @@
-import { StrictMode } from "react";
+import React, { Suspense, lazy } from "react";
 import { createRoot } from "react-dom/client";
-import App from "./App";
-import { ThemeProvider } from "./context/ThemeContext";
-import "./index.css";
-import "./i18n/i18n";
-import StoreProvider from "./redux/StoreProvider.tsx";
-import { Auth0Provider } from "@auth0/auth0-react";
-
 import { BrowserRouter } from "react-router-dom";
-// import { ThirdwebProvider } from "thirdweb/react";
+
+import { ThemeProvider } from "./context/ThemeContext";
+import StoreProvider from "./redux/StoreProvider";
+import "./index.css";
+
+// Lazy-load i18n so it doesn’t block startup
+import("./i18n/i18n");
+
+// Lazy-load Auth0Provider only when needed
+const LazyAuthProvider = lazy(() =>
+  import("@auth0/auth0-react").then((mod) => ({
+    default: mod.Auth0Provider,
+  }))
+);
+
+// Lazy-load the main App
+const App = lazy(() => import("./App"));
+
 createRoot(document.getElementById("root")!).render(
-  <StoreProvider>
-    {/* <ThirdwebProvider> */}
-      <Auth0Provider
-        domain={import.meta.env.VITE_AUTH0_DOMAIN!}
-        clientId={import.meta.env.VITE_AUTH0_CLIENT_ID!}
-        authorizationParams={{
-          redirect_uri: window.location.origin,
-        }}
-      >
-        <BrowserRouter>
-          <ThemeProvider>
-            <StrictMode>
+  <React.StrictMode>
+    <StoreProvider>
+      <Suspense fallback={<div className="flex h-screen items-center justify-center">Loading...</div>}>
+        <LazyAuthProvider
+          domain={import.meta.env.VITE_AUTH0_DOMAIN!}
+          clientId={import.meta.env.VITE_AUTH0_CLIENT_ID!}
+          authorizationParams={{
+            redirect_uri: window.location.origin,
+          }}
+        >
+          <BrowserRouter>
+            <ThemeProvider>
               <App />
-            </StrictMode>
-          </ThemeProvider>
-        </BrowserRouter>
-      </Auth0Provider>
-    {/* </ThirdwebProvider> */}
-  </StoreProvider>
+            </ThemeProvider>
+          </BrowserRouter>
+        </LazyAuthProvider>
+      </Suspense>
+    </StoreProvider>
+  </React.StrictMode>
 );

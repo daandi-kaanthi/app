@@ -1,6 +1,12 @@
 "use client";
-import React, { useCallback, useEffect, useState, useRef } from "react";
-import PackagesMap from "../components/Map";
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  useRef,
+  useMemo,
+  Suspense,
+} from "react";
 import { useSelector } from "react-redux";
 import {
   selectedTravelPackages,
@@ -10,12 +16,19 @@ import { useJsApiLoader } from "@react-google-maps/api";
 import { LoaderOne } from "../components/ui/Text/Loader.tsx";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { UnauthenticatedProfile } from "./Profile/UnauthenticatedProfile.tsx";
+import ModalContainer from "../components/PackageModal/ModalContainer.tsx";
+const PackagesMap = React.lazy(() => import("../components/Map"));
 
 // Create a context for map search
 export const MapSearchContext = React.createContext<{
-  handlePlaceSelect: (lat: number, lng: number, name: string, zoom?: number) => void;
+  handlePlaceSelect: (
+    lat: number,
+    lng: number,
+    name: string,
+    zoom?: number
+  ) => void;
 } | null>(null);
 
 const HomePage: React.FC = () => {
@@ -28,10 +41,16 @@ const HomePage: React.FC = () => {
   } | null>(null);
   const [showPopup, setShowPopup] = useState(false);
 
-  const travelPackages = useSelector(selectedTravelPackages);
+  const rawTravelPackages = useSelector(selectedTravelPackages);
   const isClosingRef = useRef(false);
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth0();
+
+  // Only memoize if you are transforming/filtering them
+  const travelPackages = useMemo(() => {
+    // Example: sort or filter or enrich packages here
+    return rawTravelPackages;
+  }, [rawTravelPackages]);
 
   // ✅ Handle marker clicks
   const handleMarkerClick = useCallback(
@@ -76,9 +95,6 @@ const HomePage: React.FC = () => {
 
   // ✅ Visit tracking logic (disabled if verified)
   useEffect(() => {
-    const hasBeenVerified = localStorage.getItem("hasBeenVerified");
-
-    // ✅ If authenticated, mark as verified
     if (isAuthenticated) {
       localStorage.setItem("hasBeenVerified", "true");
       localStorage.removeItem("visitCount");
@@ -86,18 +102,12 @@ const HomePage: React.FC = () => {
       return;
     }
 
-    // ✅ If user has already been verified once, don't show popup ever again
-    if (hasBeenVerified === "true") return;
+    if (localStorage.getItem("hasBeenVerified") === "true") return;
 
-    // ✅ Normal visit counting logic for unauthenticated & unverified users
-    const visitCount = parseInt(localStorage.getItem("visitCount") || "0", 10);
-    const newCount = visitCount + 1;
-    localStorage.setItem("visitCount", newCount.toString());
-
-    const triggerVisits = [1, 5, 10, 15];
-    if (triggerVisits.includes(newCount)) {
+    const visitCount = +localStorage.getItem("visitCount")! + 1 || 1;
+    localStorage.setItem("visitCount", visitCount.toString());
+    if ([1, 5, 10, 15].includes(visitCount))
       setTimeout(() => setShowPopup(true), 10);
-    }
   }, [isAuthenticated]);
 
   // ✅ Load Google Maps
@@ -116,34 +126,32 @@ const HomePage: React.FC = () => {
   return (
     <MapSearchContext.Provider value={{ handlePlaceSelect }}>
       <div className="fixed inset-0 flex flex-1 flex-col md:relative">
-        <PackagesMap
-          packages={travelPackages.travelPackages}
-          onMarkerClick={handleMarkerClick}
-          searchResult={searchResult}
-          onSearchComplete={clearSearchResult}
-        />
+        <Suspense
+          fallback={
+            <div className="flex items-center justify-center w-full h-screen">
+              <LoaderOne />
+            </div>
+          }
+        >
+          <PackagesMap
+            packages={travelPackages.travelPackages}
+            onMarkerClick={handleMarkerClick}
+            searchResult={searchResult}
+            onSearchComplete={clearSearchResult}
+          />
+        </Suspense>
+
         <Outlet />
 
         {/* ✅ Unauthenticated popup */}
         <AnimatePresence>
           {showPopup && (
-            <div
-              className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 backdrop-blur-md"
-              onClick={handleClosePopup}
-            >
-              <motion.div
-                className="relative bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-6 max-w-lg w-[100%]"
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <UnauthenticatedProfile
-                  getShowSkip={true}
-                  onShowSkipButton={handleClosePopup}
-                />
-              </motion.div>
-            </div>
+            <ModalContainer id="">
+              <UnauthenticatedProfile
+                getShowSkip={true}
+                onShowSkipButton={handleClosePopup}
+              />
+            </ModalContainer>
           )}
         </AnimatePresence>
       </div>

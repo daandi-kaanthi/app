@@ -14,59 +14,31 @@ interface TabContentProps {
   setActiveTab: (index: number) => void;
   id: string;
 }
-
 const TabContent: React.FC<TabContentProps> = ({ activeTab, id }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.scrollTop = 0;
-    }
+    if (containerRef.current) containerRef.current.scrollTop = 0;
   }, [activeTab, id]);
-
-  const renderTabContent = () => {
-    switch (activeTab) {
-      case 0:
-        return (
-          <SuspenseWrapper>
-            <Overview id={id} />
-          </SuspenseWrapper>
-        );
-      case 1:
-        return (
-          <SuspenseWrapper>
-            <ItineraryTab id={id} />
-          </SuspenseWrapper>
-        );
-      case 2:
-        return (
-          <SuspenseWrapper>
-            <MediaTabs id={id} />
-          </SuspenseWrapper>
-        );
-      // case 3:
-      //   return (
-      //     <SuspenseWrapper>
-      //       <DatesTab id={id} />
-      //     </SuspenseWrapper>
-      //   );
-      default:
-        return (
-          <SuspenseWrapper>
-            <Overview id={id} />
-          </SuspenseWrapper>
-        );
-    }
-  };
 
   return (
     <motion.div
       ref={containerRef}
-      className="flex-1 overflow-y-auto  pb-4 text-black dark:text-white"
+      className="flex-1 overflow-y-auto pb-4 text-black dark:text-white"
+      key={activeTab} // <-- Important: remount between tabs
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
     >
-      {renderTabContent()}
+      <SuspenseWrapper>
+        {activeTab === 0 && <Overview id={id} />}
+        {activeTab === 1 && <ItineraryTab id={id} />}
+        {activeTab === 2 && <MediaTabs id={id} />}
+      </SuspenseWrapper>
     </motion.div>
   );
 };
+
 
 export default TabContent;

@@ -12,7 +12,7 @@ export const Description = ({
   return (
     <motion.p
       layoutId={`description-${description}`}
-      className={`text-neutral-700 dark:text-neutral-300 text-center ${className}`}
+      className={`text-neutral-700 dark:text-neutral-300 text-center ${className} `}
     >
       {description}
     </motion.p>

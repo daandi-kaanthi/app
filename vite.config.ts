@@ -2,11 +2,19 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { VitePWA } from "vite-plugin-pwa";
+import { visualizer } from "rollup-plugin-visualizer";
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
     react(),
+    // 📊 visualize bundle
+    visualizer({
+      filename: "bundle-report.html", // output file
+      open: true, // auto-open in browser
+      gzipSize: true,
+      brotliSize: true,
+    }),
     tailwindcss(),
     VitePWA({
       registerType: "prompt",

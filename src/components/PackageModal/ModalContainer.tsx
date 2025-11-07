@@ -1,52 +1,30 @@
-import { motion } from "motion/react";
-import { forwardRef, useState } from "react";
-import TravelExplorer from "./HomeModalData";
-import type { StoryGroup } from "../Card/StoriesCard";
-import Stories from "../Card/StoriesCard";
-import TungnathReview from "../../assets/tungnath.mp4";
+import { motion, useAnimation } from "motion/react";
+import { forwardRef, useEffect } from "react";
 
 interface ModalContainerProps {
   id: string;
   children: React.ReactNode;
 }
 
-const groups: StoryGroup[] = [
-  {
-    id: 1,
-    title: "tungnath",
-    thumbnail:
-      "https://skaya-bucket.s3.us-east-1.amazonaws.com/tungnath/Tungnath+Rudraprayag+Uttarakhand+India.jpeg",
-
-    stories: [
-      { id: 1, type: "image", url: "https://skaya-bucket.s3.us-east-1.amazonaws.com/tungnath/Tungnath_Temple_in_winter.jpg", duration: 4000 },
-      {
-        id: 2,
-        type: "video",
-        url: TungnathReview
-      },
-    ],
-  },
-  {
-    id: 2,
-    title: "kedarnath",
-    thumbnail: "https://skaya-bucket.s3.us-east-1.amazonaws.com/Kedarnath/Kedarnath+Dham.jpg",
-    stories: [
-      { id: 1, type: "image", url: "https://skaya-bucket.s3.us-east-1.amazonaws.com/Kedarnath/rishu-bhosale-8Y0Ql4SjGfY-unsplash.jpg" },
-      { id: 2, type: "image", url: "https://skaya-bucket.s3.us-east-1.amazonaws.com/Kedarnath/pexels-ravikant-14102698.jpg" },
-      { id: 3, type: "image", url: "https://skaya-bucket.s3.us-east-1.amazonaws.com/Kedarnath/pexels-soubhagya23-18915949.jpg" },
-    ],
-  },
-];
-      
-      
 const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
   ({ id, children }, ref) => {
-    const [activeStory, setActiveStory] = useState<StoryGroup | null>(null);
+    const controls = useAnimation();
 
     const dragConstraints = {
       top: 60,
-      bottom: 500,
+      bottom: 650,
     };
+
+    // Reset modal to center when id changes
+    useEffect(() => {
+      if (id) {
+        controls.start({
+          y: "20%",
+          opacity: 1,
+          transition: { type: "spring", stiffness: 300, damping: 30, mass: 0.5 },
+        });
+      }
+    }, [id, controls]);
 
     const handleDragEnd = (
       _event: MouseEvent | TouchEvent | PointerEvent,
@@ -73,18 +51,9 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
       <motion.div
         ref={ref}
         layoutId={`card-${id}`}
-        initial={{ y: "50%", opacity: 0 }} // Start from bottom
-        animate={{
-          y: id ? "40%" : "60%",
-          opacity: 1,
-        }}
+        initial={{ y: "50%", opacity: 0 }}
+        animate={controls} // use animation controls
         exit={{ y: "100%", opacity: 0 }}
-        transition={{
-          type: "spring",
-          stiffness: 300,
-          damping: 30,
-          mass: 0.5,
-        }}
         drag="y"
         dragElastic={0.1}
         dragConstraints={dragConstraints}
@@ -97,19 +66,11 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
            flex flex-col pb-20"
       >
         {/* Drag Handle */}
-        <div className="sticky top-0 z-1000 min-h-[100px]">
+        <div className="sticky top-0 z-10">
           <div className="flex justify-center pt-3 pb-0 cursor-grab active:cursor-grabbing">
             <div className="w-12 h-1.5 bg-gray-300 dark:bg-gray-600 rounded-full" />
           </div>
-          <TravelExplorer id={id} />
         </div>
-        {!id && (
-          <Stories
-            storyGroups={groups}
-            activeGroup={activeStory}
-            setActiveGroup={setActiveStory}
-          />
-        )}
         <div
           onPointerDownCapture={handlePointerDown}
           className="

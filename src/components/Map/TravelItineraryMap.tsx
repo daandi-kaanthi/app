@@ -8,6 +8,7 @@ import {
 import TruckIcon from "../../assets/1338081574.svg";
 import { useMapStyling } from "../../hooks/useMapStyling";
 import DayWiseTimelineCard from "../Card/DayWiseTimelineCard";
+import MapControl from "./MapControl";
 
 /* ---------- Types ---------- */
 interface DayActivity {
@@ -49,12 +50,15 @@ const MAP_OPTIONS: google.maps.MapOptions = {
   zoomControl: false,
   mapTypeControl: false,
   streetViewControl: false,
+  keyboardShortcuts: false,
   fullscreenControl: true,
-  zoomControlOptions: {
-    position: 4, // RIGHT_BOTTOM
+  gestureHandling: "greedy",
+  fullscreenControlOptions: {
+    position: 12, // RIGHT_BOTTOM
   },
+
   mapTypeControlOptions: {
-    position: 2, // BOTTOM_RIGHT
+    position: 4, // BOTTOM_RIGHT
   },
 };
 
@@ -125,12 +129,29 @@ const TravelDayMap: React.FC<TravelDayMapProps> = ({
     hasInfoWindow: !!selectedDay,
   });
 
-  const visitedLocations = useMemo(() => {
-    return allDays
-      .slice(0, currentDayIndex + 1)
-      .filter((d) => d.location)
-      .map((d) => new google.maps.LatLng(d.location!.lat, d.location!.lng));
-  }, [allDays, currentDayIndex]);
+const visitedLocations = useMemo(() => {
+  if (currentDayIndex === -1) return []; // ⬅️ hide everything when deselected
+
+  const activeDays = allDays
+    .slice(0, currentDayIndex + 1)
+    .filter((d) => d.location && !isNaN(d.location.lat) && !isNaN(d.location.lng));
+
+  if (activeDays.length === 0) return [];
+
+  return activeDays.map(
+    (d) => new google.maps.LatLng(d.location!.lat, d.location!.lng)
+  );
+}, [allDays, currentDayIndex]);
+
+useEffect(() => {
+  if (!mapRef.current) return;
+
+  if (visitedLocations.length === 0) {
+    // ✅ Clear map if nothing is selected
+    mapRef.current.setZoom(4);
+    mapRef.current.panTo({ lat: 20.5937, lng: 78.9629 }); // India center
+  }
+}, [visitedLocations]);
 
   const densePath = useMemo(() => {
     const SP_PER_SEGMENT = 20;
@@ -367,7 +388,7 @@ const TravelDayMap: React.FC<TravelDayMapProps> = ({
 
   const defaultCenter = useMemo(
     () =>
-      day.location
+      day?.location
         ? { lat: day.location.lat, lng: day.location.lng }
         : { lat: 28.6139, lng: 77.209 },
     [day]
@@ -449,35 +470,44 @@ const TravelDayMap: React.FC<TravelDayMapProps> = ({
           ],
         }}
       >
-        {gradientSegments.map((seg, idx) => (
-          <Polyline
-            key={`seg-${idx}`}
-            path={seg.path}
-            options={{
-              strokeColor: seg.color,
-              strokeOpacity: seg.opacity,
-              strokeWeight: 5,
-              geodesic: true,
-            }}
-          />
-        ))}
+     {currentDayIndex !== -1 && (
+  <>
+    {gradientSegments.map((seg, idx) => (
+      <Polyline
+        key={`seg-${idx}`}
+        path={seg.path}
+        options={{
+          strokeColor: seg.color,
+          strokeOpacity: seg.opacity,
+          strokeWeight: 5,
+          geodesic: true,
+        }}
+      />
+    ))}
 
-        {animatedPath.length > 1 && (
-          <Polyline
-            path={animatedPath}
-            options={{
-              strokeColor: "#ef4444",
-              strokeOpacity: 0.9,
-              strokeWeight: 3,
-              geodesic: true,
-            }}
-          />
-        )}
+    {animatedPath.length > 1 && (
+      <Polyline
+        path={animatedPath}
+        options={{
+          strokeColor: "#ef4444",
+          strokeOpacity: 0.9,
+          strokeWeight: 3,
+          geodesic: true,
+        }}
+      />
+    )}
+  </>
+)}
 
         {visitedLocations.map((pos, idx) => {
-          const dayData = allDays
+          const filteredDays = allDays
             .slice(0, currentDayIndex + 1)
-            .filter((d) => d.location)[idx];
+            .filter((d) => d.location);
+          const dayData = filteredDays[idx];
+
+          // 🛡️ Guard: skip if dayData is undefined (after deselection)
+          if (!dayData) return null;
+
           const isCurrent =
             idx === visitedLocations.length - 1 && animProgress >= 0.95;
 
@@ -514,7 +544,7 @@ const TravelDayMap: React.FC<TravelDayMapProps> = ({
                 zIndex={isCurrent ? 999 : undefined}
               />
 
-              {isCurrent && dayData.location && (
+              {isCurrent && dayData?.location && (
                 <InfoWindow
                   position={
                     new google.maps.LatLng(
@@ -571,40 +601,47 @@ const TravelDayMap: React.FC<TravelDayMapProps> = ({
           </InfoWindow>
         )}
       </GoogleMap>
-
-      {/* Absolutely positioned Day Tabs OVER the map */}
-      <div
-        className="
-    absolute top-4 left-1/2 transform -translate-x-1/2 
-    z-20 bg-white/80 dark:bg-gray-800/80 
-    p-2 rounded-xl shadow-2xl backdrop-blur-sm
-    overflow-x-auto scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-600
-  "
-        style={{
-          maxWidth: "90%", // keep within map width
-          pointerEvents: "auto",
-          whiteSpace: "nowrap",
-        }}
-      >
-        <div className="flex gap-2">
-          {allDays.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setSelectedDayIndex(index)}
-              className={`
-          px-3 py-1 rounded-lg text-sm font-medium transition-all duration-200
-          ${
-            currentDayIndex === index
-              ? "bg-blue-600 text-white shadow-md hover:bg-blue-700"
-              : "bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-300 hover:bg-gray-400 dark:hover:bg-gray-600"
-          }
-        `}
-            >
-              {t("dayLabel", { number: index + 1 })}
-            </button>
-          ))}
-        </div>
-      </div>
+      {mapRef.current && (
+        <MapControl
+          map={mapRef.current}
+          position={google.maps.ControlPosition.TOP_CENTER}
+        >
+          {/* Day Tabs Content - Removed absolute positioning and z-index */}
+          <div
+            className="
+              bg-white/80 dark:bg-gray-800/80 
+              p-2 rounded-xl shadow-2xl backdrop-blur-sm
+              overflow-x-auto scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-600 pt-6
+            "
+            style={{
+              // Add margin/padding to position it correctly from the top center
+              marginTop: "16px",
+              pointerEvents: "auto",
+              whiteSpace: "nowrap",
+              maxWidth: "90vw",
+            }}
+          >
+            <div className="flex gap-2">
+              {allDays.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setSelectedDayIndex(index)}
+                  className={`
+                    px-3 py-1 rounded-lg text-sm font-medium transition-all duration-200
+                    ${
+                      currentDayIndex === index
+                        ? "bg-blue-600 text-white shadow-md hover:bg-blue-700"
+                        : "bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-300 hover:bg-gray-400 dark:hover:bg-gray-600"
+                    }
+                  `}
+                >
+                  {t("dayLabel", { number: index + 1 })}
+                </button>
+              ))}
+            </div>
+          </div>
+        </MapControl>
+      )}
     </div>
   );
 };

@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
 import { useAuth0 } from "@auth0/auth0-react";
-import { LogOutIcon } from "lucide-react";
+import { LogInIcon, LogOutIcon } from "lucide-react";
 
-const LoginButton = () => {
+const LoginButton = ({ showText }: { showText?: boolean }) => {
   const { t } = useTranslation();
   const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
   console.log(user);
@@ -22,11 +22,15 @@ const LoginButton = () => {
     >
       {isAuthenticated ? (
         <div className="flex justify-center gap-4 items-center">
-          {t("logout")}
-          <LogOutIcon className="w-5 h-5"/>
+          <LogOutIcon className="w-5 h-5" />
+          {showText && t("logout")}
+
         </div>
       ) : (
-        t("login")
+        <div className="flex justify-center gap-4 items-center">
+          <LogInIcon className="w-5 h-5" />
+          {showText && t("login")}
+        </div>
       )}
     </button>
   );

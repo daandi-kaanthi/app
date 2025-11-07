@@ -6,7 +6,7 @@ import SinglePackageStreetView from "../../../Map/SinglePackageStreetView";
 
 // 🔹 Default shared sections for all itineraries
 const defaultInclusions = [
-  "Comfortable Transport From Delhi To Delhi",
+  "Comfortable Transport From Dehradun To Dehradun",
   "Nights accommodation in scenic camps or guesthouses",
   "Daily meals",
   "Guided trek",
@@ -215,8 +215,7 @@ export default function Overview({ id }: OverviewProps) {
     <div
       className="
         text-gray-900 dark:text-gray-100
-        rounded-2xl p-4 md:p-8
-        border border-gray-200 dark:border-gray-700
+         md:p-8
         shadow-md dark:shadow-[0_0_15px_rgba(0,0,0,0.4)]
         transition-all duration-300 ease-in-out
       "
